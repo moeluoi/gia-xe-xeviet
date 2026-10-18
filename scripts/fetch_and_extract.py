@@ -149,31 +149,75 @@ def normalize_prices(item: dict) -> dict:
 # =====================================================================
 # Step 1: Fetch Latest Videos & Subtitles from @xeviet.official
 # =====================================================================
+def fetch_rss_metadata() -> dict:
+    """Fetch official YouTube XML RSS feed for @xeviet.official (never rate-limited)."""
+    rss_map = {}
+    try:
+        import xml.etree.ElementTree as ET
+        rss_url = "https://www.youtube.com/feeds/videos.xml?channel_id=UCP1bUP1hdVaqjCTtQgBVZhA"
+        resp = requests.get(rss_url, timeout=10)
+        if resp.ok:
+            root = ET.fromstring(resp.text)
+            ns = {
+                "atom": "http://www.w3.org/2005/Atom",
+                "yt": "http://www.youtube.com/xml/schemas/2015",
+                "media": "http://search.yahoo.com/mrss/",
+            }
+            for entry in root.findall("atom:entry", ns):
+                vid_el = entry.find("yt:videoId", ns)
+                title_el = entry.find("atom:title", ns)
+                pub_el = entry.find("atom:published", ns)
+                group_el = entry.find("media:group", ns)
+                desc_el = group_el.find("media:description", ns) if group_el is not None else None
+                if vid_el is not None and vid_el.text:
+                    vid_id = vid_el.text.strip()
+                    rss_map[vid_id] = {
+                        "video_id": vid_id,
+                        "title": title_el.text.strip() if (title_el is not None and title_el.text) else "",
+                        "upload_date": pub_el.text[:10] if (pub_el is not None and pub_el.text) else datetime.now(VN_TZ).strftime("%Y-%m-%d"),
+                        "description": desc_el.text.strip() if (desc_el is not None and desc_el.text) else "",
+                        "url": f"https://www.youtube.com/watch?v={vid_id}",
+                    }
+    except Exception as e:
+        print(f"⚠️ Cảnh báo đọc RSS: {e}")
+    return rss_map
+
+
 def fetch_latest_channel_videos(channel_url: str, max_videos: int = 5) -> List[dict]:
     print(f"🔍 Đang quét {max_videos} video mới nhất từ kênh: {channel_url} ...")
-    ydl_opts = {
-        "quiet": True,
-        "no_warnings": True,
-        "extract_flat": True,
-        "playlistend": max_videos,
-        "http_headers": {"Accept-Language": "vi-VN,vi;q=0.9"},
-        "extractor_args": {"youtube": {"lang": ["vi"]}},
-    }
+    rss_map = fetch_rss_metadata()
     videos = []
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        info = ydl.extract_info(channel_url, download=False)
-        entries = info.get("entries", []) if info else []
-        for entry in entries[:max_videos]:
-            if not entry:
-                continue
-            vid_id = entry.get("id")
-            if not vid_id:
-                continue
-            videos.append({
-                "video_id": vid_id,
-                "title": entry.get("title", ""),
-                "url": f"https://www.youtube.com/watch?v={vid_id}",
-            })
+
+    try:
+        ydl_opts = {
+            "quiet": True,
+            "no_warnings": True,
+            "extract_flat": True,
+            "playlistend": max_videos,
+            "http_headers": {"Accept-Language": "vi-VN,vi;q=0.9"},
+            "extractor_args": {"youtube": {"lang": ["vi"]}},
+        }
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(channel_url, download=False)
+            entries = info.get("entries", []) if info else []
+            for entry in entries[:max_videos]:
+                if not entry:
+                    continue
+                vid_id = entry.get("id")
+                if not vid_id:
+                    continue
+                rss_item = rss_map.get(vid_id, {})
+                videos.append({
+                    "video_id": vid_id,
+                    "title": rss_item.get("title") or entry.get("title", ""),
+                    "url": f"https://www.youtube.com/watch?v={vid_id}",
+                })
+    except Exception as e:
+        print(f"⚠️ yt-dlp quét danh sách gặp giới hạn ({e}), chuyển sang RSS Feed...")
+
+    if not videos and rss_map:
+        videos = list(rss_map.values())[:max_videos]
+
     print(f"✅ Tìm thấy {len(videos)} video trên kênh.")
     return videos
 
@@ -181,12 +225,15 @@ def fetch_latest_channel_videos(channel_url: str, max_videos: int = 5) -> List[d
 def fetch_video_details_and_transcript(video_id: str) -> dict:
     """Fetch full video metadata (upload date, description, chapters) and timestamped Vietnamese transcript."""
     video_url = f"https://www.youtube.com/watch?v={video_id}"
+    rss_map = fetch_rss_metadata()
+    rss_item = rss_map.get(video_id, {})
+
     details = {
         "video_id": video_id,
         "url": video_url,
-        "title": "",
-        "description": "",
-        "upload_date": datetime.now(VN_TZ).strftime("%Y-%m-%d"),
+        "title": rss_item.get("title", ""),
+        "description": rss_item.get("description", ""),
+        "upload_date": rss_item.get("upload_date") or datetime.now(VN_TZ).strftime("%Y-%m-%d"),
         "duration": 0,
         "thumbnail": f"https://i.ytimg.com/vi/{video_id}/hqdefault.jpg",
         "chapters": [],
@@ -197,10 +244,11 @@ def fetch_video_details_and_transcript(video_id: str) -> dict:
         ydl_opts = {
             "quiet": True,
             "no_warnings": True,
+            "ignoreerrors": True,
             "skip_download": True,
             "writesubtitles": True,
             "writeautomaticsub": True,
-            "subtitleslangs": ["vi", "vi.*"],
+            "subtitleslangs": ["vi"],
             "subtitlesformat": "json3",
             "http_headers": {"Accept-Language": "vi-VN,vi;q=0.9"},
             "extractor_args": {"youtube": {"lang": ["vi"]}},
@@ -210,8 +258,8 @@ def fetch_video_details_and_transcript(video_id: str) -> dict:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(video_url, download=True)
                 if info:
-                    details["title"] = info.get("title") or ""
-                    details["description"] = info.get("description") or ""
+                    details["title"] = info.get("title") or details["title"]
+                    details["description"] = info.get("description") or details["description"]
                     details["duration"] = int(info.get("duration") or 0)
                     raw_date = info.get("upload_date")  # YYYYMMDD
                     if raw_date and len(raw_date) == 8:
@@ -226,7 +274,7 @@ def fetch_video_details_and_transcript(video_id: str) -> dict:
                             for c in info.get("chapters", [])
                         ]
         except Exception as e:
-            print(f"⚠️ Cảnh báo khi lấy metadata yt-dlp cho {video_id}: {e}")
+            print(f"⚠️ Cảnh báo khi lấy phụ đề yt-dlp cho {video_id}: {e}")
 
         # Parse JSON3 subtitle file if downloaded
         for fname in os.listdir(tmpdir):
@@ -301,8 +349,12 @@ def extract_car_prices_with_gemini(video_details: dict, api_key: str) -> Optiona
     from google import genai
     from google.genai import types
 
-    client = genai.Client(api_key=api_key)
-    model_name = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+    client = genai.Client(api_key=api_key.strip("'\" "))
+    preferred_model = os.getenv("GEMINI_MODEL", "gemini-3.8-flash").strip()
+    candidate_models = [preferred_model]
+    for m in ["gemini-3.8-flash", "gemini-2.5-flash"]:
+        if m not in candidate_models:
+            candidate_models.append(m)
 
     chapters_str = "\n".join(
         f"- {c['label']} ({c['start_time']}s): {c['title']}"
@@ -318,42 +370,48 @@ def extract_car_prices_with_gemini(video_details: dict, api_key: str) -> Optiona
         f"- Phụ đề lời thoại kèm mốc thời gian:\n{video_details['transcript_text'][:45000]}\n"
     )
 
-    # Attempt 1: Pass both the YouTube Video URI (for visual OCR of on-screen price tables) + Context Text
-    try:
-        print(f"🤖 Đang phân tích video (Hình ảnh + Lời thoại + Mô tả) bằng {model_name}: {video_details['title']} ...")
-        response = client.models.generate_content(
-            model=model_name,
-            contents=[
-                types.Part.from_uri(file_uri=video_details["url"], mime_type="video/*"),
-                EXTRACTION_PROMPT + "\n\n" + context_text,
-            ],
-            config=types.GenerateContentConfig(
-                response_mime_type="application/json",
-                response_schema=VideoExtractionResult,
-                temperature=0.1,
-            ),
-        )
-        if response and response.text:
-            return json.loads(response.text)
-    except Exception as e:
-        print(f"ℹ️ Chuyển sang chế độ phân tích Phụ đề chi tiết + Mô tả (do video dài hoặc giới hạn Multimodal URI: {e})")
+    for model_name in candidate_models:
+        # Attempt 1: Pass both the YouTube Video URI (for visual OCR of on-screen price tables) + Context Text
+        try:
+            print(f"🤖 Đang phân tích video (Hình ảnh + Lời thoại + Mô tả) bằng {model_name}: {video_details['title']} ...")
+            response = client.models.generate_content(
+                model=model_name,
+                contents=[
+                    types.Part.from_uri(file_uri=video_details["url"], mime_type="video/*"),
+                    EXTRACTION_PROMPT + "\n\n" + context_text,
+                ],
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    response_schema=VideoExtractionResult,
+                    temperature=0.1,
+                ),
+            )
+            if response and response.text:
+                return json.loads(response.text)
+        except Exception as e:
+            err_str = str(e)
+            if "404" in err_str or "NOT_FOUND" in err_str:
+                print(f"ℹ️ Model {model_name} không khả dụng ({err_str[:120]}), thử model tiếp theo...")
+                continue
+            print(f"ℹ️ Chuyển sang chế độ phân tích Phụ đề chi tiết + Mô tả ({e})")
 
-    # Attempt 2: Fallback using Transcript + Chapters + Description
-    try:
-        response = client.models.generate_content(
-            model=model_name,
-            contents=[EXTRACTION_PROMPT + "\n\n" + context_text],
-            config=types.GenerateContentConfig(
-                response_mime_type="application/json",
-                response_schema=VideoExtractionResult,
-                temperature=0.1,
-            ),
-        )
-        if response and response.text:
-            return json.loads(response.text)
-    except Exception as e2:
-        print(f"❌ Lỗi khi gọi Gemini API cho video {video_details['video_id']}: {e2}")
-        return None
+        # Attempt 2: Fallback using Transcript + Chapters + Description
+        try:
+            response = client.models.generate_content(
+                model=model_name,
+                contents=[EXTRACTION_PROMPT + "\n\n" + context_text],
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    response_schema=VideoExtractionResult,
+                    temperature=0.1,
+                ),
+            )
+            if response and response.text:
+                return json.loads(response.text)
+        except Exception as e2:
+            print(f"❌ Lỗi khi gọi Gemini API ({model_name}) cho video {video_details['video_id']}: {e2}")
+
+    return None
 
 
 # =====================================================================
@@ -507,7 +565,7 @@ def send_notifications(new_videos_count: int, updated_cars: List[dict]):
 
     # Sort top deals by discount_amount descending
     top_deals = sorted(updated_cars, key=lambda c: c.get("discount_amount", 0), reverse=True)[:8]
-    dashboard_url = os.getenv("DASHBOARD_URL", "")
+    dashboard_url = os.getenv("DASHBOARD_URL", "").strip() or "https://moeluoi.github.io/gia-xe-xeviet/"
 
     lines = [
         f"🚗 *CẬP NHẬT GIÁ XE MỚI (@xeviet.official)*",
@@ -536,8 +594,8 @@ def send_notifications(new_videos_count: int, updated_cars: List[dict]):
     message_md = "\n".join(lines)
 
     # 1. Telegram Notification
-    tg_token = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
-    tg_chat_id = os.getenv("TELEGRAM_CHAT_ID", "").strip()
+    tg_token = os.getenv("TELEGRAM_BOT_TOKEN", "").strip("'\" ")
+    tg_chat_id = os.getenv("TELEGRAM_CHAT_ID", "").strip("'\" ")
     if tg_token and tg_chat_id:
         try:
             resp = requests.post(
