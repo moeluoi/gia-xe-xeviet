@@ -1,0 +1,61 @@
+name: Daily Car Price Update (@xeviet.official)
+
+on:
+  schedule:
+    # Chạy tự động vào 21:00 tối giờ Việt Nam (tức 14:00 UTC) hàng ngày
+    - cron: '0 14 * * *'
+  workflow_dispatch:
+    inputs:
+      max_videos:
+        description: 'Số lượng video mới nhất cần quét (Mặc định: 5)'
+        required: false
+        default: '5'
+      force_rescan:
+        description: 'Quét lại cả video đã xử lý? (true/false)'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write
+
+jobs:
+  update-car-prices:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Tải mã nguồn về máy chủ
+        uses: actions/checkout@v4
+
+      - name: 🐍 Cài đặt Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 📦 Cài đặt thư viện cần thiết
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 🤖 Quét kênh @xeviet.official & Bóc tách giá xe bằng Gemini AI
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
+          EMAIL_APP_PASSWORD: ${{ secrets.EMAIL_APP_PASSWORD }}
+          EMAIL_RECEIVER: ${{ secrets.EMAIL_RECEIVER }}
+          DASHBOARD_URL: ${{ secrets.DASHBOARD_URL }}
+          MAX_VIDEOS: ${{ github.event.inputs.max_videos || '5' }}
+        run: |
+          if [ "${{ github.event.inputs.force_rescan }}" = "true" ]; then
+            python scripts/fetch_and_extract.py --max-videos "$MAX_VIDEOS" --force
+          else
+            python scripts/fetch_and_extract.py --max-videos "$MAX_VIDEOS"
+          fi
+
+      - name: 💾 Lưu dữ liệu mới lên Dashboard (GitHub Pages)
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/car_prices.json data/data.js data/processed_videos.json
+          git diff --staged --quiet || (git commit -m "🚗 Tự động cập nhật bảng giá xe ngày $(date +'%d/%m/%Y')" && git push)
