@@ -269,17 +269,48 @@
         </div>
       </div>
 
-      <!-- Chart 2: Historical Price Trend per Car -->
+      <!-- Chart 2: Historical Price Trend per Car (3-Layer Cascading Filter) -->
       <div class="glass-card rounded-2xl p-4 space-y-3">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-          <div>
-            <h3 class="text-sm sm:text-base font-bold text-white">📈 Biến Động Giá & Ưu Đãi Theo Thời Gian</h3>
-            <p class="text-xs text-slate-400">Chọn mẫu xe để xem lịch sử thay đổi giá qua các ngày</p>
-          </div>
-          <select id="chartCarSelect" onchange="renderCarTrendChart()"
-                  class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white max-w-full sm:max-w-xs">
-          </select>
+        <div>
+          <h3 class="text-sm sm:text-base font-bold text-white">📈 Biến Động Giá & Ưu Đãi Theo Thời Gian</h3>
+          <p class="text-xs text-slate-400">Chọn theo 3 lớp: Hãng xe ➔ Mẫu xe ➔ Phiên bản để xem lịch sử thay đổi giá qua các ngày</p>
         </div>
+
+        <!-- 3-Layer Cascading Filters -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 bg-slate-950/75 border border-slate-800/90 rounded-2xl p-3">
+          <div>
+            <label for="chartBrandSelect" class="block text-[11px] font-bold text-blue-400 mb-1">
+              1. Hãng xe (Brand)
+            </label>
+            <select id="chartBrandSelect" onchange="onChartBrandChange(true)"
+                    class="w-full bg-slate-900 border border-slate-700 hover:border-slate-500 rounded-xl px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-blue-500">
+            </select>
+          </div>
+
+          <div>
+            <label for="chartModelSelect" class="block text-[11px] font-bold text-emerald-400 mb-1">
+              2. Mẫu xe (Model)
+            </label>
+            <select id="chartModelSelect" onchange="onChartModelChange(true)"
+                    class="w-full bg-slate-900 border border-slate-700 hover:border-slate-500 rounded-xl px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-emerald-500">
+            </select>
+          </div>
+
+          <div>
+            <label for="chartTrimSelect" class="block text-[11px] font-bold text-amber-400 mb-1">
+              3. Phiên bản (Trim)
+            </label>
+            <select id="chartTrimSelect" onchange="renderCarTrendChart()"
+                    class="w-full bg-slate-900 border border-slate-700 hover:border-slate-500 rounded-xl px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-amber-500">
+            </select>
+          </div>
+        </div>
+
+        <!-- Quick Summary Strip for Selected Car -->
+        <div id="chartSelectedCarSummary" class="bg-slate-950/90 border border-slate-800/90 rounded-xl px-3 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs">
+          <!-- Populated by JS -->
+        </div>
+
         <div class="h-64 sm:h-72 w-full">
           <canvas id="trendChartCanvas"></canvas>
         </div>
@@ -473,6 +504,7 @@
       renderAll();
       renderTopDeals();
       if (segmentChartInstance) renderSegmentComparisonChart();
+      if (trendChartInstance) renderCarTrendChart();
     }
 
     function setViewMode(mode) {
@@ -828,7 +860,7 @@
     }
 
     // =====================================================================
-    // Charts (Segment Comparison & Historical Price Trend)
+    // Charts (Segment Comparison & 3-Layer Cascading Historical Price Trend)
     // =====================================================================
     function initChartsSelectors() {
       const cars = dbData.cars || [];
@@ -836,8 +868,52 @@
       const segSel = document.getElementById('chartSegmentSelect');
       segSel.innerHTML = segments.map(s => `<option value="${s}">${s}</option>`).join('');
 
-      const carSel = document.getElementById('chartCarSelect');
-      carSel.innerHTML = cars.map(c => `<option value="${c.car_id}">${c.brand} ${c.model} ${c.trim} (${c.year})</option>`).join('');
+      // Layer 1: Brands
+      const brands = Array.from(new Set(cars.map(c => c.brand).filter(Boolean))).sort();
+      const brandSel = document.getElementById('chartBrandSelect');
+      brandSel.innerHTML = brands.map(b => {
+        const count = cars.filter(c => c.brand === b).length;
+        return `<option value="${b}">${b} (${count} bản)</option>`;
+      }).join('');
+
+      // Default to Hyundai if available, otherwise first brand
+      if (brands.includes('Hyundai')) {
+        brandSel.value = 'Hyundai';
+      }
+      onChartBrandChange(false);
+    }
+
+    function onChartBrandChange(shouldRender = true) {
+      const cars = dbData.cars || [];
+      const selectedBrand = document.getElementById('chartBrandSelect').value;
+      const brandCars = cars.filter(c => c.brand === selectedBrand);
+
+      // Layer 2: Models belonging to selectedBrand
+      const models = Array.from(new Set(brandCars.map(c => c.model).filter(Boolean))).sort();
+      const modelSel = document.getElementById('chartModelSelect');
+      modelSel.innerHTML = models.map(m => {
+        const count = brandCars.filter(c => c.model === m).length;
+        return `<option value="${m}">${m} (${count} phiên bản)</option>`;
+      }).join('');
+
+      onChartModelChange(shouldRender);
+    }
+
+    function onChartModelChange(shouldRender = true) {
+      const cars = dbData.cars || [];
+      const selectedBrand = document.getElementById('chartBrandSelect').value;
+      const selectedModel = document.getElementById('chartModelSelect').value;
+      const modelCars = cars.filter(c => c.brand === selectedBrand && c.model === selectedModel);
+
+      // Layer 3: Trims belonging to selectedBrand + selectedModel
+      const trimSel = document.getElementById('chartTrimSelect');
+      trimSel.innerHTML = modelCars.map(c =>
+        `<option value="${c.car_id}">${c.trim} (VIN ${c.year}) — ${formatPrice(c.net_price)}</option>`
+      ).join('');
+
+      if (shouldRender) {
+        renderCarTrendChart();
+      }
     }
 
     function renderSegmentComparisonChart() {
@@ -886,9 +962,29 @@
     }
 
     function renderCarTrendChart() {
-      const carId = document.getElementById('chartCarSelect').value;
+      const trimSel = document.getElementById('chartTrimSelect');
+      const carId = trimSel ? trimSel.value : '';
       const car = (dbData.cars || []).find(c => c.car_id === carId) || (dbData.cars || [])[0];
       if (!car) return;
+
+      // Render Quick Summary Strip for Selected Car
+      const summaryEl = document.getElementById('chartSelectedCarSummary');
+      if (summaryEl) {
+        summaryEl.innerHTML = `
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <span class="font-extrabold text-white">${car.brand} ${car.model} ${car.trim} (${car.year})</span>
+            <span class="text-slate-400">Niêm yết: <s class="text-slate-300">${formatPrice(car.listed_price)}</s></span>
+            <span class="text-emerald-400 font-bold">Ưu đãi: -${car.discount_amount} tr</span>
+            <span class="text-white font-extrabold">Sau giảm: ${formatPrice(car.net_price)}</span>
+            <span class="text-blue-400 font-bold">Lăn bánh (${REGION_LABELS[currentRegion]}): ${formatPrice(getOtrPrice(car))}</span>
+          </div>
+          <a href="${car.video_url}" target="_blank" rel="noopener"
+             class="px-2.5 py-1 rounded-lg bg-red-600/20 hover:bg-red-600/30 text-red-300 border border-red-500/30 font-bold whitespace-nowrap">
+            ▶️ Xem tại ${car.timestamp_label}
+          </a>
+        `;
+      }
+
       const hist = car.history || [];
       const ctx = document.getElementById('trendChartCanvas').getContext('2d');
       if (trendChartInstance) trendChartInstance.destroy();
