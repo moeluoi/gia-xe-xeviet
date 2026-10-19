@@ -4,6 +4,7 @@ on:
   schedule:
     # Chạy tự động vào 21:00 tối giờ Việt Nam (tức 14:00 UTC) hàng ngày
     - cron: '17 23 * * *'
+    - cron: '23 15 * * *'
   workflow_dispatch:
     inputs:
       max_videos:
