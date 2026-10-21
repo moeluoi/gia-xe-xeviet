@@ -4,8 +4,18 @@
     "handle": "@xeviet.official",
     "url": "https://www.youtube.com/@xeviet.official"
   },
-  "last_updated": "2026-10-19 21:30:24",
+  "last_updated": "2026-10-21 08:33:05",
   "videos": [
+    {
+      "video_id": "oUwc1uX9MVY",
+      "title": "Toyota Corolla Cross Cuối Tháng 10, Giảm Hơn 60 Triệu. Còn 760 Triệu, Dễ Chốt Hơn CX-5? | Xe Việt",
+      "url": "https://www.youtube.com/watch?v=oUwc1uX9MVY",
+      "upload_date": "2026-10-21",
+      "thumbnail": "https://i.ytimg.com/vi/oUwc1uX9MVY/hqdefault.jpg",
+      "has_car_pricing": true,
+      "summary": "Cập nhật giá bán và chi phí lăn bánh các phiên bản Toyota Corolla Cross cuối tháng 10/2026, với mức ưu đãi giảm tiền mặt lên đến 40-60 triệu đồng.",
+      "extracted_count": 2
+    },
     {
       "video_id": "bZe3ZlaKYFg",
       "title": "Hyundai Tucson Giữa Tháng 10, Giảm Giá Còn Hơn 680 Triệu. Đã Hợp Lý Để Chốt? | Xe Việt",
@@ -138,6 +148,88 @@
     }
   ],
   "cars": [
+    {
+      "car_id": "toyota-corolla-cross-xang-1-8v-2026",
+      "brand": "Toyota",
+      "model": "Corolla Cross",
+      "trim": "Xăng 1.8V",
+      "year": 2026,
+      "segment": "CUV/SUV cỡ B+",
+      "history": [
+        {
+          "date": "2026-10-21",
+          "video_id": "oUwc1uX9MVY",
+          "video_title": "Toyota Corolla Cross Cuối Tháng 10, Giảm Hơn 60 Triệu. Còn 760 Triệu, Dễ Chốt Hơn CX-5? | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=oUwc1uX9MVY&t=395s",
+          "timestamp_seconds": 395,
+          "timestamp_label": "06:35",
+          "listed_price": 820.0,
+          "discount_amount": 40.0,
+          "discount_pct": 4.9,
+          "net_price": 780.0,
+          "otr_tinh": 865.0,
+          "otr_hcm": 858.0,
+          "otr_hn": 895.0
+        }
+      ],
+      "latest_date": "2026-10-21",
+      "listed_price": 820.0,
+      "discount_amount": 40.0,
+      "discount_pct": 4.9,
+      "net_price": 780.0,
+      "otr_tinh": 865.0,
+      "otr_hcm": 858.0,
+      "otr_hn": 895.0,
+      "net_price_change": 0.0,
+      "discount_change": 0.0,
+      "previous_net_price": null,
+      "video_id": "oUwc1uX9MVY",
+      "video_title": "Toyota Corolla Cross Cuối Tháng 10, Giảm Hơn 60 Triệu. Còn 760 Triệu, Dễ Chốt Hơn CX-5? | Xe Việt",
+      "video_url": "https://www.youtube.com/watch?v=oUwc1uX9MVY&t=395s",
+      "timestamp_seconds": 395,
+      "timestamp_label": "06:35"
+    },
+    {
+      "car_id": "toyota-corolla-cross-hybrid-1-8hev-2026",
+      "brand": "Toyota",
+      "model": "Corolla Cross",
+      "trim": "Hybrid 1.8HEV",
+      "year": 2026,
+      "segment": "CUV/SUV cỡ B+",
+      "history": [
+        {
+          "date": "2026-10-21",
+          "video_id": "oUwc1uX9MVY",
+          "video_title": "Toyota Corolla Cross Cuối Tháng 10, Giảm Hơn 60 Triệu. Còn 760 Triệu, Dễ Chốt Hơn CX-5? | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=oUwc1uX9MVY&t=601s",
+          "timestamp_seconds": 601,
+          "timestamp_label": "10:01",
+          "listed_price": 905.0,
+          "discount_amount": 40.0,
+          "discount_pct": 4.4,
+          "net_price": 865.0,
+          "otr_tinh": 913.0,
+          "otr_hcm": 905.0,
+          "otr_hn": 944.0
+        }
+      ],
+      "latest_date": "2026-10-21",
+      "listed_price": 905.0,
+      "discount_amount": 40.0,
+      "discount_pct": 4.4,
+      "net_price": 865.0,
+      "otr_tinh": 913.0,
+      "otr_hcm": 905.0,
+      "otr_hn": 944.0,
+      "net_price_change": 0.0,
+      "discount_change": 0.0,
+      "previous_net_price": null,
+      "video_id": "oUwc1uX9MVY",
+      "video_title": "Toyota Corolla Cross Cuối Tháng 10, Giảm Hơn 60 Triệu. Còn 760 Triệu, Dễ Chốt Hơn CX-5? | Xe Việt",
+      "video_url": "https://www.youtube.com/watch?v=oUwc1uX9MVY&t=601s",
+      "timestamp_seconds": 601,
+      "timestamp_label": "10:01"
+    },
     {
       "car_id": "ford-territory-titanium-2024",
       "brand": "Ford",
