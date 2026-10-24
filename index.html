@@ -258,7 +258,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <h3 class="text-sm sm:text-base font-bold text-white">📊 So Sánh Giá Các Xe Cùng Phân Khúc</h3>
-            <p class="text-xs text-slate-400">So sánh Giá sau giảm và Số tiền ưu đãi giữa các phiên bản</p>
+            <p class="text-xs text-slate-400">So sánh Giá sau giảm (Triệu VNĐ) từ cao đến thấp giữa các phiên bản</p>
           </div>
           <select id="chartSegmentSelect" onchange="renderSegmentComparisonChart()"
                   class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white">
@@ -918,7 +918,10 @@
 
     function renderSegmentComparisonChart() {
       const seg = document.getElementById('chartSegmentSelect').value;
-      const cars = (dbData.cars || []).filter(c => !seg || c.segment === seg).slice(0, 10);
+      const cars = (dbData.cars || [])
+        .filter(c => !seg || c.segment === seg)
+        .sort((a, b) => (b.net_price || 0) - (a.net_price || 0))
+        .slice(0, 12);
       const ctx = document.getElementById('segmentChartCanvas').getContext('2d');
       if (segmentChartInstance) segmentChartInstance.destroy();
 
@@ -928,36 +931,68 @@
           labels: cars.map(c => `${c.model} ${c.trim}`),
           datasets: [
             {
-              label: 'Giá sau giảm (Triệu)',
+              label: 'Giá sau giảm (Triệu VNĐ)',
               data: cars.map(c => c.net_price),
               backgroundColor: 'rgba(59, 130, 246, 0.85)',
+              hoverBackgroundColor: 'rgba(96, 165, 250, 0.95)',
+              borderColor: 'rgba(96, 165, 250, 1)',
+              borderWidth: 1,
               borderRadius: 6,
-            },
-            {
-              label: `Lăn bánh ${REGION_LABELS[currentRegion]} (Triệu)`,
-              data: cars.map(c => getOtrPrice(c)),
-              backgroundColor: 'rgba(14, 165, 233, 0.45)',
-              borderRadius: 6,
-            },
-            {
-              label: 'Số tiền ưu đãi (Triệu)',
-              data: cars.map(c => c.discount_amount),
-              backgroundColor: 'rgba(16, 185, 129, 0.85)',
-              borderRadius: 6,
+              maxBarThickness: 48,
             }
           ]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          layout: {
+            padding: { top: 24 }
+          },
           plugins: {
-            legend: { labels: { color: '#cbd5e1', font: { size: 11 } } }
+            legend: { labels: { color: '#cbd5e1', font: { size: 11 } } },
+            tooltip: {
+              callbacks: {
+                label: (context) => {
+                  const car = cars[context.dataIndex];
+                  const lines = [`Giá sau giảm: ${context.parsed.y} Triệu`];
+                  if (car) {
+                    if (car.listed_price) lines.push(`Giá niêm yết: ${car.listed_price} Triệu`);
+                    if (car.discount_amount) lines.push(`Ưu đãi giảm: -${car.discount_amount} Triệu`);
+                  }
+                  return lines;
+                }
+              }
+            }
           },
           scales: {
             x: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { display: false } },
-            y: { ticks: { color: '#94a3b8', font: { size: 11 } }, grid: { color: 'rgba(51,65,85,0.4)' } }
+            y: {
+              beginAtZero: true,
+              ticks: { color: '#94a3b8', font: { size: 11 } },
+              grid: { color: 'rgba(51,65,85,0.4)' }
+            }
           }
-        }
+        },
+        plugins: [{
+          id: 'topValueLabels',
+          afterDatasetsDraw(chart) {
+            const { ctx: chartCtx } = chart;
+            chartCtx.save();
+            const meta = chart.getDatasetMeta(0);
+            const dataset = chart.data.datasets[0];
+            meta.data.forEach((bar, index) => {
+              const val = dataset.data[index];
+              if (val !== null && val !== undefined) {
+                chartCtx.fillStyle = '#f8fafc';
+                chartCtx.font = 'bold 11px Inter, sans-serif';
+                chartCtx.textAlign = 'center';
+                chartCtx.textBaseline = 'bottom';
+                chartCtx.fillText(`${val}tr`, bar.x, bar.y - 6);
+              }
+            });
+            chartCtx.restore();
+          }
+        }]
       });
     }
 
