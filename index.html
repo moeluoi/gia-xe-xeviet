@@ -228,13 +228,18 @@
 
     <!-- TAB 2: BẢNG XẾP HẠNG KÈO THƠM / ƯU ĐÃI SÂU NHẤT -->
     <section id="tab-deals" class="hidden space-y-3">
-      <div class="glass-card rounded-2xl p-4">
-        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+      <div class="glass-card rounded-2xl p-4 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2">
           <div>
-            <h2 class="text-base font-extrabold text-white flex items-center gap-1.5">
-              <span>🔥</span> Bảng Xếp Hạng "Kèo Thơm" Ưu Đãi Sâu Nhất
-            </h2>
-            <p class="text-xs text-slate-400">Xếp hạng dựa trên Số tiền ưu đãi tiền mặt / hỗ trợ trước bạ quy đổi (Triệu VNĐ)</p>
+            <div class="flex items-center gap-2">
+              <h2 class="text-base font-extrabold text-white flex items-center gap-1.5">
+                <span>🔥</span> Top 5 "Kèo Thơm" Theo Phân Khúc
+              </h2>
+              <span id="dealSegmentBadge" class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                Top 5
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 mt-0.5">Chọn phân khúc bên dưới để xem tối đa 5 xe đang ưu đãi sâu nhất</p>
           </div>
           <div class="flex bg-slate-900 p-1 rounded-xl border border-slate-800">
             <button onclick="setDealMetric('amount')" id="btn-deal-amount" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-600 text-white">
@@ -245,6 +250,12 @@
             </button>
           </div>
         </div>
+
+        <!-- Quick Segment Filter Buttons -->
+        <div id="dealSegmentPills" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-2 border-t border-slate-800/80">
+          <!-- Populated by JS -->
+        </div>
+
         <div id="topDealsList" class="space-y-2.5">
           <!-- Populated by JS -->
         </div>
@@ -445,6 +456,7 @@
     let currentBrand = 'all';
     let currentVideoFilter = null;
     let currentDealMetric = 'amount'; // 'amount' | 'pct'
+    let currentDealSegment = 'all';
     let segmentChartInstance = null;
     let trendChartInstance = null;
     let modalChartInstance = null;
@@ -811,19 +823,57 @@
       renderTopDeals();
     }
 
+    function setDealSegment(seg) {
+      currentDealSegment = seg;
+      renderTopDeals();
+    }
+
     function renderTopDeals() {
-      const cars = [...(dbData.cars || [])].filter(c => (c.discount_amount || 0) > 0);
+      const allDiscountCars = [...(dbData.cars || [])].filter(c => (c.discount_amount || 0) > 0);
+      const segments = Array.from(new Set((dbData.cars || []).map(c => c.segment).filter(Boolean))).sort();
+
+      // Render Quick Segment Filter Pills
+      const pillsEl = document.getElementById('dealSegmentPills');
+      if (pillsEl) {
+        const pillOptions = ['all', ...segments];
+        pillsEl.innerHTML = pillOptions.map(s => {
+          const active = s === currentDealSegment;
+          const label = s === 'all' ? '🔥 Mọi phân khúc' : s;
+          return `<button onclick="setDealSegment('${s}')"
+            class="px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition ${
+              active
+                ? 'bg-blue-600 text-white shadow shadow-blue-600/30'
+                : 'bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-600 hover:text-white'
+            }">${label}</button>`;
+        }).join('');
+      }
+
+      const cars = allDiscountCars.filter(c => currentDealSegment === 'all' || c.segment === currentDealSegment);
       cars.sort((a, b) => {
         if (currentDealMetric === 'pct') return (b.discount_pct || 0) - (a.discount_pct || 0);
         return (b.discount_amount || 0) - (a.discount_amount || 0);
       });
 
-      const maxVal = cars.length > 0
-        ? Math.max(...cars.map(c => currentDealMetric === 'pct' ? (c.discount_pct || 0) : (c.discount_amount || 0)))
-        : 100;
+      const top5 = cars.slice(0, 5);
+
+      const badgeEl = document.getElementById('dealSegmentBadge');
+      if (badgeEl) {
+        badgeEl.textContent = currentDealSegment === 'all'
+          ? `Top ${top5.length} toàn sàn`
+          : `Top ${top5.length} • ${currentDealSegment}`;
+      }
 
       const container = document.getElementById('topDealsList');
-      container.innerHTML = cars.slice(0, 15).map((c, idx) => {
+      if (top5.length === 0) {
+        container.innerHTML = `<div class="bg-slate-950/80 border border-slate-800/90 rounded-2xl p-6 text-center text-slate-400 text-xs">
+          Chưa có mẫu xe nào đang giảm giá trong phân khúc <b>${currentDealSegment}</b>.
+        </div>`;
+        return;
+      }
+
+      const maxVal = Math.max(...top5.map(c => currentDealMetric === 'pct' ? (c.discount_pct || 0) : (c.discount_amount || 0)));
+
+      container.innerHTML = top5.map((c, idx) => {
         const val = currentDealMetric === 'pct' ? (c.discount_pct || 0) : (c.discount_amount || 0);
         const widthPct = Math.max(12, Math.round((val / maxVal) * 100));
         const rankColors = idx === 0 ? 'bg-amber-500 text-slate-950' : idx === 1 ? 'bg-slate-300 text-slate-950' : idx === 2 ? 'bg-amber-700 text-white' : 'bg-slate-800 text-slate-300';
@@ -833,10 +883,14 @@
             <div class="flex items-center gap-2.5 min-w-0">
               <span class="w-6 h-6 rounded-full text-xs font-extrabold flex items-center justify-center shrink-0 ${rankColors}">${idx + 1}</span>
               <div class="truncate">
-                <div onclick="openCarModal('${c.car_id}')" class="text-sm font-extrabold text-white hover:text-blue-400 cursor-pointer truncate">
-                  ${c.brand} ${c.model} ${c.trim} <span class="text-xs text-slate-400 font-normal">(${c.year})</span>
+                <div class="flex flex-wrap items-center gap-1.5">
+                  <span onclick="openCarModal('${c.car_id}')" class="text-sm font-extrabold text-white hover:text-blue-400 cursor-pointer truncate">
+                    ${c.brand} ${c.model} ${c.trim}
+                  </span>
+                  <span class="text-xs text-slate-400 font-normal">(${c.year})</span>
+                  <span class="text-[11px] font-semibold px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-400 border border-blue-500/20">${c.segment || ''}</span>
                 </div>
-                <div class="text-[11px] text-slate-400">
+                <div class="text-[11px] text-slate-400 mt-0.5">
                   Niêm yết: <span class="line-through">${formatPrice(c.listed_price)}</span> ➔ Sau giảm: <b class="text-white">${formatPrice(c.net_price)}</b> • Lăn bánh (${REGION_LABELS[currentRegion]}): <b class="text-blue-400">${formatPrice(getOtrPrice(c))}</b>
                 </div>
               </div>
