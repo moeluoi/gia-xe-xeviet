@@ -472,6 +472,28 @@
       return car.otr_tinh;
     }
 
+    function normalizeSegment(seg) {
+      if (!seg) return 'Khác';
+      let s = String(seg).trim();
+      // Remove parenthetical suffixes like (Điện), (Hybrid), (Xăng), (7 chỗ)
+      s = s.replace(/\s*\([^)]*\)/g, '').trim();
+      // Remove '+' or '-' suffixes like CUV/SUV cỡ B+ -> CUV/SUV cỡ B
+      s = s.replace(/([ABCDE])[+-](?=\s|$)/gi, '$1').trim();
+      const upper = s.toUpperCase();
+      if (upper.startsWith('MPV')) return 'MPV';
+      if (upper.includes('BÁN TẢI') || upper.includes('PICKUP')) return 'Bán tải';
+      const cuvMatch = s.match(/(?:CUV|SUV)(?:\/SUV|\/CUV)?\s*(?:cỡ|hạng)\s*([ABCDE])/i);
+      if (cuvMatch) {
+        const size = cuvMatch[1].toUpperCase();
+        return size === 'D' || size === 'E' ? `SUV cỡ ${size}` : `CUV/SUV cỡ ${size}`;
+      }
+      const sedanMatch = s.match(/Sedan\s*(?:hạng|cỡ)\s*([ABCDE])/i);
+      if (sedanMatch) {
+        return `Sedan hạng ${sedanMatch[1].toUpperCase()}`;
+      }
+      return s;
+    }
+
     async function initDashboard() {
       try {
         const resp = await fetch('data/car_prices.json?t=' + Date.now());
@@ -480,6 +502,11 @@
         }
       } catch (e) {
         // Fallback to window.CAR_PRICE_DATA when opened via file://
+      }
+      if (dbData && Array.isArray(dbData.cars)) {
+        dbData.cars.forEach(c => {
+          c.segment = normalizeSegment(c.segment);
+        });
       }
       populateFilters();
       renderKPIs();
