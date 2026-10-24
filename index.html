@@ -258,7 +258,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <h3 class="text-sm sm:text-base font-bold text-white">📊 So Sánh Giá Các Xe Cùng Phân Khúc</h3>
-            <p class="text-xs text-slate-400">So sánh Giá sau giảm (Triệu VNĐ) từ cao đến thấp giữa các phiên bản</p>
+            <p id="segmentChartSubtitle" class="text-xs text-slate-400">So sánh Giá lăn bánh (Tỉnh) (Triệu VNĐ) từ cao đến thấp giữa các phiên bản</p>
           </div>
           <select id="chartSegmentSelect" onchange="renderSegmentComparisonChart()"
                   class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white">
@@ -528,6 +528,10 @@
       });
       const th = document.getElementById('tableHeaderOtr');
       if (th) th.textContent = `4. Lăn bánh (${REGION_LABELS[region]})`;
+      document.getElementById('lastUpdatedText').textContent =
+        `Cập nhật: ${dbData.last_updated || 'Hôm nay'} • Giá lăn bánh: ${REGION_LABELS[currentRegion]}`;
+      const sub = document.getElementById('segmentChartSubtitle');
+      if (sub) sub.textContent = `So sánh Giá lăn bánh (${REGION_LABELS[region]}) (Triệu VNĐ) từ cao đến thấp giữa các phiên bản`;
       renderAll();
       renderTopDeals();
       if (segmentChartInstance) renderSegmentComparisonChart();
@@ -944,10 +948,14 @@
     }
 
     function renderSegmentComparisonChart() {
+      const regionLabel = REGION_LABELS[currentRegion] || 'Tỉnh';
+      const sub = document.getElementById('segmentChartSubtitle');
+      if (sub) sub.textContent = `So sánh Giá lăn bánh (${regionLabel}) (Triệu VNĐ) từ cao đến thấp giữa các phiên bản`;
+
       const seg = document.getElementById('chartSegmentSelect').value;
       const cars = (dbData.cars || [])
         .filter(c => !seg || c.segment === seg)
-        .sort((a, b) => (b.net_price || 0) - (a.net_price || 0))
+        .sort((a, b) => (getOtrPrice(b) || 0) - (getOtrPrice(a) || 0))
         .slice(0, 12);
       const ctx = document.getElementById('segmentChartCanvas').getContext('2d');
       if (segmentChartInstance) segmentChartInstance.destroy();
@@ -958,8 +966,8 @@
           labels: cars.map(c => `${c.model} ${c.trim}`),
           datasets: [
             {
-              label: 'Giá sau giảm (Triệu VNĐ)',
-              data: cars.map(c => c.net_price),
+              label: `Giá lăn bánh (${regionLabel}) (Triệu VNĐ)`,
+              data: cars.map(c => getOtrPrice(c)),
               backgroundColor: 'rgba(59, 130, 246, 0.85)',
               hoverBackgroundColor: 'rgba(96, 165, 250, 0.95)',
               borderColor: 'rgba(96, 165, 250, 1)',
@@ -981,8 +989,9 @@
               callbacks: {
                 label: (context) => {
                   const car = cars[context.dataIndex];
-                  const lines = [`Giá sau giảm: ${context.parsed.y} Triệu`];
+                  const lines = [`Giá lăn bánh (${regionLabel}): ${context.parsed.y} Triệu`];
                   if (car) {
+                    if (car.net_price) lines.push(`Giá sau giảm: ${car.net_price} Triệu`);
                     if (car.listed_price) lines.push(`Giá niêm yết: ${car.listed_price} Triệu`);
                     if (car.discount_amount) lines.push(`Ưu đãi giảm: -${car.discount_amount} Triệu`);
                   }
