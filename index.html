@@ -2364,48 +2364,6 @@
         }]
       });
     }
-                  return lines;
-                }
-              }
-            }
-          },
-          scales: {
-            x: {
-              beginAtZero: true,
-              ticks: { color: tickColor, font: { size: 10 } },
-              grid: { color: gridColor }
-            },
-            y: {
-              ticks: {
-                color: tickColor,
-                font: { size: 11, family: isStripe ? 'Be Vietnam Pro' : 'sans-serif' }
-              },
-              grid: { display: false }
-            }
-          }
-        },
-        plugins: [{
-          id: 'topValueLabelsPriceRange',
-          afterDatasetsDraw(chart) {
-            const { ctx: chartCtx } = chart;
-            chartCtx.save();
-            const meta = chart.getDatasetMeta(0);
-            const dataset = chart.data.datasets[0];
-            meta.data.forEach((bar, index) => {
-              const val = dataset.data[index];
-              if (val !== null && val !== undefined) {
-                chartCtx.fillStyle = labelColor;
-                chartCtx.font = 'bold 11px var(--font-sans)';
-                chartCtx.textAlign = 'left';
-                chartCtx.textBaseline = 'middle';
-                chartCtx.fillText(`${val}tr`, bar.x + 6, bar.y);
-              }
-            });
-            chartCtx.restore();
-          }
-        }]
-      });
-    }
 
     function renderCarTrendChart() {
       const trimSel = document.getElementById('chartTrimSelect');
