@@ -41,6 +41,11 @@
     }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .custom-scrollbar::-webkit-scrollbar { height: 8px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.8); border-radius: 9999px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.6); border-radius: 9999px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(96, 165, 250, 0.9); }
+    .custom-scrollbar { scrollbar-width: thin; scrollbar-color: rgba(59, 130, 246, 0.6) rgba(15, 23, 42, 0.8); }
     .glass-card {
       background: rgba(15, 23, 42, 0.85);
       backdrop-filter: blur(12px);
@@ -275,8 +280,18 @@
                   class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white">
           </select>
         </div>
-        <div class="h-72 sm:h-80 w-full">
-          <canvas id="segmentChartCanvas"></canvas>
+        <div id="segmentChartScrollWrapper" onscroll="onSegmentChartScroll()" class="w-full overflow-x-auto custom-scrollbar pb-2">
+          <div id="segmentChartInner" class="h-72 sm:h-80 min-w-full relative">
+            <canvas id="segmentChartCanvas"></canvas>
+          </div>
+        </div>
+        <!-- Interactive Horizontal Slide Bar (shown when segment has many models) -->
+        <div id="segmentChartSliderContainer" class="hidden items-center gap-3 pt-1 px-1">
+          <span class="text-[11px] text-slate-400 whitespace-nowrap font-medium">↔️ Kéo sang phải:</span>
+          <input id="segmentChartSlider" type="range" min="0" max="100" value="0"
+                 oninput="onSegmentSliderInput(this.value)"
+                 class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500" />
+          <span id="segmentChartCountBadge" class="text-[11px] text-blue-400 font-bold whitespace-nowrap"></span>
         </div>
       </div>
 
@@ -951,7 +966,13 @@
       const cars = dbData.cars || [];
       const segments = Array.from(new Set(cars.map(c => c.segment).filter(Boolean))).sort();
       const segSel = document.getElementById('chartSegmentSelect');
-      segSel.innerHTML = segments.map(s => `<option value="${s}">${s}</option>`).join('');
+      segSel.innerHTML = segments.map(s => {
+        const count = cars.filter(c => c.segment === s).length;
+        return `<option value="${s}">${s} (${count} xe)</option>`;
+      }).join('');
+      if (segments.includes('CUV/SUV cỡ B')) {
+        segSel.value = 'CUV/SUV cỡ B';
+      }
 
       // Layer 1: Brands
       const brands = Array.from(new Set(cars.map(c => c.brand).filter(Boolean))).sort();
@@ -1001,16 +1022,66 @@
       }
     }
 
+    function onSegmentChartScroll() {
+      const wrapper = document.getElementById('segmentChartScrollWrapper');
+      const slider = document.getElementById('segmentChartSlider');
+      if (!wrapper || !slider) return;
+      const maxScroll = Math.max(0, wrapper.scrollWidth - wrapper.clientWidth);
+      slider.max = maxScroll;
+      slider.value = wrapper.scrollLeft;
+    }
+
+    function onSegmentSliderInput(val) {
+      const wrapper = document.getElementById('segmentChartScrollWrapper');
+      if (!wrapper) return;
+      wrapper.scrollLeft = Number(val);
+    }
+
+    function updateSegmentSliderState(totalCars) {
+      const wrapper = document.getElementById('segmentChartScrollWrapper');
+      const container = document.getElementById('segmentChartSliderContainer');
+      const slider = document.getElementById('segmentChartSlider');
+      const badge = document.getElementById('segmentChartCountBadge');
+      if (!wrapper || !container || !slider) return;
+
+      requestAnimationFrame(() => {
+        const maxScroll = Math.max(0, wrapper.scrollWidth - wrapper.clientWidth);
+        if (badge) badge.textContent = `${totalCars} mẫu xe`;
+        if (maxScroll > 8) {
+          container.classList.remove('hidden');
+          container.classList.add('flex');
+          slider.max = maxScroll;
+          slider.value = wrapper.scrollLeft;
+        } else {
+          container.classList.add('hidden');
+          container.classList.remove('flex');
+        }
+      });
+    }
+
     function renderSegmentComparisonChart() {
       const regionLabel = REGION_LABELS[currentRegion] || 'Tỉnh';
-      const sub = document.getElementById('segmentChartSubtitle');
-      if (sub) sub.textContent = `So sánh Giá lăn bánh (${regionLabel}) (Triệu VNĐ) từ cao đến thấp giữa các phiên bản`;
-
       const seg = document.getElementById('chartSegmentSelect').value;
       const cars = (dbData.cars || [])
         .filter(c => !seg || c.segment === seg)
-        .sort((a, b) => (getOtrPrice(b) || 0) - (getOtrPrice(a) || 0))
-        .slice(0, 12);
+        .sort((a, b) => (getOtrPrice(b) || 0) - (getOtrPrice(a) || 0));
+
+      const sub = document.getElementById('segmentChartSubtitle');
+      if (sub) {
+        sub.textContent = `So sánh Giá lăn bánh (${regionLabel}) (Triệu VNĐ) từ cao đến thấp • Hiển thị đủ ${cars.length} phiên bản`;
+      }
+
+      const wrapper = document.getElementById('segmentChartScrollWrapper');
+      const innerEl = document.getElementById('segmentChartInner');
+      if (innerEl) {
+        // Ensure each bar has ~82px horizontal room so labels & bars never squish or break UI
+        const requiredWidth = cars.length * 82;
+        innerEl.style.width = cars.length > 7 ? `${requiredWidth}px` : '100%';
+      }
+      if (wrapper) {
+        wrapper.scrollLeft = 0;
+      }
+
       const ctx = document.getElementById('segmentChartCanvas').getContext('2d');
       if (segmentChartInstance) segmentChartInstance.destroy();
 
@@ -1084,6 +1155,8 @@
           }
         }]
       });
+
+      updateSegmentSliderState(cars.length);
     }
 
     function renderCarTrendChart() {
@@ -1236,6 +1309,12 @@
     }
 
     window.addEventListener('DOMContentLoaded', initDashboard);
+    window.addEventListener('resize', () => {
+      const segSel = document.getElementById('chartSegmentSelect');
+      const seg = segSel ? segSel.value : '';
+      const count = (dbData.cars || []).filter(c => !seg || c.segment === seg).length;
+      updateSegmentSliderState(count);
+    });
   </script>
 </body>
 </html>
