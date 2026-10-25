@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="vi" class="dark">
+<html lang="vi" data-theme="stripe">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#0f172a" />
+  <meta name="theme-color" content="#ffffff" id="metaThemeColor" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" id="metaStatusBar" />
   <title>Bảng Theo Dõi Giá Xe Hàng Ngày | @xeviet.official</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Source+Code+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -19,13 +19,28 @@
         extend: {
           fontFamily: {
             sans: ['"Be Vietnam Pro"', 'system-ui', 'sans-serif'],
+            mono: ['"Source Code Pro"', '"SFMono-Regular"', 'Consolas', 'monospace'],
           },
           colors: {
-            brand: {
-              50: '#eff6ff',
-              500: '#3b82f6',
-              600: '#2563eb',
-              700: '#1d4ed8',
+            stripe: {
+              primary: '#533afd',
+              'primary-hover': '#4032c8',
+              secondary: '#635bff',
+              surface: '#ffffff',
+              'surface-subdued': '#f8fafd',
+              dark: '#0d1738',
+              'text-solid': '#061b31',
+              'text-soft': '#50617a',
+              'text-subdued': '#64748d',
+              'text-quiet': '#7d8ba4',
+              'border-quiet': '#e5edf5',
+              'border-subdued': '#d4dee9',
+              success: '#00b261',
+              ruby: '#ea2261',
+              lemon: '#f9b900',
+              magenta: '#f44bcc',
+              amber: '#b45309',
+              light: '#e8e9ff'
             }
           }
         }
@@ -33,134 +48,232 @@
     }
   </script>
   <style>
-    body {
-      font-family: 'Be Vietnam Pro', system-ui, sans-serif;
-      background-color: #0b1120;
-      color: #f1f5f9;
-      -webkit-tap-highlight-color: transparent;
+    :root {
+      --font-sans: 'Be Vietnam Pro', system-ui, sans-serif;
+      --font-mono: 'Source Code Pro', monospace;
     }
+    body {
+      font-family: var(--font-sans);
+      -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    /* Stripe Focus Ring & Floating Shadow */
+    html[data-theme="stripe"] input:focus,
+    html[data-theme="stripe"] select:focus {
+      box-shadow: 0 0 0 3px rgba(83, 58, 253, 0.16);
+    }
+    html[data-theme="stripe"] .stripe-modal-shadow {
+      box-shadow: 0px 15px 40px -2px rgba(0, 55, 112, 0.12), 0px 5px 20px -2px rgba(0, 59, 137, 0.05) !important;
+    }
+
+    /* Scrollbars */
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    .custom-scrollbar::-webkit-scrollbar { height: 8px; }
-    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.8); border-radius: 9999px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.6); border-radius: 9999px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(96, 165, 250, 0.9); }
-    .custom-scrollbar { scrollbar-width: thin; scrollbar-color: rgba(59, 130, 246, 0.6) rgba(15, 23, 42, 0.8); }
-    .glass-card {
+    .custom-scrollbar::-webkit-scrollbar { height: 7px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 9999px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(83, 58, 253, 0.4); border-radius: 9999px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(83, 58, 253, 0.7); }
+    .custom-scrollbar { scrollbar-width: thin; scrollbar-color: rgba(83, 58, 253, 0.4) transparent; }
+
+    /* STRIPE THEME SPECIFIC STYLES */
+    html[data-theme="stripe"] body {
+      background-color: #f8fafd;
+      color: #061b31;
+    }
+    html[data-theme="stripe"] .stripe-card {
+      background: #ffffff;
+      border: 1px solid #e5edf5;
+      box-shadow: 0px 5px 14px rgba(0, 55, 112, 0.08), 0px 2px 8px rgba(0, 59, 137, 0.05);
+      border-radius: 6px;
+    }
+    html[data-theme="stripe"] .stripe-card-interactive {
+      background: #ffffff;
+      border: 1px solid #e5edf5;
+      box-shadow: 0px 5px 14px rgba(0, 55, 112, 0.08), 0px 2px 8px rgba(0, 59, 137, 0.05);
+      border-radius: 6px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+    html[data-theme="stripe"] .stripe-card-interactive:hover {
+      transform: translateY(-2px);
+      box-shadow: 0px 6px 22px rgba(0, 55, 112, 0.1), 0px 4px 8px rgba(0, 59, 137, 0.02);
+      border-color: #d4dee9;
+    }
+    html[data-theme="stripe"] .stripe-glow-accent {
+      background: linear-gradient(90deg, #635bff 0%, #f44bcc 50%, #f9b900 100%);
+    }
+
+    /* CLASSIC THEME SPECIFIC STYLES */
+    html[data-theme="classic"] body {
+      background-color: #0b1120;
+      color: #f1f5f9;
+    }
+    html[data-theme="classic"] .stripe-card,
+    html[data-theme="classic"] .stripe-card-interactive {
       background: rgba(15, 23, 42, 0.85);
       backdrop-filter: blur(12px);
       border: 1px solid rgba(51, 65, 85, 0.6);
+      box-shadow: none;
+      border-radius: 16px;
+      transition: border-color 0.15s ease;
     }
-    .deal-badge-glow {
-      box-shadow: 0 0 15px rgba(16, 185, 129, 0.25);
+    html[data-theme="classic"] .stripe-card-interactive:hover {
+      border-color: #475569;
+      transform: none;
+      box-shadow: none;
     }
+    html[data-theme="classic"] .kpi-top-glow {
+      display: none !important;
+    }
+    html[data-theme="classic"] .custom-scrollbar::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.8); }
+    html[data-theme="classic"] .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.6); }
+    html[data-theme="classic"] .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(96, 165, 250, 0.9); }
   </style>
 </head>
-<body class="min-h-screen pb-24 selection:bg-blue-500 selection:text-white">
+<body class="min-h-screen pb-24 selection:bg-[#533afd] selection:text-white">
+
+  <!-- STRIPE AMBIENT GLOW STRIP AT VERY TOP (Only in Stripe theme) -->
+  <div id="stripeGlowBar" class="h-[3px] w-full stripe-glow-accent sticky top-0 z-40"></div>
 
   <!-- TOP STICKY HEADER -->
-  <header class="sticky top-0 z-30 bg-slate-950/95 backdrop-blur-md border-b border-slate-800/80 px-3.5 py-2.5">
+  <header id="topHeader" class="sticky top-[3px] z-30 transition-colors duration-200 px-3.5 py-2.5">
     <div class="max-w-5xl mx-auto flex items-center justify-between gap-2">
+      
+      <!-- Brand & Channel Info -->
       <div class="flex items-center gap-2.5 min-w-0">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-red-600 to-orange-500 flex items-center justify-center shadow-lg shadow-red-600/20 shrink-0">
+        <div id="headerLogoBox" class="w-9 h-9 rounded flex items-center justify-center shrink-0 shadow transition">
           <span class="text-lg">🚗</span>
         </div>
         <div class="truncate">
           <div class="flex items-center gap-1.5">
-            <h1 class="text-sm sm:text-base font-extrabold tracking-tight text-white truncate">Giá Xe Hàng Ngày</h1>
+            <h1 id="headerTitle" class="text-sm sm:text-base font-semibold tracking-[-0.01em] truncate">Giá Xe Hàng Ngày</h1>
             <a href="https://www.youtube.com/@xeviet.official/videos" target="_blank" rel="noopener"
-               class="text-[11px] font-semibold px-1.5 py-0.5 rounded bg-red-500/15 text-red-400 border border-red-500/30 hover:bg-red-500/25 transition">
+               id="headerYoutubeBadge"
+               class="text-[11px] font-semibold px-1.5 py-0.5 rounded transition">
               @xeviet.official
             </a>
           </div>
-          <p id="lastUpdatedText" class="text-[11px] text-slate-400 truncate">Đang tải dữ liệu...</p>
+          <p id="lastUpdatedText" class="text-[11px] truncate">Đang tải dữ liệu...</p>
         </div>
       </div>
 
-      <!-- Region Selector for On-The-Road Price -->
-      <div class="flex items-center bg-slate-900 p-1 rounded-xl border border-slate-800 shrink-0" title="Chọn khu vực tính Giá lăn bánh">
-        <button onclick="setRegion('tinh')" id="btn-region-tinh"
-                class="region-btn px-2.5 py-1 rounded-lg text-xs font-bold transition bg-blue-600 text-white shadow">
-          Tỉnh
-        </button>
-        <button onclick="setRegion('hcm')" id="btn-region-hcm"
-                class="region-btn px-2.5 py-1 rounded-lg text-xs font-bold transition text-slate-400 hover:text-white">
-          TP.HCM
-        </button>
-        <button onclick="setRegion('hn')" id="btn-region-hn"
-                class="region-btn px-2.5 py-1 rounded-lg text-xs font-bold transition text-slate-400 hover:text-white">
-          Hà Nội
-        </button>
+      <!-- Right Controls: Style Switcher & Region Selector -->
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        
+        <!-- UI Theme Switcher: Stripe vs Classic (Fixed: Label clearly visible on all screen sizes) -->
+        <div id="themeSwitcherWrapper" class="flex items-center p-0.5 sm:p-1 rounded transition" title="Chọn kiểu giao diện hiển thị">
+          <button onclick="setUiStyle('stripe')" id="btn-style-stripe"
+                  class="theme-btn px-2 sm:px-2.5 py-1 rounded text-xs font-bold transition flex items-center gap-1">
+            <span>✨</span>
+            <span>Stripe</span>
+          </button>
+          <button onclick="setUiStyle('classic')" id="btn-style-classic"
+                  class="theme-btn px-2 sm:px-2.5 py-1 rounded text-xs font-bold transition flex items-center gap-1">
+            <span>🌙</span>
+            <span>Classic</span>
+          </button>
+        </div>
+
+        <!-- Region Selector for On-The-Road Price -->
+        <div id="regionSelectorWrapper" class="flex items-center p-0.5 sm:p-1 rounded transition" title="Chọn khu vực tính Giá lăn bánh">
+          <button onclick="setRegion('tinh')" id="btn-region-tinh"
+                  class="region-btn px-2 sm:px-2.5 py-1 rounded text-xs font-bold transition">
+            Tỉnh
+          </button>
+          <button onclick="setRegion('hcm')" id="btn-region-hcm"
+                  class="region-btn px-2 sm:px-2.5 py-1 rounded text-xs font-bold transition">
+            TP.HCM
+          </button>
+          <button onclick="setRegion('hn')" id="btn-region-hn"
+                  class="region-btn px-2 sm:px-2.5 py-1 rounded text-xs font-bold transition">
+            Hà Nội
+          </button>
+        </div>
+
       </div>
+
     </div>
   </header>
 
   <!-- MAIN CONTAINER -->
   <main class="max-w-5xl mx-auto px-3.5 pt-3.5 space-y-4">
 
-    <!-- 4 KPI CARDS (2x2 on Mobile, 4x1 on Desktop) -->
-    <section class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-      <div class="glass-card rounded-2xl p-3">
-        <div class="flex items-center justify-between text-xs text-slate-400">
-          <span>Mẫu xe theo dõi</span>
-          <span class="text-blue-400">🚘</span>
+    <!-- 4 KPI CARDS (Bento Grid with Stripe Ambient Mesh Glow Top Accent) -->
+    <section class="grid grid-cols-2 sm:grid-cols-4 gap-2.5" id="kpiSection">
+      
+      <!-- KPI 1: Tổng số mẫu xe -->
+      <div id="kpiCard1" class="stripe-card p-3.5 relative overflow-hidden transition">
+        <div class="kpi-top-glow absolute top-0 inset-x-0 h-[2.5px] bg-gradient-to-r from-[#635bff] to-[#533afd]"></div>
+        <div class="flex items-center justify-between text-xs mb-1">
+          <span id="kpiLbl1" class="font-medium">Mẫu xe theo dõi</span>
+          <span class="text-sm">🚘</span>
         </div>
-        <div id="kpiTotalCars" class="text-xl font-extrabold text-white mt-1">0</div>
-        <div id="kpiBrandsCount" class="text-[11px] text-slate-400 mt-0.5">0 hãng xe</div>
+        <div id="kpiTotalCars" class="text-3xl font-light tracking-[-0.03em] tabular-nums">0</div>
+        <div id="kpiBrandsCount" class="text-[11px] mt-0.5">0 hãng xe</div>
       </div>
 
-      <div class="glass-card rounded-2xl p-3 border-emerald-500/30">
-        <div class="flex items-center justify-between text-xs text-emerald-400 font-medium">
-          <span>Ưu đãi cao nhất</span>
-          <span>🔥</span>
+      <!-- KPI 2: Ưu đãi cao nhất -->
+      <div id="kpiCard2" class="stripe-card p-3.5 relative overflow-hidden transition">
+        <div class="kpi-top-glow absolute top-0 inset-x-0 h-[2.5px] bg-gradient-to-r from-[#00b261] to-[#34d399]"></div>
+        <div class="flex items-center justify-between text-xs mb-1">
+          <span id="kpiLbl2" class="font-semibold">Ưu đãi cao nhất</span>
+          <span class="text-sm">🔥</span>
         </div>
-        <div id="kpiMaxDiscount" class="text-xl font-extrabold text-emerald-400 mt-1">-0 tr</div>
-        <div id="kpiMaxDiscountCar" class="text-[11px] text-slate-300 truncate mt-0.5">--</div>
+        <div id="kpiMaxDiscount" class="text-3xl font-light tracking-[-0.03em] tabular-nums">-0 tr</div>
+        <div id="kpiMaxDiscountCar" class="text-[11px] truncate mt-0.5 font-medium">--</div>
       </div>
 
-      <div class="glass-card rounded-2xl p-3">
-        <div class="flex items-center justify-between text-xs text-slate-400">
-          <span>Ưu đãi trung bình</span>
-          <span class="text-amber-400">💰</span>
+      <!-- KPI 3: Ưu đãi trung bình (Fixed: High-contrast legible text) -->
+      <div id="kpiCard3" class="stripe-card p-3.5 relative overflow-hidden transition">
+        <div class="kpi-top-glow absolute top-0 inset-x-0 h-[2.5px] bg-gradient-to-r from-[#f9b900] via-[#ea2261] to-[#635bff]"></div>
+        <div class="flex items-center justify-between text-xs mb-1">
+          <span id="kpiLbl3" class="font-medium">Ưu đãi trung bình</span>
+          <span class="text-sm">💰</span>
         </div>
-        <div id="kpiAvgDiscount" class="text-xl font-extrabold text-amber-400 mt-1">-0 tr</div>
-        <div class="text-[11px] text-slate-400 mt-0.5">Giảm tiền mặt/trước bạ</div>
+        <div id="kpiAvgDiscount" class="text-3xl font-light tracking-[-0.03em] tabular-nums">-0 tr</div>
+        <div id="kpiSub3" class="text-[11px] mt-0.5">Giảm tiền mặt/trước bạ</div>
       </div>
 
-      <div class="glass-card rounded-2xl p-3">
-        <div class="flex items-center justify-between text-xs text-slate-400">
-          <span>Video đã bóc tách</span>
-          <span class="text-red-400">🎬</span>
+      <!-- KPI 4: Video đã quét -->
+      <div id="kpiCard4" class="stripe-card p-3.5 relative overflow-hidden transition">
+        <div class="kpi-top-glow absolute top-0 inset-x-0 h-[2.5px] bg-gradient-to-r from-[#ea2261] via-[#f44bcc] to-[#533afd]"></div>
+        <div class="flex items-center justify-between text-xs mb-1">
+          <span id="kpiLbl4" class="font-medium">Video đã bóc tách</span>
+          <span class="text-sm">🎬</span>
         </div>
-        <div id="kpiTotalVideos" class="text-xl font-extrabold text-white mt-1">0</div>
-        <button onclick="openTriggerModal()" class="text-[11px] text-blue-400 hover:underline mt-0.5 flex items-center gap-1">
+        <div id="kpiTotalVideos" class="text-3xl font-light tracking-[-0.03em] tabular-nums">0</div>
+        <button onclick="openTriggerModal()" id="kpiTriggerBtn" class="text-[11px] font-semibold hover:underline mt-0.5 flex items-center gap-1">
           <span>⚡ Cập nhật thủ công</span>
         </button>
       </div>
+
     </section>
 
     <!-- TAB VIEWS -->
     <!-- TAB 1: BẢNG GIÁ & THẺ XE -->
     <section id="tab-prices" class="space-y-3">
+      
       <!-- Search & Filter Controls -->
-      <div class="glass-card rounded-2xl p-3 space-y-2.5">
+      <div id="filterControlCard" class="stripe-card p-3.5 space-y-2.5 transition">
         <div class="flex gap-2">
           <div class="relative flex-1">
-            <span class="absolute inset-y-0 left-3 flex items-center text-slate-400 text-sm">🔍</span>
+            <span id="searchIcon" class="absolute inset-y-0 left-3 flex items-center text-sm">🔍</span>
             <input id="searchInput" type="text" oninput="renderAll()"
                    placeholder="Tìm tên xe, hãng xe (VD: Creta, CX-5, Geely, MPV...)"
-                   class="w-full pl-9 pr-8 py-2 bg-slate-900/90 border border-slate-700/80 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:border-blue-500" />
-            <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute inset-y-0 right-2.5 flex items-center text-slate-400 hover:text-white text-xs">✕</button>
+                   class="w-full pl-9 pr-8 py-2 rounded text-sm transition focus:outline-none" />
+            <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute inset-y-0 right-2.5 flex items-center text-xs">✕</button>
           </div>
 
           <!-- View Toggle: Card vs Table -->
-          <div class="flex bg-slate-900 p-1 rounded-xl border border-slate-800 shrink-0">
+          <div id="viewToggleWrapper" class="flex p-1 rounded transition shrink-0">
             <button onclick="setViewMode('card')" id="btn-view-card"
-                    class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-white" title="Chế độ Thẻ (Tối ưu điện thoại)">
+                    class="px-2.5 py-1 rounded text-xs font-semibold transition" title="Chế độ Thẻ (Tối ưu điện thoại)">
               📱 Thẻ
             </button>
             <button onclick="setViewMode('table')" id="btn-view-table"
-                    class="px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white" title="Chế độ Bảng 4 cột">
+                    class="px-2.5 py-1 rounded text-xs font-semibold transition" title="Chế độ Bảng 4 cột">
               📊 Bảng
             </button>
           </div>
@@ -174,7 +287,7 @@
         <!-- Price Range & Sort Row -->
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-0.5">
           <select id="priceFilterSelect" onchange="renderAll()"
-                  class="bg-slate-900 border border-slate-700/80 rounded-xl px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+                  class="rounded px-2.5 py-2 text-xs transition focus:outline-none">
             <option value="all">💰 Mọi tầm giá (Sau giảm)</option>
             <option value="under500">Dưới 500 triệu</option>
             <option value="500to700">500 - 700 triệu</option>
@@ -183,13 +296,13 @@
           </select>
 
           <select id="segmentFilterSelect" onchange="renderAll()"
-                  class="bg-slate-900 border border-slate-700/80 rounded-xl px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+                  class="rounded px-2.5 py-2 text-xs transition focus:outline-none">
             <option value="all">🚙 Mọi phân khúc</option>
           </select>
 
           <select id="sortSelect" onchange="renderAll()"
-                  class="col-span-2 sm:col-span-1 bg-slate-900 border border-slate-700/80 rounded-xl px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
-            <option value="discount_desc">🔥 Sắp xếp: Số tiền ưu đãi cao nhất</option>
+                  class="col-span-2 sm:col-span-1 rounded px-2.5 py-2 text-xs transition focus:outline-none">
+            <option value="discount_desc">🔥 Sắp xếp: Ưu đãi cao nhất</option>
             <option value="date_desc">🕒 Sắp xếp: Mới cập nhật nhất</option>
             <option value="net_asc">💵 Giá sau giảm: Thấp ➔ Cao</option>
             <option value="net_desc">💎 Giá sau giảm: Cao ➔ Thấp</option>
@@ -198,32 +311,32 @@
         </div>
 
         <!-- Active Video Filter Banner -->
-        <div id="activeVideoBanner" class="hidden items-center justify-between bg-blue-950/60 border border-blue-500/40 rounded-xl px-3 py-1.5 text-xs text-blue-200">
-          <span id="activeVideoBannerText" class="truncate">Đang lọc theo video</span>
-          <button onclick="clearVideoFilter()" class="ml-2 font-bold text-blue-400 hover:underline shrink-0">Bỏ lọc ✕</button>
+        <div id="activeVideoBanner" class="hidden items-center justify-between rounded px-3 py-2 text-xs transition">
+          <span id="activeVideoBannerText" class="truncate font-medium">Đang lọc theo video</span>
+          <button onclick="clearVideoFilter()" class="ml-2 font-bold hover:underline shrink-0">Bỏ lọc ✕</button>
         </div>
       </div>
 
-      <!-- MOBILE CARD VIEW -->
+      <!-- MOBILE / RESPONSIVE CARD VIEW -->
       <div id="carCardsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3">
         <!-- Populated by JS -->
       </div>
 
       <!-- COMPACT 4-COLUMN TABLE VIEW -->
-      <div id="carTableContainer" class="hidden glass-card rounded-2xl overflow-hidden">
+      <div id="carTableContainer" class="hidden stripe-card overflow-hidden">
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
             <thead>
-              <tr class="bg-slate-900/90 border-b border-slate-800 text-[11px] uppercase tracking-wider text-slate-400">
+              <tr id="tableHeaderRow" class="text-[11px] uppercase tracking-wider transition">
                 <th class="py-3 px-3">Mẫu xe / Phiên bản</th>
                 <th class="py-3 px-2.5 text-right">1. Niêm yết</th>
-                <th class="py-3 px-2.5 text-right text-emerald-400">2. Ưu đãi</th>
-                <th class="py-3 px-2.5 text-right text-white">3. Giá sau giảm</th>
-                <th class="py-3 px-2.5 text-right text-blue-400" id="tableHeaderOtr">4. Lăn bánh (Tỉnh)</th>
+                <th class="py-3 px-2.5 text-right" id="thHeaderDiscount">2. Ưu đãi</th>
+                <th class="py-3 px-2.5 text-right" id="thHeaderNet">3. Giá sau giảm</th>
+                <th class="py-3 px-2.5 text-right" id="tableHeaderOtr">4. Lăn bánh (Tỉnh)</th>
                 <th class="py-3 px-2.5 text-center">Kiểm chứng</th>
               </tr>
             </thead>
-            <tbody id="carTableBody" class="divide-y divide-slate-800/70 text-xs sm:text-sm">
+            <tbody id="carTableBody" class="divide-y text-xs sm:text-sm">
               <!-- Populated by JS -->
             </tbody>
           </table>
@@ -233,31 +346,31 @@
 
     <!-- TAB 2: BẢNG XẾP HẠNG KÈO THƠM / ƯU ĐÃI SÂU NHẤT -->
     <section id="tab-deals" class="hidden space-y-3">
-      <div class="glass-card rounded-2xl p-4 space-y-3">
+      <div id="dealsMainCard" class="stripe-card p-4 space-y-3 transition">
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div>
             <div class="flex items-center gap-2">
-              <h2 class="text-base font-extrabold text-white flex items-center gap-1.5">
+              <h2 id="dealsTitle" class="text-base font-normal tracking-[-0.02em] flex items-center gap-1.5">
                 <span>🔥</span> Top 5 "Kèo Thơm" Theo Phân Khúc
               </h2>
-              <span id="dealSegmentBadge" class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+              <span id="dealSegmentBadge" class="text-[11px] font-semibold px-2 py-0.5 rounded-full transition">
                 Top 5
               </span>
             </div>
-            <p class="text-xs text-slate-400 mt-0.5">Chọn phân khúc bên dưới để xem tối đa 5 xe đang ưu đãi sâu nhất</p>
+            <p id="dealsSubtitle" class="text-xs mt-0.5">Chọn phân khúc bên dưới để xem tối đa 5 xe đang ưu đãi sâu nhất</p>
           </div>
-          <div class="flex bg-slate-900 p-1 rounded-xl border border-slate-800">
-            <button onclick="setDealMetric('amount')" id="btn-deal-amount" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-600 text-white">
+          <div id="dealMetricToggle" class="flex p-1 rounded transition">
+            <button onclick="setDealMetric('amount')" id="btn-deal-amount" class="px-2.5 py-1 rounded text-xs font-bold transition">
               Theo Số Tiền (Triệu)
             </button>
-            <button onclick="setDealMetric('pct')" id="btn-deal-pct" class="px-2.5 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white">
+            <button onclick="setDealMetric('pct')" id="btn-deal-pct" class="px-2.5 py-1 rounded text-xs font-bold transition">
               Theo % Giảm
             </button>
           </div>
         </div>
 
         <!-- Quick Segment Filter Buttons -->
-        <div id="dealSegmentPills" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-2 border-t border-slate-800/80">
+        <div id="dealSegmentPills" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-2 transition">
           <!-- Populated by JS -->
         </div>
 
@@ -269,15 +382,16 @@
 
     <!-- TAB 3: BIỂU ĐỒ XU HƯỚNG & SO SÁNH PHÂN KHÚC -->
     <section id="tab-charts" class="hidden space-y-4">
+      
       <!-- Chart 1: Price comparison in same segment -->
-      <div class="glass-card rounded-2xl p-4 space-y-3">
+      <div id="chartCard1" class="stripe-card p-4 space-y-3 transition">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h3 class="text-sm sm:text-base font-bold text-white">📊 So Sánh Giá Các Xe Cùng Phân Khúc</h3>
-            <p id="segmentChartSubtitle" class="text-xs text-slate-400">So sánh Giá lăn bánh (Tỉnh) (Triệu VNĐ) từ cao đến thấp giữa các phiên bản</p>
+            <h3 id="chart1Title" class="text-sm sm:text-base font-normal tracking-[-0.02em]">📊 So Sánh Giá Các Xe Cùng Phân Khúc</h3>
+            <p id="segmentChartSubtitle" class="text-xs">So sánh Giá lăn bánh (Tỉnh) (Triệu VNĐ) từ cao đến thấp giữa các phiên bản</p>
           </div>
           <select id="chartSegmentSelect" onchange="renderSegmentComparisonChart()"
-                  class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white">
+                  class="rounded px-3 py-1.5 text-xs transition focus:outline-none">
           </select>
         </div>
         <div id="segmentChartScrollWrapper" onscroll="onSegmentChartScroll()" class="w-full overflow-x-auto custom-scrollbar pb-2">
@@ -285,55 +399,55 @@
             <canvas id="segmentChartCanvas"></canvas>
           </div>
         </div>
-        <!-- Interactive Horizontal Slide Bar (shown when segment has many models) -->
+        <!-- Interactive Horizontal Slide Bar (Fixed: Theme-adaptive colors) -->
         <div id="segmentChartSliderContainer" class="hidden items-center gap-3 pt-1 px-1">
-          <span class="text-[11px] text-slate-400 whitespace-nowrap font-medium">↔️ Kéo sang phải:</span>
+          <span id="sliderHintText" class="text-[11px] whitespace-nowrap font-medium">↔️ Kéo sang phải:</span>
           <input id="segmentChartSlider" type="range" min="0" max="100" value="0"
                  oninput="onSegmentSliderInput(this.value)"
-                 class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500" />
-          <span id="segmentChartCountBadge" class="text-[11px] text-blue-400 font-bold whitespace-nowrap"></span>
+                 class="w-full h-1.5 rounded-lg appearance-none cursor-pointer" />
+          <span id="segmentChartCountBadge" class="text-[11px] font-semibold whitespace-nowrap"></span>
         </div>
       </div>
 
       <!-- Chart 2: Historical Price Trend per Car (3-Layer Cascading Filter) -->
-      <div class="glass-card rounded-2xl p-4 space-y-3">
+      <div id="chartCard2" class="stripe-card p-4 space-y-3 transition">
         <div>
-          <h3 class="text-sm sm:text-base font-bold text-white">📈 Biến Động Giá & Ưu Đãi Theo Thời Gian</h3>
-          <p class="text-xs text-slate-400">Chọn theo 3 lớp: Hãng xe ➔ Mẫu xe ➔ Phiên bản để xem lịch sử thay đổi giá qua các ngày</p>
+          <h3 id="chart2Title" class="text-sm sm:text-base font-normal tracking-[-0.02em]">📈 Biến Động Giá & Ưu Đãi Theo Thời Gian</h3>
+          <p id="chart2Subtitle" class="text-xs">Chọn theo 3 lớp: Hãng xe ➔ Mẫu xe ➔ Phiên bản để xem lịch sử thay đổi giá qua các ngày</p>
         </div>
 
         <!-- 3-Layer Cascading Filters -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 bg-slate-950/75 border border-slate-800/90 rounded-2xl p-3">
+        <div id="chartFilterBox" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 rounded p-3 transition">
           <div>
-            <label for="chartBrandSelect" class="block text-[11px] font-bold text-blue-400 mb-1">
+            <label for="chartBrandSelect" id="chartBrandLbl" class="block text-[11px] font-semibold mb-1">
               1. Hãng xe (Brand)
             </label>
             <select id="chartBrandSelect" onchange="onChartBrandChange(true)"
-                    class="w-full bg-slate-900 border border-slate-700 hover:border-slate-500 rounded-xl px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-blue-500">
+                    class="w-full rounded px-3 py-2 text-xs font-semibold transition focus:outline-none">
             </select>
           </div>
 
           <div>
-            <label for="chartModelSelect" class="block text-[11px] font-bold text-emerald-400 mb-1">
+            <label for="chartModelSelect" id="chartModelLbl" class="block text-[11px] font-semibold mb-1">
               2. Mẫu xe (Model)
             </label>
             <select id="chartModelSelect" onchange="onChartModelChange(true)"
-                    class="w-full bg-slate-900 border border-slate-700 hover:border-slate-500 rounded-xl px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-emerald-500">
+                    class="w-full rounded px-3 py-2 text-xs font-semibold transition focus:outline-none">
             </select>
           </div>
 
           <div>
-            <label for="chartTrimSelect" class="block text-[11px] font-bold text-amber-400 mb-1">
+            <label for="chartTrimSelect" id="chartTrimLbl" class="block text-[11px] font-semibold mb-1">
               3. Phiên bản (Trim)
             </label>
             <select id="chartTrimSelect" onchange="renderCarTrendChart()"
-                    class="w-full bg-slate-900 border border-slate-700 hover:border-slate-500 rounded-xl px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-amber-500">
+                    class="w-full rounded px-3 py-2 text-xs font-semibold transition focus:outline-none">
             </select>
           </div>
         </div>
 
         <!-- Quick Summary Strip for Selected Car -->
-        <div id="chartSelectedCarSummary" class="bg-slate-950/90 border border-slate-800/90 rounded-xl px-3 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div id="chartSelectedCarSummary" class="rounded px-3 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs transition">
           <!-- Populated by JS -->
         </div>
 
@@ -341,13 +455,14 @@
           <canvas id="trendChartCanvas"></canvas>
         </div>
       </div>
+
     </section>
 
     <!-- TAB 4: VIDEO NGUỒN XE VIỆT -->
     <section id="tab-videos" class="hidden space-y-3">
-      <div class="glass-card rounded-2xl p-4">
-        <h2 class="text-base font-extrabold text-white mb-1">🎬 Danh Sách Video Đã Quét (@xeviet.official)</h2>
-        <p class="text-xs text-slate-400 mb-3">Hệ thống tự động đọc bảng giá trên màn hình + lời thoại vào 21:00 hàng ngày</p>
+      <div id="videosMainCard" class="stripe-card p-4 transition">
+        <h2 id="videosTitle" class="text-base font-normal tracking-[-0.02em] mb-1">🎬 Danh Sách Video Đã Quét (@xeviet.official)</h2>
+        <p id="videosSubtitle" class="text-xs mb-3">Hệ thống tự động đọc bảng giá trên màn hình + lời thoại vào 21:00 hàng ngày</p>
         <div id="videosListContainer" class="space-y-2.5">
           <!-- Populated by JS -->
         </div>
@@ -356,41 +471,41 @@
 
   </main>
 
-  <!-- CAR HISTORY & PRICE BREAKDOWN MODAL (BOTTOM SHEET ON MOBILE) -->
-  <div id="carDetailModal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
-    <div class="bg-slate-900 border-t sm:border border-slate-700 rounded-t-3xl sm:rounded-3xl w-full max-w-xl max-h-[90vh] overflow-y-auto p-4 sm:p-5 space-y-4">
+  <!-- CAR HISTORY & PRICE BREAKDOWN MODAL (Fixed: Full Stripe Typography & Theme Alignment) -->
+  <div id="carDetailModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div id="modalBox" class="rounded-t-2xl sm:rounded w-full max-w-xl max-h-[90vh] overflow-y-auto p-4 sm:p-5 space-y-4 shadow-2xl transition">
       <div class="flex items-start justify-between gap-2">
         <div>
-          <span id="modalCarSegment" class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-blue-500/15 text-blue-400">Phân khúc</span>
-          <h3 id="modalCarTitle" class="text-lg font-extrabold text-white mt-1">Tên xe</h3>
-          <p id="modalCarDate" class="text-xs text-slate-400">Cập nhật: --</p>
+          <span id="modalCarSegment" class="text-[11px] font-semibold px-2 py-0.5 rounded-full">Phân khúc</span>
+          <h3 id="modalCarTitle" class="text-lg font-bold tracking-tight mt-1">Tên xe</h3>
+          <p id="modalCarDate" class="text-xs">Cập nhật: --</p>
         </div>
-        <button onclick="closeCarModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center text-sm font-bold">✕</button>
+        <button onclick="closeCarModal()" id="modalCloseBtn" class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition">✕</button>
       </div>
 
       <!-- 4 Financial Columns Summary in Modal -->
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-        <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-2.5">
-          <div class="text-[11px] text-slate-400">1. Giá niêm yết</div>
-          <div id="modalListedPrice" class="text-sm font-bold text-slate-200 mt-0.5">--</div>
+        <div id="modalFin1" class="rounded p-2.5 transition">
+          <div id="modalFinLbl1" class="text-[11px]">1. Giá niêm yết</div>
+          <div id="modalListedPrice" class="text-sm font-semibold mt-0.5 tabular-nums">--</div>
         </div>
-        <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-xl p-2.5">
-          <div class="text-[11px] text-emerald-400">2. Số tiền ưu đãi</div>
-          <div id="modalDiscountAmount" class="text-sm font-extrabold text-emerald-400 mt-0.5">--</div>
+        <div id="modalFin2" class="rounded p-2.5 transition">
+          <div id="modalFinLbl2" class="text-[11px] font-semibold">2. Số tiền ưu đãi</div>
+          <div id="modalDiscountAmount" class="text-sm font-extrabold mt-0.5 tabular-nums">--</div>
         </div>
-        <div class="bg-slate-950/80 border border-slate-700 rounded-xl p-2.5">
-          <div class="text-[11px] text-slate-300">3. Giá sau giảm</div>
-          <div id="modalNetPrice" class="text-base font-extrabold text-white mt-0.5">--</div>
+        <div id="modalFin3" class="rounded p-2.5 transition">
+          <div id="modalFinLbl3" class="text-[11px] font-semibold">3. Giá sau giảm</div>
+          <div id="modalNetPrice" class="text-base font-extrabold mt-0.5 tabular-nums">--</div>
         </div>
-        <div class="bg-blue-950/30 border border-blue-500/30 rounded-xl p-2.5">
-          <div class="text-[11px] text-blue-400">4. Lăn bánh (3 miền)</div>
-          <div id="modalOtrAll" class="text-[11px] font-semibold text-blue-200 mt-0.5 leading-tight">--</div>
+        <div id="modalFin4" class="rounded p-2.5 transition">
+          <div id="modalFinLbl4" class="text-[11px] font-semibold">4. Lăn bánh (3 miền)</div>
+          <div id="modalOtrAll" class="text-[11px] font-semibold mt-0.5 leading-tight tabular-nums">--</div>
         </div>
       </div>
 
       <!-- Trend Chart inside Modal -->
-      <div class="bg-slate-950/60 border border-slate-800 rounded-2xl p-3">
-        <div class="text-xs font-bold text-slate-300 mb-2">📈 Biểu đồ biến động giá qua các kỳ cập nhật</div>
+      <div id="modalChartBox" class="rounded p-3 transition">
+        <div id="modalChartTitle" class="text-xs font-semibold mb-2">📈 Biểu đồ biến động giá qua các kỳ cập nhật</div>
         <div class="h-44 w-full">
           <canvas id="modalHistoryChartCanvas"></canvas>
         </div>
@@ -398,64 +513,64 @@
 
       <!-- History Table -->
       <div class="space-y-1.5">
-        <div class="text-xs font-bold text-slate-300">🗓️ Lịch sử báo giá từng ngày</div>
-        <div id="modalHistoryList" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+        <div id="modalHistoryTitle" class="text-xs font-semibold">🗓️ Lịch sử báo giá từng ngày</div>
+        <div id="modalHistoryList" class="space-y-2 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
           <!-- Populated by JS -->
         </div>
       </div>
 
       <!-- Direct YouTube Verification Button -->
       <a id="modalYoutubeBtn" href="#" target="_blank" rel="noopener"
-         class="w-full py-3 rounded-xl bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-red-600/25">
+         class="w-full py-3 rounded text-white font-bold text-sm flex items-center justify-center gap-2 shadow transition">
         <span>▶️ Mở Video YouTube tại đúng giây báo giá</span>
       </a>
     </div>
   </div>
 
   <!-- MANUAL UPDATE / INFO MODAL -->
-  <div id="triggerModal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-700 rounded-3xl w-full max-w-md p-5 space-y-3.5">
+  <div id="triggerModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div id="triggerModalBox" class="rounded-xl w-full max-w-md p-5 space-y-3.5 shadow-2xl transition">
       <div class="flex items-center justify-between">
-        <h3 class="text-base font-extrabold text-white">⚡ Cập nhật dữ liệu giá xe</h3>
-        <button onclick="closeTriggerModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center">✕</button>
+        <h3 id="triggerModalTitle" class="text-base font-semibold tracking-tight">⚡ Cập nhật dữ liệu giá xe</h3>
+        <button onclick="closeTriggerModal()" id="triggerCloseBtn" class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition">✕</button>
       </div>
-      <div class="text-xs text-slate-300 space-y-2 leading-relaxed">
+      <div id="triggerModalBody" class="text-xs space-y-2 leading-relaxed">
         <p>Hệ thống được cài đặt <b>tự động chạy vào 21:00 tối hàng ngày</b> để quét video mới trên kênh <b>@xeviet.official</b>.</p>
-        <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-1.5">
-          <div class="font-bold text-blue-400">Cách 1: Chạy ngay trên máy tính (1 cú nhấp chuột)</div>
-          <p class="text-slate-400">Nhấp đúp vào file <code class="text-amber-300">CHAY_THU_NGAY.bat</code> trong thư mục <code class="text-amber-300">c:\Car Price</code>.</p>
+        <div id="triggerBox1" class="rounded p-3 space-y-1.5 transition">
+          <div class="font-bold" id="triggerBox1Title">Cách 1: Chạy ngay trên máy tính (1 cú nhấp chuột)</div>
+          <p class="triggerSubText">Nhấp đúp vào file <code class="font-mono font-bold">CHAY_THU_NGAY.bat</code> trong thư mục <code class="font-mono">c:\Car Price</code>.</p>
         </div>
-        <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-1.5">
-          <div class="font-bold text-emerald-400">Cách 2: Bấm nút chạy trên điện thoại (qua GitHub Actions)</div>
-          <p class="text-slate-400">Mở tab <b>Actions</b> trên kho GitHub của bạn ➔ Chọn <b>Daily Car Price Update</b> ➔ Bấm <b>Run workflow</b>.</p>
+        <div id="triggerBox2" class="rounded p-3 space-y-1.5 transition">
+          <div class="font-bold" id="triggerBox2Title">Cách 2: Bấm nút chạy trên điện thoại (qua GitHub Actions)</div>
+          <p class="triggerSubText">Mở tab <b>Actions</b> trên kho GitHub của bạn ➔ Chọn <b>Daily Car Price Update</b> ➔ Bấm <b>Run workflow</b>.</p>
         </div>
       </div>
-      <button onclick="closeTriggerModal()" class="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs">
+      <button onclick="closeTriggerModal()" id="triggerConfirmBtn" class="w-full py-2.5 rounded text-white font-bold text-xs transition">
         Đã hiểu
       </button>
     </div>
   </div>
 
   <!-- MOBILE BOTTOM NAVIGATION BAR -->
-  <nav class="fixed bottom-0 inset-x-0 z-40 bg-slate-950/95 backdrop-blur-md border-t border-slate-800/90 px-2 py-1.5">
+  <nav id="bottomNav" class="fixed bottom-0 inset-x-0 z-40 transition-colors duration-200 px-2 py-1.5">
     <div class="max-w-md mx-auto grid grid-cols-4 gap-1">
       <button onclick="switchTab('prices')" id="nav-prices"
-              class="nav-btn flex flex-col items-center justify-center py-1 rounded-xl text-blue-400 font-bold">
+              class="nav-btn flex flex-col items-center justify-center py-1 rounded transition text-xs font-semibold">
         <span class="text-base">📋</span>
         <span class="text-[11px] mt-0.5">Bảng Giá</span>
       </button>
       <button onclick="switchTab('deals')" id="nav-deals"
-              class="nav-btn flex flex-col items-center justify-center py-1 rounded-xl text-slate-400 hover:text-white font-medium">
+              class="nav-btn flex flex-col items-center justify-center py-1 rounded transition text-xs font-medium">
         <span class="text-base">🔥</span>
         <span class="text-[11px] mt-0.5">Kèo Thơm</span>
       </button>
       <button onclick="switchTab('charts')" id="nav-charts"
-              class="nav-btn flex flex-col items-center justify-center py-1 rounded-xl text-slate-400 hover:text-white font-medium">
+              class="nav-btn flex flex-col items-center justify-center py-1 rounded transition text-xs font-medium">
         <span class="text-base">📊</span>
         <span class="text-[11px] mt-0.5">Biểu Đồ</span>
       </button>
       <button onclick="switchTab('videos')" id="nav-videos"
-              class="nav-btn flex flex-col items-center justify-center py-1 rounded-xl text-slate-400 hover:text-white font-medium">
+              class="nav-btn flex flex-col items-center justify-center py-1 rounded transition text-xs font-medium">
         <span class="text-base">🎬</span>
         <span class="text-[11px] mt-0.5">Video Nguồn</span>
       </button>
@@ -466,6 +581,8 @@
   <script src="data/data.js"></script>
   <script>
     let dbData = window.CAR_PRICE_DATA || { last_updated: '', videos: [], cars: [] };
+    let currentTheme = localStorage.getItem('car_dashboard_ui_style') || 'stripe'; // 'stripe' | 'classic'
+    let currentTab = 'prices'; // Preserves user's active tab when toggling themes
     let currentRegion = 'tinh'; // 'tinh' | 'hcm' | 'hn'
     let currentViewMode = 'card'; // 'card' | 'table'
     let currentBrand = 'all';
@@ -502,9 +619,7 @@
     function normalizeSegment(seg) {
       if (!seg) return 'Khác';
       let s = String(seg).trim();
-      // Remove parenthetical suffixes like (Điện), (Hybrid), (Xăng), (7 chỗ)
       s = s.replace(/\s*\([^)]*\)/g, '').trim();
-      // Remove '+' or '-' suffixes like CUV/SUV cỡ B+ -> CUV/SUV cỡ B
       s = s.replace(/([ABCDE])[+-](?=\s|$)/gi, '$1').trim();
       const upper = s.toUpperCase();
       if (upper.startsWith('MPV')) return 'MPV';
@@ -521,6 +636,379 @@
       return s;
     }
 
+    // =========================================================================
+    // THEME SWITCHER (STRIPE vs CLASSIC)
+    // =========================================================================
+    function setUiStyle(themeName) {
+      currentTheme = themeName === 'classic' ? 'classic' : 'stripe';
+      try {
+        localStorage.setItem('car_dashboard_ui_style', currentTheme);
+      } catch (e) {}
+
+      document.documentElement.setAttribute('data-theme', currentTheme);
+
+      // Meta tags
+      const metaTheme = document.getElementById('metaThemeColor');
+      const metaStatus = document.getElementById('metaStatusBar');
+      if (metaTheme) metaTheme.content = currentTheme === 'stripe' ? '#ffffff' : '#0f172a';
+      if (metaStatus) metaStatus.content = currentTheme === 'stripe' ? 'default' : 'black-translucent';
+
+      // Top ambient glow bar visibility
+      const glowBar = document.getElementById('stripeGlowBar');
+      if (glowBar) {
+        glowBar.style.display = currentTheme === 'stripe' ? 'block' : 'none';
+      }
+
+      applyThemeToStaticDom();
+      populateFilters();
+      renderKPIs();
+      renderAll();
+      renderTopDeals();
+      renderVideosList();
+
+      if (segmentChartInstance) renderSegmentComparisonChart();
+      if (trendChartInstance) renderCarTrendChart();
+    }
+
+    function applyThemeToStaticDom() {
+      const isStripe = currentTheme === 'stripe';
+
+      // Top Header
+      const header = document.getElementById('topHeader');
+      if (header) {
+        header.className = isStripe
+          ? 'sticky top-[3px] z-30 bg-white/95 backdrop-blur-md border-b border-[#e5edf5] px-3.5 py-2.5 transition'
+          : 'sticky top-0 z-30 bg-slate-950/95 backdrop-blur-md border-b border-slate-800/80 px-3.5 py-2.5 transition';
+      }
+
+      const headerLogoBox = document.getElementById('headerLogoBox');
+      if (headerLogoBox) {
+        headerLogoBox.className = isStripe
+          ? 'w-9 h-9 rounded bg-[#533afd] text-white flex items-center justify-center shrink-0 shadow-sm'
+          : 'w-9 h-9 rounded-xl bg-gradient-to-br from-red-600 to-orange-500 flex items-center justify-center shadow-lg shadow-red-600/20 shrink-0';
+      }
+
+      const headerTitle = document.getElementById('headerTitle');
+      if (headerTitle) {
+        headerTitle.className = isStripe
+          ? 'text-sm sm:text-base font-semibold tracking-[-0.01em] text-[#061b31] truncate'
+          : 'text-sm sm:text-base font-extrabold tracking-tight text-white truncate';
+      }
+
+      const headerYoutube = document.getElementById('headerYoutubeBadge');
+      if (headerYoutube) {
+        headerYoutube.className = isStripe
+          ? 'text-[11px] font-semibold px-1.5 py-0.5 rounded bg-[#fff0f5] text-[#ea2261] border border-[#fcd5e5] hover:bg-[#ffe0eb] transition font-mono'
+          : 'text-[11px] font-semibold px-1.5 py-0.5 rounded bg-red-500/15 text-red-400 border border-red-500/30 hover:bg-red-500/25 transition';
+      }
+
+      const lastUpdated = document.getElementById('lastUpdatedText');
+      if (lastUpdated) {
+        lastUpdated.className = isStripe ? 'text-[11px] text-[#50617a] truncate' : 'text-[11px] text-slate-400 truncate';
+      }
+
+      // Theme Switcher wrapper & buttons (Fixed: No truncation on mobile)
+      const themeWrapper = document.getElementById('themeSwitcherWrapper');
+      if (themeWrapper) {
+        themeWrapper.className = isStripe
+          ? 'flex items-center bg-[#f8fafd] p-0.5 sm:p-1 rounded border border-[#d4dee9] shrink-0'
+          : 'flex items-center bg-slate-900 p-0.5 sm:p-1 rounded-xl border border-slate-800 shrink-0';
+      }
+
+      const btnStripe = document.getElementById('btn-style-stripe');
+      const btnClassic = document.getElementById('btn-style-classic');
+      if (btnStripe && btnClassic) {
+        if (isStripe) {
+          btnStripe.className = 'theme-btn px-2 sm:px-2.5 py-1 rounded text-xs font-bold transition bg-[#533afd] text-white shadow-sm flex items-center gap-1';
+          btnClassic.className = 'theme-btn px-2 sm:px-2.5 py-1 rounded text-xs font-semibold transition text-[#50617a] hover:text-[#061b31] flex items-center gap-1';
+        } else {
+          btnStripe.className = 'theme-btn px-2 sm:px-2.5 py-1 rounded-lg text-xs font-semibold transition text-slate-400 hover:text-white flex items-center gap-1';
+          btnClassic.className = 'theme-btn px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold transition bg-blue-600 text-white shadow flex items-center gap-1';
+        }
+      }
+
+      // Region selector wrapper & buttons
+      const regionWrapper = document.getElementById('regionSelectorWrapper');
+      if (regionWrapper) {
+        regionWrapper.className = isStripe
+          ? 'flex items-center bg-[#f8fafd] p-0.5 sm:p-1 rounded border border-[#d4dee9] shrink-0'
+          : 'flex items-center bg-slate-900 p-0.5 sm:p-1 rounded-xl border border-slate-800 shrink-0';
+      }
+
+      ['tinh', 'hcm', 'hn'].forEach(r => {
+        const btn = document.getElementById(`btn-region-${r}`);
+        if (!btn) return;
+        const active = r === currentRegion;
+        if (isStripe) {
+          btn.className = active
+            ? 'region-btn px-2 sm:px-2.5 py-1 rounded text-xs font-bold transition bg-[#533afd] text-white shadow-sm'
+            : 'region-btn px-2 sm:px-2.5 py-1 rounded text-xs font-semibold transition text-[#50617a] hover:text-[#061b31]';
+        } else {
+          btn.className = active
+            ? 'region-btn px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold transition bg-blue-600 text-white shadow'
+            : 'region-btn px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold transition text-slate-400 hover:text-white';
+        }
+      });
+
+      // KPI Card Labels & Numbers (Fixed: Stripe light 300 typography + Accessible color for KPI 3)
+      const kpiLbls = [
+        { id: 'kpiLbl1', sub: 'kpiBrandsCount', num: 'kpiTotalCars', stripeColor: 'text-[#061b31]', classicColor: 'text-white' },
+        { id: 'kpiLbl2', sub: 'kpiMaxDiscountCar', num: 'kpiMaxDiscount', stripeColor: 'text-[#00b261]', classicColor: 'text-emerald-400' },
+        { id: 'kpiLbl3', sub: 'kpiSub3', num: 'kpiAvgDiscount', stripeColor: 'text-[#b45309]', classicColor: 'text-amber-400' },
+        { id: 'kpiLbl4', sub: null, num: 'kpiTotalVideos', stripeColor: 'text-[#061b31]', classicColor: 'text-white' },
+      ];
+      kpiLbls.forEach((k, idx) => {
+        const lbl = document.getElementById(k.id);
+        const num = document.getElementById(k.num);
+        const sub = k.sub ? document.getElementById(k.sub) : null;
+        if (lbl) lbl.className = isStripe ? 'text-xs text-[#50617a] font-medium' : 'text-xs text-slate-400 font-medium';
+        if (num) {
+          num.className = isStripe
+            ? `text-3xl font-light tracking-[-0.03em] tabular-nums ${k.stripeColor}`
+            : `text-2xl font-extrabold tracking-tight tabular-nums ${k.classicColor}`;
+        }
+        if (sub) sub.className = isStripe ? 'text-[11px] text-[#64748d] mt-0.5' : 'text-[11px] text-slate-400 mt-0.5';
+      });
+      const kpiTriggerBtn = document.getElementById('kpiTriggerBtn');
+      if (kpiTriggerBtn) {
+        kpiTriggerBtn.className = isStripe
+          ? 'text-[11px] font-semibold text-[#533afd] hover:underline mt-0.5 flex items-center gap-1'
+          : 'text-[11px] text-blue-400 hover:underline mt-0.5 flex items-center gap-1';
+      }
+
+      // Filter Inputs & Selects
+      const searchInput = document.getElementById('searchInput');
+      const searchIcon = document.getElementById('searchIcon');
+      const clearBtn = document.getElementById('clearSearchBtn');
+      if (searchInput) {
+        searchInput.className = isStripe
+          ? 'w-full pl-9 pr-8 py-2 bg-[#f8fafd] border border-[#d4dee9] rounded text-sm text-[#061b31] placeholder-[#7d8ba4] focus:outline-none focus:border-[#533afd] focus:bg-white transition'
+          : 'w-full pl-9 pr-8 py-2 bg-slate-900/90 border border-slate-700/80 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition';
+      }
+      if (searchIcon) searchIcon.className = isStripe ? 'absolute inset-y-0 left-3 flex items-center text-[#7d8ba4] text-sm' : 'absolute inset-y-0 left-3 flex items-center text-slate-400 text-sm';
+      if (clearBtn) clearBtn.className = isStripe ? 'hidden absolute inset-y-0 right-2.5 flex items-center text-[#7d8ba4] hover:text-[#061b31] text-xs' : 'hidden absolute inset-y-0 right-2.5 flex items-center text-slate-400 hover:text-white text-xs';
+
+      const viewToggle = document.getElementById('viewToggleWrapper');
+      if (viewToggle) {
+        viewToggle.className = isStripe
+          ? 'flex bg-[#f8fafd] p-1 rounded border border-[#d4dee9] shrink-0'
+          : 'flex bg-slate-900 p-1 rounded-xl border border-slate-800 shrink-0';
+      }
+      setViewMode(currentViewMode);
+
+      ['priceFilterSelect', 'segmentFilterSelect', 'sortSelect'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.className = isStripe
+          ? 'bg-[#f8fafd] border border-[#d4dee9] rounded px-2.5 py-2 text-xs text-[#061b31] font-medium focus:outline-none focus:border-[#533afd] focus:bg-white transition'
+          : 'bg-slate-900 border border-slate-700/80 rounded-xl px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500 transition';
+      });
+
+      // Active video banner
+      const banner = document.getElementById('activeVideoBanner');
+      if (banner) {
+        banner.className = isStripe
+          ? 'hidden items-center justify-between bg-[#e8e9ff] border border-[#d6d9fc] rounded px-3 py-2 text-xs text-[#533afd]'
+          : 'hidden items-center justify-between bg-blue-950/60 border border-blue-500/40 rounded-xl px-3 py-1.5 text-xs text-blue-200';
+      }
+
+      // Table Header row
+      const thRow = document.getElementById('tableHeaderRow');
+      if (thRow) {
+        thRow.className = isStripe
+          ? 'bg-[#f8fafd] border-b border-[#e5edf5] text-[11px] uppercase tracking-wider text-[#50617a] font-bold'
+          : 'bg-slate-900/90 border-b border-slate-800 text-[11px] uppercase tracking-wider text-slate-400 font-bold';
+      }
+      const thDiscount = document.getElementById('thHeaderDiscount');
+      if (thDiscount) thDiscount.className = isStripe ? 'py-3 px-2.5 text-right text-[#00b261]' : 'py-3 px-2.5 text-right text-emerald-400';
+      const thNet = document.getElementById('thHeaderNet');
+      if (thNet) thNet.className = isStripe ? 'py-3 px-2.5 text-right text-[#061b31]' : 'py-3 px-2.5 text-right text-white';
+      const thOtr = document.getElementById('tableHeaderOtr');
+      if (thOtr) thOtr.className = isStripe ? 'py-3 px-2.5 text-right text-[#533afd]' : 'py-3 px-2.5 text-right text-blue-400';
+
+      // Deals Section (Fixed: Light typography)
+      const dealsTitle = document.getElementById('dealsTitle');
+      if (dealsTitle) dealsTitle.className = isStripe ? 'text-base font-normal tracking-[-0.02em] text-[#061b31] flex items-center gap-1.5' : 'text-base font-extrabold text-white flex items-center gap-1.5';
+      const dealsSubtitle = document.getElementById('dealsSubtitle');
+      if (dealsSubtitle) dealsSubtitle.className = isStripe ? 'text-xs text-[#50617a] mt-0.5' : 'text-xs text-slate-400 mt-0.5';
+      const dealToggle = document.getElementById('dealMetricToggle');
+      if (dealToggle) {
+        dealToggle.className = isStripe
+          ? 'flex bg-[#f8fafd] p-1 rounded border border-[#d4dee9]'
+          : 'flex bg-slate-900 p-1 rounded-xl border border-slate-800';
+      }
+      setDealMetric(currentDealMetric);
+
+      // Charts Section (Fixed: Typography & Accessible Labels)
+      const c1Title = document.getElementById('chart1Title');
+      if (c1Title) c1Title.className = isStripe ? 'text-sm sm:text-base font-normal tracking-[-0.02em] text-[#061b31]' : 'text-sm sm:text-base font-bold text-white';
+      const c1Sub = document.getElementById('segmentChartSubtitle');
+      if (c1Sub) c1Sub.className = isStripe ? 'text-xs text-[#50617a]' : 'text-xs text-slate-400';
+      const c2Title = document.getElementById('chart2Title');
+      if (c2Title) c2Title.className = isStripe ? 'text-sm sm:text-base font-normal tracking-[-0.02em] text-[#061b31]' : 'text-sm sm:text-base font-bold text-white';
+      const c2Sub = document.getElementById('chart2Subtitle');
+      if (c2Sub) c2Sub.className = isStripe ? 'text-xs text-[#50617a]' : 'text-xs text-slate-400';
+
+      const chartSegSel = document.getElementById('chartSegmentSelect');
+      if (chartSegSel) {
+        chartSegSel.className = isStripe
+          ? 'bg-[#f8fafd] border border-[#d4dee9] rounded px-3 py-1.5 text-xs text-[#061b31] font-semibold'
+          : 'bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white font-semibold';
+      }
+
+      const chartFilterBox = document.getElementById('chartFilterBox');
+      if (chartFilterBox) {
+        chartFilterBox.className = isStripe
+          ? 'grid grid-cols-1 sm:grid-cols-3 gap-2.5 bg-[#f8fafd] border border-[#e5edf5] rounded p-3'
+          : 'grid grid-cols-1 sm:grid-cols-3 gap-2.5 bg-slate-950/75 border border-slate-800/90 rounded-2xl p-3';
+      }
+
+      ['chartBrandSelect', 'chartModelSelect', 'chartTrimSelect'].forEach(id => {
+        const sel = document.getElementById(id);
+        if (!sel) return;
+        sel.className = isStripe
+          ? 'w-full bg-white border border-[#d4dee9] hover:border-[#533afd] rounded px-3 py-2 text-xs font-semibold text-[#061b31] focus:outline-none focus:border-[#533afd]'
+          : 'w-full bg-slate-900 border border-slate-700 hover:border-slate-500 rounded-xl px-3 py-2 text-xs font-semibold text-white focus:outline-none';
+      });
+
+      const bLbl = document.getElementById('chartBrandLbl');
+      if (bLbl) bLbl.className = isStripe ? 'block text-[11px] font-semibold text-[#533afd] mb-1' : 'block text-[11px] font-bold text-blue-400 mb-1';
+      const mLbl = document.getElementById('chartModelLbl');
+      if (mLbl) mLbl.className = isStripe ? 'block text-[11px] font-semibold text-[#00b261] mb-1' : 'block text-[11px] font-bold text-emerald-400 mb-1';
+      const tLbl = document.getElementById('chartTrimLbl');
+      // Fixed: High-contrast legible amber text (#b45309) instead of neon lemon (#f9b900)
+      if (tLbl) tLbl.className = isStripe ? 'block text-[11px] font-semibold text-[#b45309] mb-1' : 'block text-[11px] font-bold text-amber-400 mb-1';
+
+      // Slider theme sync
+      const sliderHint = document.getElementById('sliderHintText');
+      if (sliderHint) sliderHint.className = isStripe ? 'text-[11px] whitespace-nowrap font-medium text-[#50617a]' : 'text-[11px] whitespace-nowrap font-medium text-slate-400';
+      const sliderBadge = document.getElementById('segmentChartCountBadge');
+      if (sliderBadge) sliderBadge.className = isStripe ? 'text-[11px] font-semibold text-[#533afd] whitespace-nowrap' : 'text-[11px] font-bold text-blue-400 whitespace-nowrap';
+      const sliderInput = document.getElementById('segmentChartSlider');
+      if (sliderInput) {
+        sliderInput.className = isStripe
+          ? 'w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-[#e5edf5] accent-[#533afd]'
+          : 'w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-slate-800 accent-blue-500';
+      }
+
+      // Videos Section
+      const vTitle = document.getElementById('videosTitle');
+      if (vTitle) vTitle.className = isStripe ? 'text-base font-normal tracking-[-0.02em] text-[#061b31] mb-1' : 'text-base font-extrabold text-white mb-1';
+      const vSub = document.getElementById('videosSubtitle');
+      if (vSub) vSub.className = isStripe ? 'text-xs text-[#50617a] mb-3' : 'text-xs text-slate-400 mb-3';
+
+      // Modal Box (Fixed: Theme sync + Stripe navy floating shadow)
+      const modalBox = document.getElementById('modalBox');
+      if (modalBox) {
+        modalBox.className = isStripe
+          ? 'bg-white border-t sm:border border-[#e5edf5] rounded-t-2xl sm:rounded-md w-full max-w-xl max-h-[90vh] overflow-y-auto p-4 sm:p-5 space-y-4 stripe-modal-shadow text-[#061b31]'
+          : 'bg-slate-900 border-t sm:border border-slate-700 rounded-t-3xl sm:rounded-3xl w-full max-w-xl max-h-[90vh] overflow-y-auto p-4 sm:p-5 space-y-4 shadow-2xl text-white';
+      }
+      const modalClose = document.getElementById('modalCloseBtn');
+      if (modalClose) {
+        modalClose.className = isStripe
+          ? 'w-8 h-8 rounded-full bg-[#f8fafd] border border-[#d4dee9] text-[#50617a] hover:text-[#061b31] flex items-center justify-center text-sm font-bold'
+          : 'w-8 h-8 rounded-full bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center text-sm font-bold';
+      }
+      const mTitle = document.getElementById('modalCarTitle');
+      if (mTitle) mTitle.className = isStripe ? 'text-lg font-bold tracking-tight text-[#061b31] mt-1' : 'text-lg font-bold tracking-tight text-white mt-1';
+      const mChartTitle = document.getElementById('modalChartTitle');
+      if (mChartTitle) mChartTitle.className = isStripe ? 'text-xs font-semibold text-[#061b31] mb-2' : 'text-xs font-bold text-slate-300 mb-2';
+      const mHistTitle = document.getElementById('modalHistoryTitle');
+      if (mHistTitle) mHistTitle.className = isStripe ? 'text-xs font-semibold text-[#061b31]' : 'text-xs font-bold text-slate-300';
+
+      const modalFinLbls = [
+        { id: 'modalFinLbl1', stripe: 'text-[11px] text-[#50617a] font-medium', classic: 'text-[11px] text-slate-400' },
+        { id: 'modalFinLbl2', stripe: 'text-[11px] text-[#00b261] font-semibold', classic: 'text-[11px] text-emerald-400 font-semibold' },
+        { id: 'modalFinLbl3', stripe: 'text-[11px] text-[#061b31] font-semibold', classic: 'text-[11px] text-slate-300 font-semibold' },
+        { id: 'modalFinLbl4', stripe: 'text-[11px] text-[#533afd] font-semibold', classic: 'text-[11px] text-blue-400 font-semibold' },
+      ];
+      modalFinLbls.forEach(m => {
+        const el = document.getElementById(m.id);
+        if (el) el.className = isStripe ? m.stripe : m.classic;
+      });
+
+      ['modalFin1', 'modalFin2', 'modalFin3', 'modalFin4'].forEach((id, i) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (isStripe) {
+          el.className = i === 1
+            ? 'bg-[#e6f9f0] border border-[#b3eed2] rounded p-2.5'
+            : i === 3
+              ? 'bg-[#e8e9ff] border border-[#d6d9fc] rounded p-2.5'
+              : 'bg-[#f8fafd] border border-[#e5edf5] rounded p-2.5';
+        } else {
+          el.className = i === 1
+            ? 'bg-emerald-950/30 border border-emerald-500/30 rounded-xl p-2.5'
+            : i === 3
+              ? 'bg-blue-950/30 border border-blue-500/30 rounded-xl p-2.5'
+              : 'bg-slate-950/80 border border-slate-800 rounded-xl p-2.5';
+        }
+      });
+
+      const modalChartBox = document.getElementById('modalChartBox');
+      if (modalChartBox) {
+        modalChartBox.className = isStripe
+          ? 'bg-[#f8fafd] border border-[#e5edf5] rounded p-3'
+          : 'bg-slate-950/60 border border-slate-800 rounded-2xl p-3';
+      }
+
+      const modalYt = document.getElementById('modalYoutubeBtn');
+      if (modalYt) {
+        modalYt.className = isStripe
+          ? 'w-full py-3 rounded bg-[#533afd] hover:bg-[#4032c8] text-white font-bold text-sm flex items-center justify-center gap-2 shadow transition'
+          : 'w-full py-3 rounded-xl bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-red-600/25 transition';
+      }
+
+      // Trigger Modal
+      const trigBox = document.getElementById('triggerModalBox');
+      if (trigBox) {
+        trigBox.className = isStripe
+          ? 'bg-white border border-[#e5edf5] rounded-md w-full max-w-md p-5 space-y-3.5 stripe-modal-shadow text-[#061b31]'
+          : 'bg-slate-900 border border-slate-700 rounded-3xl w-full max-w-md p-5 space-y-3.5 shadow-2xl text-white';
+      }
+      const trigClose = document.getElementById('triggerCloseBtn');
+      if (trigClose) {
+        trigClose.className = isStripe
+          ? 'w-8 h-8 rounded-full bg-[#f8fafd] border border-[#d4dee9] text-[#50617a] hover:text-[#061b31] flex items-center justify-center'
+          : 'w-8 h-8 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center';
+      }
+      const tb1 = document.getElementById('triggerBox1');
+      const tb2 = document.getElementById('triggerBox2');
+      const tb1Title = document.getElementById('triggerBox1Title');
+      const tb2Title = document.getElementById('triggerBox2Title');
+      if (tb1 && tb2) {
+        if (isStripe) {
+          tb1.className = 'bg-[#f8fafd] border border-[#e5edf5] rounded p-3 space-y-1.5 text-[#50617a]';
+          tb2.className = 'bg-[#f8fafd] border border-[#e5edf5] rounded p-3 space-y-1.5 text-[#50617a]';
+          if (tb1Title) tb1Title.className = 'font-bold text-[#533afd]';
+          if (tb2Title) tb2Title.className = 'font-bold text-[#00b261]';
+        } else {
+          tb1.className = 'bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-1.5 text-slate-400';
+          tb2.className = 'bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-1.5 text-slate-400';
+          if (tb1Title) tb1Title.className = 'font-bold text-blue-400';
+          if (tb2Title) tb2Title.className = 'font-bold text-emerald-400';
+        }
+      }
+      const trigBtn = document.getElementById('triggerConfirmBtn');
+      if (trigBtn) {
+        trigBtn.className = isStripe
+          ? 'w-full py-2.5 rounded bg-[#533afd] hover:bg-[#4032c8] text-white font-bold text-xs'
+          : 'w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs';
+      }
+
+      // Bottom Navigation
+      const bottomNav = document.getElementById('bottomNav');
+      if (bottomNav) {
+        bottomNav.className = isStripe
+          ? 'fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-[#e5edf5] px-2 py-1.5 transition'
+          : 'fixed bottom-0 inset-x-0 z-40 bg-slate-950/95 backdrop-blur-md border-t border-slate-800/90 px-2 py-1.5 transition';
+      }
+
+      // Fixed: Preserve user's active tab when changing theme (no resetting to 'prices')
+      switchTab(currentTab, false);
+    }
+
     async function initDashboard() {
       try {
         const resp = await fetch('data/car_prices.json?t=' + Date.now());
@@ -535,22 +1023,26 @@
           c.segment = normalizeSegment(c.segment);
         });
       }
-      populateFilters();
-      renderKPIs();
-      renderAll();
-      renderTopDeals();
-      renderVideosList();
+
+      setUiStyle(currentTheme);
       initChartsSelectors();
     }
 
     function setRegion(region) {
       currentRegion = region;
+      const isStripe = currentTheme === 'stripe';
       ['tinh', 'hcm', 'hn'].forEach(r => {
         const btn = document.getElementById(`btn-region-${r}`);
-        if (r === region) {
-          btn.className = 'region-btn px-2.5 py-1 rounded-lg text-xs font-bold transition bg-blue-600 text-white shadow';
+        if (!btn) return;
+        const active = r === region;
+        if (isStripe) {
+          btn.className = active
+            ? 'region-btn px-2 sm:px-2.5 py-1 rounded text-xs font-bold transition bg-[#533afd] text-white shadow-sm'
+            : 'region-btn px-2 sm:px-2.5 py-1 rounded text-xs font-semibold transition text-[#50617a] hover:text-[#061b31]';
         } else {
-          btn.className = 'region-btn px-2.5 py-1 rounded-lg text-xs font-bold transition text-slate-400 hover:text-white';
+          btn.className = active
+            ? 'region-btn px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold transition bg-blue-600 text-white shadow'
+            : 'region-btn px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold transition text-slate-400 hover:text-white';
         }
       });
       const th = document.getElementById('tableHeaderOtr');
@@ -571,40 +1063,70 @@
       const tableBtn = document.getElementById('btn-view-table');
       const cardContainer = document.getElementById('carCardsContainer');
       const tableContainer = document.getElementById('carTableContainer');
+      const isStripe = currentTheme === 'stripe';
 
       if (mode === 'card') {
-        cardBtn.className = 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-white';
-        tableBtn.className = 'px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white';
-        cardContainer.classList.remove('hidden');
-        tableContainer.classList.add('hidden');
+        if (cardBtn) {
+          cardBtn.className = isStripe
+            ? 'px-2.5 py-1 rounded text-xs font-bold bg-[#533afd] text-white shadow-sm'
+            : 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-white';
+        }
+        if (tableBtn) {
+          tableBtn.className = isStripe
+            ? 'px-2.5 py-1 rounded text-xs font-semibold text-[#50617a] hover:text-[#061b31]'
+            : 'px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white';
+        }
+        if (cardContainer) cardContainer.classList.remove('hidden');
+        if (tableContainer) tableContainer.classList.add('hidden');
       } else {
-        tableBtn.className = 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-white';
-        cardBtn.className = 'px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white';
-        cardContainer.classList.add('hidden');
-        tableContainer.classList.remove('hidden');
+        if (tableBtn) {
+          tableBtn.className = isStripe
+            ? 'px-2.5 py-1 rounded text-xs font-bold bg-[#533afd] text-white shadow-sm'
+            : 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-800 text-white';
+        }
+        if (cardBtn) {
+          cardBtn.className = isStripe
+            ? 'px-2.5 py-1 rounded text-xs font-semibold text-[#50617a] hover:text-[#061b31]'
+            : 'px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white';
+        }
+        if (cardContainer) cardContainer.classList.add('hidden');
+        if (tableContainer) tableContainer.classList.remove('hidden');
       }
     }
 
-    function switchTab(tabName) {
+    function switchTab(tabName, scroll = true) {
+      currentTab = tabName; // Record active tab
+      const isStripe = currentTheme === 'stripe';
       ['prices', 'deals', 'charts', 'videos'].forEach(t => {
-        document.getElementById(`tab-${t}`).classList.toggle('hidden', t !== tabName);
+        const sec = document.getElementById(`tab-${t}`);
+        if (sec) sec.classList.toggle('hidden', t !== tabName);
         const navBtn = document.getElementById(`nav-${t}`);
-        if (t === tabName) {
-          navBtn.className = 'nav-btn flex flex-col items-center justify-center py-1 rounded-xl text-blue-400 font-bold bg-blue-500/10';
+        if (!navBtn) return;
+        const active = t === tabName;
+        if (isStripe) {
+          navBtn.className = active
+            ? 'nav-btn flex flex-col items-center justify-center py-1 rounded text-[#533afd] font-bold bg-[#e8e9ff]'
+            : 'nav-btn flex flex-col items-center justify-center py-1 rounded text-[#50617a] hover:text-[#061b31] font-medium';
         } else {
-          navBtn.className = 'nav-btn flex flex-col items-center justify-center py-1 rounded-xl text-slate-400 hover:text-white font-medium';
+          navBtn.className = active
+            ? 'nav-btn flex flex-col items-center justify-center py-1 rounded-xl text-blue-400 font-bold bg-blue-500/10'
+            : 'nav-btn flex flex-col items-center justify-center py-1 rounded-xl text-slate-400 hover:text-white font-medium';
         }
       });
       if (tabName === 'charts') {
         renderSegmentComparisonChart();
         renderCarTrendChart();
       }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (scroll) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
 
     function renderKPIs() {
       const cars = dbData.cars || [];
       const videos = dbData.videos || [];
+      const isStripe = currentTheme === 'stripe';
+
       document.getElementById('lastUpdatedText').textContent =
         `Cập nhật: ${dbData.last_updated || 'Hôm nay'} • Giá lăn bánh: ${REGION_LABELS[currentRegion]}`;
 
@@ -628,15 +1150,23 @@
       const cars = dbData.cars || [];
       const brands = ['all', ...Array.from(new Set(cars.map(c => c.brand))).sort()];
       const brandContainer = document.getElementById('brandFilterContainer');
+      const isStripe = currentTheme === 'stripe';
+
       brandContainer.innerHTML = brands.map(b => {
         const active = b === currentBrand;
         const label = b === 'all' ? `Tất cả (${cars.length})` : b;
+        let btnCls = '';
+        if (isStripe) {
+          btnCls = active
+            ? 'bg-[#533afd] text-white shadow-sm'
+            : 'bg-white text-[#50617a] border border-[#d4dee9] hover:border-[#533afd] hover:text-[#533afd]';
+        } else {
+          btnCls = active
+            ? 'bg-blue-600 text-white shadow shadow-blue-600/30'
+            : 'bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-600';
+        }
         return `<button onclick="selectBrand('${b}')"
-                  class="px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition ${
-                    active
-                      ? 'bg-blue-600 text-white shadow shadow-blue-600/30'
-                      : 'bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-600'
-                  }">${label}</button>`;
+                  class="px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition ${btnCls}">${label}</button>`;
       }).join('');
 
       const segments = Array.from(new Set(cars.map(c => c.segment).filter(Boolean))).sort();
@@ -710,131 +1240,244 @@
 
     function getPriceChangeBadge(car) {
       const diff = Number(car.net_price_change || 0);
+      const isStripe = currentTheme === 'stripe';
       if (diff < 0) {
-        return `<span class="inline-flex items-center gap-0.5 text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                  📉 Giảm thêm ${Math.abs(diff)}tr
-                </span>`;
+        return isStripe
+          ? `<span class="inline-flex items-center gap-0.5 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#e6f9f0] text-[#00b261] border border-[#b3eed2]">
+               📉 Giảm thêm ${Math.abs(diff)}tr
+             </span>`
+          : `<span class="inline-flex items-center gap-0.5 text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+               📉 Giảm thêm ${Math.abs(diff)}tr
+             </span>`;
       }
       if (diff > 0) {
-        return `<span class="inline-flex items-center gap-0.5 text-[11px] font-bold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">
-                  📈 Tăng ${diff}tr
-                </span>`;
+        return isStripe
+          ? `<span class="inline-flex items-center gap-0.5 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#fde8e8] text-[#ea2261] border border-[#f8b4b4]">
+               📈 Tăng ${diff}tr
+             </span>`
+          : `<span class="inline-flex items-center gap-0.5 text-[11px] font-bold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">
+               📈 Tăng ${diff}tr
+             </span>`;
       }
-      return `<span class="inline-flex items-center gap-0.5 text-[11px] font-medium px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">
-                • Giá ổn định
-              </span>`;
+      return isStripe
+        ? `<span class="inline-flex items-center gap-0.5 text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#f1f5f9] text-[#64748d]">
+             • Giá ổn định
+           </span>`
+        : `<span class="inline-flex items-center gap-0.5 text-[11px] font-medium px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">
+             • Giá ổn định
+           </span>`;
     }
 
     function renderAll() {
       const list = getFilteredCars();
       const cardContainer = document.getElementById('carCardsContainer');
       const tableBody = document.getElementById('carTableBody');
+      const isStripe = currentTheme === 'stripe';
 
       if (list.length === 0) {
-        const emptyHtml = `<div class="col-span-full glass-card rounded-2xl p-8 text-center text-slate-400 text-sm">
-          Không tìm thấy mẫu xe nào khớp bộ lọc. Hãy thử đổi từ khóa hoặc bộ lọc!
-        </div>`;
+        const emptyHtml = isStripe
+          ? `<div class="col-span-full stripe-card p-8 text-center text-[#50617a] text-sm">
+               Không tìm thấy mẫu xe nào khớp bộ lọc. Hãy thử đổi từ khóa hoặc bộ lọc!
+             </div>`
+          : `<div class="col-span-full stripe-card p-8 text-center text-slate-400 text-sm">
+               Không tìm thấy mẫu xe nào khớp bộ lọc. Hãy thử đổi từ khóa hoặc bộ lọc!
+             </div>`;
         cardContainer.innerHTML = emptyHtml;
-        tableBody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-400">Không có dữ liệu khớp bộ lọc</td></tr>`;
+        tableBody.innerHTML = `<tr><td colspan="6" class="py-8 text-center ${isStripe ? 'text-[#50617a]' : 'text-slate-400'}">Không có dữ liệu khớp bộ lọc</td></tr>`;
         return;
       }
 
       // 1. Render Mobile-First Cards
       cardContainer.innerHTML = list.map(c => {
         const otr = getOtrPrice(c);
-        return `
-        <div class="glass-card rounded-2xl p-3.5 flex flex-col justify-between gap-3 hover:border-slate-600 transition">
-          <div>
-            <!-- Top Row: Brand/Segment + Trend Badge -->
-            <div class="flex items-center justify-between gap-2 mb-1">
-              <div class="flex items-center gap-1.5">
-                <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-blue-500/15 text-blue-400 border border-blue-500/20">${c.brand}</span>
-                <span class="text-[11px] text-slate-400">${c.segment || ''} • VIN ${c.year}</span>
+        if (isStripe) {
+          return `
+          <div class="stripe-card-interactive p-3.5 flex flex-col justify-between gap-3">
+            <div>
+              <!-- Top Row: Brand & Seg + Price Change Badge -->
+              <div class="flex items-center justify-between gap-2 mb-1.5">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[11px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-[#e8e9ff] text-[#533afd] border border-[#d6d9fc]">${c.brand}</span>
+                  <span class="text-[11px] text-[#50617a]">${c.segment || ''} • <span class="font-mono text-[#64748d]">VIN ${c.year}</span></span>
+                </div>
+                ${getPriceChangeBadge(c)}
               </div>
-              ${getPriceChangeBadge(c)}
+
+              <!-- Car Name -->
+              <h3 onclick="openCarModal('${c.car_id}')" class="text-base font-bold text-[#061b31] hover:text-[#533afd] cursor-pointer leading-snug tracking-tight">
+                ${c.brand} ${c.model} <span class="text-[#50617a] font-normal">${c.trim}</span>
+              </h3>
+
+              <!-- 4 Separate Financial Columns (Stripe Grid) -->
+              <div class="grid grid-cols-4 gap-1.5 mt-3 bg-[#f8fafd] border border-[#e5edf5] rounded p-2 text-center">
+                <div class="px-1">
+                  <div class="text-[10px] text-[#64748d] font-medium">1. Niêm yết</div>
+                  <div class="text-xs font-semibold text-[#7d8ba4] mt-0.5 line-through tabular-nums">${formatPrice(c.listed_price)}</div>
+                </div>
+                <div class="px-1 border-l border-[#e5edf5]">
+                  <div class="text-[10px] text-[#00b261] font-semibold">2. Ưu đãi</div>
+                  <div class="text-xs font-extrabold text-[#00b261] mt-0.5 tabular-nums">${c.discount_amount > 0 ? '-' + c.discount_amount + ' tr' : '0 tr'}</div>
+                </div>
+                <div class="px-1 border-l border-[#e5edf5]">
+                  <div class="text-[10px] text-[#061b31] font-semibold">3. Sau giảm</div>
+                  <div class="text-xs sm:text-sm font-extrabold text-[#061b31] mt-0.5 tabular-nums">${formatPrice(c.net_price)}</div>
+                </div>
+                <div class="px-1 border-l border-[#e5edf5] bg-[#e8e9ff]/50 rounded">
+                  <div class="text-[10px] text-[#533afd] font-semibold">4. Lăn bánh (${REGION_LABELS[currentRegion]})</div>
+                  <div class="text-xs sm:text-sm font-extrabold text-[#533afd] mt-0.5 tabular-nums">${formatPrice(otr)}</div>
+                </div>
+              </div>
             </div>
 
-            <!-- Car Name -->
-            <h3 onclick="openCarModal('${c.car_id}')" class="text-base font-extrabold text-white hover:text-blue-400 cursor-pointer leading-snug">
-              ${c.brand} ${c.model} <span class="text-slate-300 font-semibold">${c.trim}</span>
-            </h3>
+            <!-- Footer Actions -->
+            <div class="flex items-center justify-between gap-2 pt-2 border-t border-[#f1f5f9] text-xs">
+              <button onclick="openCarModal('${c.car_id}')"
+                      class="flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#e8e9ff] hover:bg-[#d6d9fc] text-[#533afd] font-semibold transition">
+                <span>📈</span>
+                <span>Biểu đồ & Lịch sử (${(c.history || []).length})</span>
+              </button>
 
-            <!-- 4 Separate Financial Columns Grid -->
-            <div class="grid grid-cols-4 gap-1.5 mt-3 bg-slate-950/90 border border-slate-800/90 rounded-xl p-2 text-center">
-              <div class="px-1">
-                <div class="text-[10px] text-slate-400">1. Niêm yết</div>
-                <div class="text-xs font-bold text-slate-300 mt-0.5 line-through decoration-slate-500">${formatPrice(c.listed_price)}</div>
+              <a href="${c.video_url}" target="_blank" rel="noopener"
+                 class="flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#fff0f5] hover:bg-[#ffe0eb] text-[#ea2261] border border-[#fcd5e5] font-semibold transition font-mono">
+                <span>▶️ Xem tại ${c.timestamp_label || '00:00'}</span>
+              </a>
+            </div>
+          </div>`;
+        } else {
+          // Classic Dark theme
+          return `
+          <div class="stripe-card-interactive p-3.5 flex flex-col justify-between gap-3">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-1">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-blue-500/15 text-blue-400 border border-blue-500/20">${c.brand}</span>
+                  <span class="text-[11px] text-slate-400">${c.segment || ''} • VIN ${c.year}</span>
+                </div>
+                ${getPriceChangeBadge(c)}
               </div>
-              <div class="px-1 border-l border-slate-800/80">
-                <div class="text-[10px] text-emerald-400 font-medium">2. Ưu đãi</div>
-                <div class="text-xs font-extrabold text-emerald-400 mt-0.5">${c.discount_amount > 0 ? '-' + c.discount_amount + ' tr' : '0 tr'}</div>
-              </div>
-              <div class="px-1 border-l border-slate-800/80">
-                <div class="text-[10px] text-amber-300 font-medium">3. Sau giảm</div>
-                <div class="text-xs sm:text-sm font-extrabold text-white mt-0.5">${formatPrice(c.net_price)}</div>
-              </div>
-              <div class="px-1 border-l border-slate-800/80 bg-blue-950/30 rounded-lg">
-                <div class="text-[10px] text-blue-400 font-medium">4. Lăn bánh (${REGION_LABELS[currentRegion]})</div>
-                <div class="text-xs sm:text-sm font-extrabold text-blue-400 mt-0.5">${formatPrice(otr)}</div>
+
+              <h3 onclick="openCarModal('${c.car_id}')" class="text-base font-extrabold text-white hover:text-blue-400 cursor-pointer leading-snug">
+                ${c.brand} ${c.model} <span class="text-slate-300 font-semibold">${c.trim}</span>
+              </h3>
+
+              <div class="grid grid-cols-4 gap-1.5 mt-3 bg-slate-950/90 border border-slate-800/90 rounded-xl p-2 text-center">
+                <div class="px-1">
+                  <div class="text-[10px] text-slate-400">1. Niêm yết</div>
+                  <div class="text-xs font-bold text-slate-300 mt-0.5 line-through decoration-slate-500 tabular-nums">${formatPrice(c.listed_price)}</div>
+                </div>
+                <div class="px-1 border-l border-slate-800/80">
+                  <div class="text-[10px] text-emerald-400 font-medium">2. Ưu đãi</div>
+                  <div class="text-xs font-extrabold text-emerald-400 mt-0.5 tabular-nums">${c.discount_amount > 0 ? '-' + c.discount_amount + ' tr' : '0 tr'}</div>
+                </div>
+                <div class="px-1 border-l border-slate-800/80">
+                  <div class="text-[10px] text-amber-300 font-medium">3. Sau giảm</div>
+                  <div class="text-xs sm:text-sm font-extrabold text-white mt-0.5 tabular-nums">${formatPrice(c.net_price)}</div>
+                </div>
+                <div class="px-1 border-l border-slate-800/80 bg-blue-950/30 rounded-lg">
+                  <div class="text-[10px] text-blue-400 font-medium">4. Lăn bánh (${REGION_LABELS[currentRegion]})</div>
+                  <div class="text-xs sm:text-sm font-extrabold text-blue-400 mt-0.5 tabular-nums">${formatPrice(otr)}</div>
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Footer Actions: Date + History Chart Button + Direct YouTube Timestamp Button -->
-          <div class="flex items-center justify-between gap-2 pt-1 border-t border-slate-800/60 text-xs">
-            <button onclick="openCarModal('${c.car_id}')"
-                    class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 font-semibold transition">
-              <span>📈</span>
-              <span>Biểu đồ & Lịch sử (${(c.history || []).length})</span>
-            </button>
+            <div class="flex items-center justify-between gap-2 pt-1 border-t border-slate-800/60 text-xs">
+              <button onclick="openCarModal('${c.car_id}')"
+                      class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 font-semibold transition">
+                <span>📈</span>
+                <span>Biểu đồ & Lịch sử (${(c.history || []).length})</span>
+              </button>
 
-            <a href="${c.video_url}" target="_blank" rel="noopener"
-               class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-600/20 hover:bg-red-600/30 text-red-300 border border-red-500/30 font-bold transition">
-              <span>▶️ Xem tại ${c.timestamp_label || '00:00'}</span>
-            </a>
-          </div>
-        </div>`;
+              <a href="${c.video_url}" target="_blank" rel="noopener"
+                 class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-600/20 hover:bg-red-600/30 text-red-300 border border-red-500/30 font-bold transition">
+                <span>▶️ Xem tại ${c.timestamp_label || '00:00'}</span>
+              </a>
+            </div>
+          </div>`;
+        }
       }).join('');
 
       // 2. Render 4-Column Table View
       tableBody.innerHTML = list.map(c => {
         const otr = getOtrPrice(c);
-        return `
-        <tr class="hover:bg-slate-900/60 transition">
-          <td class="py-2.5 px-3">
-            <div onclick="openCarModal('${c.car_id}')" class="font-bold text-white hover:text-blue-400 cursor-pointer">
-              ${c.brand} ${c.model} ${c.trim} <span class="text-[11px] text-slate-400 font-normal">(${c.year})</span>
-            </div>
-            <div class="flex items-center gap-2 mt-0.5">
-              <span class="text-[10px] text-slate-400">${c.segment || ''} • ${c.latest_date}</span>
-              ${getPriceChangeBadge(c)}
-            </div>
-          </td>
-          <td class="py-2.5 px-2.5 text-right text-slate-400 line-through">${formatPrice(c.listed_price)}</td>
-          <td class="py-2.5 px-2.5 text-right font-extrabold text-emerald-400">${c.discount_amount > 0 ? '-' + c.discount_amount + ' tr' : '0 tr'}</td>
-          <td class="py-2.5 px-2.5 text-right font-extrabold text-white">${formatPrice(c.net_price)}</td>
-          <td class="py-2.5 px-2.5 text-right font-extrabold text-blue-400">${formatPrice(otr)}</td>
-          <td class="py-2.5 px-2.5 text-center">
-            <div class="flex items-center justify-center gap-1.5">
-              <button onclick="openCarModal('${c.car_id}')" class="px-2 py-1 rounded-lg bg-slate-800 text-slate-200 text-xs" title="Xem biểu đồ lịch sử">📈</button>
-              <a href="${c.video_url}" target="_blank" rel="noopener"
-                 class="px-2 py-1 rounded-lg bg-red-500/20 text-red-300 border border-red-500/30 text-xs font-bold whitespace-nowrap">
-                ▶️ ${c.timestamp_label}
-              </a>
-            </div>
-          </td>
-        </tr>`;
+        if (isStripe) {
+          return `
+          <tr class="hover:bg-[#f8fafd] transition-colors border-b border-[#e5edf5]">
+            <td class="py-3 px-3">
+              <div onclick="openCarModal('${c.car_id}')" class="font-bold text-[#061b31] hover:text-[#533afd] cursor-pointer">
+                ${c.brand} ${c.model} ${c.trim} <span class="text-[11px] text-[#50617a] font-normal">(${c.year})</span>
+              </div>
+              <div class="flex items-center gap-2 mt-0.5">
+                <span class="text-[10px] text-[#64748d]">${c.segment || ''} • <span class="font-mono">${c.latest_date}</span></span>
+                ${getPriceChangeBadge(c)}
+              </div>
+            </td>
+            <td class="py-3 px-2.5 text-right text-[#7d8ba4] line-through tabular-nums">${formatPrice(c.listed_price)}</td>
+            <td class="py-3 px-2.5 text-right font-extrabold text-[#00b261] tabular-nums">${c.discount_amount > 0 ? '-' + c.discount_amount + ' tr' : '0 tr'}</td>
+            <td class="py-3 px-2.5 text-right font-extrabold text-[#061b31] tabular-nums">${formatPrice(c.net_price)}</td>
+            <td class="py-3 px-2.5 text-right font-extrabold text-[#533afd] tabular-nums">${formatPrice(otr)}</td>
+            <td class="py-3 px-2.5 text-center">
+              <div class="flex items-center justify-center gap-1.5">
+                <button onclick="openCarModal('${c.car_id}')" class="px-2 py-1 rounded bg-[#e8e9ff] text-[#533afd] text-xs font-semibold hover:bg-[#d6d9fc]" title="Xem biểu đồ lịch sử">📈</button>
+                <a href="${c.video_url}" target="_blank" rel="noopener"
+                   class="px-2 py-1 rounded bg-[#fff0f5] text-[#ea2261] border border-[#fcd5e5] text-xs font-semibold whitespace-nowrap font-mono hover:bg-[#ffe0eb]">
+                  ▶️ ${c.timestamp_label}
+                </a>
+              </div>
+            </td>
+          </tr>`;
+        } else {
+          return `
+          <tr class="hover:bg-slate-900/60 transition border-b border-slate-800/70">
+            <td class="py-2.5 px-3">
+              <div onclick="openCarModal('${c.car_id}')" class="font-bold text-white hover:text-blue-400 cursor-pointer">
+                ${c.brand} ${c.model} ${c.trim} <span class="text-[11px] text-slate-400 font-normal">(${c.year})</span>
+              </div>
+              <div class="flex items-center gap-2 mt-0.5">
+                <span class="text-[10px] text-slate-400">${c.segment || ''} • ${c.latest_date}</span>
+                ${getPriceChangeBadge(c)}
+              </div>
+            </td>
+            <td class="py-2.5 px-2.5 text-right text-slate-400 line-through tabular-nums">${formatPrice(c.listed_price)}</td>
+            <td class="py-2.5 px-2.5 text-right font-extrabold text-emerald-400 tabular-nums">${c.discount_amount > 0 ? '-' + c.discount_amount + ' tr' : '0 tr'}</td>
+            <td class="py-2.5 px-2.5 text-right font-extrabold text-white tabular-nums">${formatPrice(c.net_price)}</td>
+            <td class="py-2.5 px-2.5 text-right font-extrabold text-blue-400 tabular-nums">${formatPrice(otr)}</td>
+            <td class="py-2.5 px-2.5 text-center">
+              <div class="flex items-center justify-center gap-1.5">
+                <button onclick="openCarModal('${c.car_id}')" class="px-2 py-1 rounded-lg bg-slate-800 text-slate-200 text-xs" title="Xem biểu đồ lịch sử">📈</button>
+                <a href="${c.video_url}" target="_blank" rel="noopener"
+                   class="px-2 py-1 rounded-lg bg-red-500/20 text-red-300 border border-red-500/30 text-xs font-bold whitespace-nowrap">
+                  ▶️ ${c.timestamp_label}
+                </a>
+              </div>
+            </td>
+          </tr>`;
+        }
       }).join('');
     }
 
     function setDealMetric(metric) {
       currentDealMetric = metric;
-      document.getElementById('btn-deal-amount').className = metric === 'amount'
-        ? 'px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-600 text-white'
-        : 'px-2.5 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white';
-      document.getElementById('btn-deal-pct').className = metric === 'pct'
-        ? 'px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-600 text-white'
-        : 'px-2.5 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white';
+      const isStripe = currentTheme === 'stripe';
+      const btnAmt = document.getElementById('btn-deal-amount');
+      const btnPct = document.getElementById('btn-deal-pct');
+
+      if (btnAmt && btnPct) {
+        if (isStripe) {
+          btnAmt.className = metric === 'amount'
+            ? 'px-2.5 py-1 rounded text-xs font-bold bg-[#533afd] text-white shadow-sm'
+            : 'px-2.5 py-1 rounded text-xs font-semibold text-[#50617a] hover:text-[#061b31]';
+          btnPct.className = metric === 'pct'
+            ? 'px-2.5 py-1 rounded text-xs font-bold bg-[#533afd] text-white shadow-sm'
+            : 'px-2.5 py-1 rounded text-xs font-semibold text-[#50617a] hover:text-[#061b31]';
+        } else {
+          btnAmt.className = metric === 'amount'
+            ? 'px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-600 text-white'
+            : 'px-2.5 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white';
+          btnPct.className = metric === 'pct'
+            ? 'px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-600 text-white'
+            : 'px-2.5 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white';
+        }
+      }
       renderTopDeals();
     }
 
@@ -846,20 +1489,27 @@
     function renderTopDeals() {
       const allDiscountCars = [...(dbData.cars || [])].filter(c => (c.discount_amount || 0) > 0);
       const segments = Array.from(new Set((dbData.cars || []).map(c => c.segment).filter(Boolean))).sort();
+      const isStripe = currentTheme === 'stripe';
 
-      // Render Quick Segment Filter Pills
+      // Quick Segment Filter Pills
       const pillsEl = document.getElementById('dealSegmentPills');
       if (pillsEl) {
         const pillOptions = ['all', ...segments];
         pillsEl.innerHTML = pillOptions.map(s => {
           const active = s === currentDealSegment;
           const label = s === 'all' ? '🔥 Mọi phân khúc' : s;
+          let btnCls = '';
+          if (isStripe) {
+            btnCls = active
+              ? 'bg-[#533afd] text-white shadow-sm'
+              : 'bg-white text-[#50617a] border border-[#d4dee9] hover:border-[#533afd] hover:text-[#533afd]';
+          } else {
+            btnCls = active
+              ? 'bg-blue-600 text-white shadow shadow-blue-600/30'
+              : 'bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-600 hover:text-white';
+          }
           return `<button onclick="setDealSegment('${s}')"
-            class="px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition ${
-              active
-                ? 'bg-blue-600 text-white shadow shadow-blue-600/30'
-                : 'bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-600 hover:text-white'
-            }">${label}</button>`;
+            class="px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition ${btnCls}">${label}</button>`;
         }).join('');
       }
 
@@ -876,11 +1526,14 @@
         badgeEl.textContent = currentDealSegment === 'all'
           ? `Top ${top5.length} toàn sàn`
           : `Top ${top5.length} • ${currentDealSegment}`;
+        badgeEl.className = isStripe
+          ? 'text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#e6f9f0] text-[#00b261] border border-[#b3eed2]'
+          : 'text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30';
       }
 
       const container = document.getElementById('topDealsList');
       if (top5.length === 0) {
-        container.innerHTML = `<div class="bg-slate-950/80 border border-slate-800/90 rounded-2xl p-6 text-center text-slate-400 text-xs">
+        container.innerHTML = `<div class="rounded p-6 text-center text-xs ${isStripe ? 'bg-[#f8fafd] border border-[#e5edf5] text-[#50617a]' : 'bg-slate-950/80 border border-slate-800/90 text-slate-400'}">
           Chưa có mẫu xe nào đang giảm giá trong phân khúc <b>${currentDealSegment}</b>.
         </div>`;
         return;
@@ -891,77 +1544,151 @@
       container.innerHTML = top5.map((c, idx) => {
         const val = currentDealMetric === 'pct' ? (c.discount_pct || 0) : (c.discount_amount || 0);
         const widthPct = Math.max(12, Math.round((val / maxVal) * 100));
-        const rankColors = idx === 0 ? 'bg-amber-500 text-slate-950' : idx === 1 ? 'bg-slate-300 text-slate-950' : idx === 2 ? 'bg-amber-700 text-white' : 'bg-slate-800 text-slate-300';
-        return `
-        <div class="bg-slate-950/80 border border-slate-800/90 rounded-2xl p-3 space-y-2">
-          <div class="flex items-center justify-between gap-2">
-            <div class="flex items-center gap-2.5 min-w-0">
-              <span class="w-6 h-6 rounded-full text-xs font-extrabold flex items-center justify-center shrink-0 ${rankColors}">${idx + 1}</span>
-              <div class="truncate">
-                <div class="flex flex-wrap items-center gap-1.5">
-                  <span onclick="openCarModal('${c.car_id}')" class="text-sm font-extrabold text-white hover:text-blue-400 cursor-pointer truncate">
-                    ${c.brand} ${c.model} ${c.trim}
-                  </span>
-                  <span class="text-xs text-slate-400 font-normal">(${c.year})</span>
-                  <span class="text-[11px] font-semibold px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-400 border border-blue-500/20">${c.segment || ''}</span>
-                </div>
-                <div class="text-[11px] text-slate-400 mt-0.5">
-                  Niêm yết: <span class="line-through">${formatPrice(c.listed_price)}</span> ➔ Sau giảm: <b class="text-white">${formatPrice(c.net_price)}</b> • Lăn bánh (${REGION_LABELS[currentRegion]}): <b class="text-blue-400">${formatPrice(getOtrPrice(c))}</b>
+
+        let rankCls = '';
+        if (isStripe) {
+          rankCls = idx === 0 ? 'bg-[#f9b900] text-[#061b31]' : idx === 1 ? 'bg-[#d4dee9] text-[#061b31]' : idx === 2 ? 'bg-[#e5edf5] text-[#50617a]' : 'bg-[#f8fafd] border border-[#d4dee9] text-[#64748d]';
+        } else {
+          rankCls = idx === 0 ? 'bg-amber-500 text-slate-950' : idx === 1 ? 'bg-slate-300 text-slate-950' : idx === 2 ? 'bg-amber-700 text-white' : 'bg-slate-800 text-slate-300';
+        }
+
+        if (isStripe) {
+          return `
+          <div class="bg-[#f8fafd] border border-[#e5edf5] rounded p-3 space-y-2 hover:border-[#d4dee9] transition">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <span class="w-6 h-6 rounded-full text-xs font-extrabold flex items-center justify-center shrink-0 ${rankCls}">${idx + 1}</span>
+                <div class="truncate">
+                  <div class="flex flex-wrap items-center gap-1.5">
+                    <span onclick="openCarModal('${c.car_id}')" class="text-sm font-bold text-[#061b31] hover:text-[#533afd] cursor-pointer truncate">
+                      ${c.brand} ${c.model} ${c.trim}
+                    </span>
+                    <span class="text-xs text-[#50617a] font-normal">(${c.year})</span>
+                    <span class="text-[11px] font-semibold px-1.5 py-0.5 rounded bg-[#e8e9ff] text-[#533afd] border border-[#d6d9fc]">${c.segment || ''}</span>
+                  </div>
+                  <div class="text-[11px] text-[#50617a] mt-0.5">
+                    Niêm yết: <span class="line-through text-[#7d8ba4]">${formatPrice(c.listed_price)}</span> ➔ Sau giảm: <b class="text-[#061b31]">${formatPrice(c.net_price)}</b> • Lăn bánh (${REGION_LABELS[currentRegion]}): <b class="text-[#533afd]">${formatPrice(getOtrPrice(c))}</b>
+                  </div>
                 </div>
               </div>
+              <div class="text-right shrink-0">
+                <div class="text-sm sm:text-base font-extrabold text-[#00b261] tabular-nums">-${c.discount_amount} tr</div>
+                <div class="text-[11px] text-[#00b261] font-medium">Giảm ${c.discount_pct}%</div>
+              </div>
             </div>
-            <div class="text-right shrink-0">
-              <div class="text-sm sm:text-base font-extrabold text-emerald-400">-${c.discount_amount} tr</div>
-              <div class="text-[11px] text-emerald-300/80">Giảm ${c.discount_pct}%</div>
+            <div class="flex items-center gap-2">
+              <div class="flex-1 h-2 bg-[#e5edf5] rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-[#533afd] to-[#00b261] rounded-full" style="width: ${widthPct}%"></div>
+              </div>
+              <a href="${c.video_url}" target="_blank" rel="noopener" class="text-[11px] font-semibold text-[#ea2261] hover:underline shrink-0 font-mono">
+                ▶️ ${c.timestamp_label}
+              </a>
             </div>
-          </div>
-          <div class="flex items-center gap-2">
-            <div class="flex-1 h-2 bg-slate-900 rounded-full overflow-hidden">
-              <div class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full" style="width: ${widthPct}%"></div>
+          </div>`;
+        } else {
+          return `
+          <div class="bg-slate-950/80 border border-slate-800/90 rounded-2xl p-3 space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <span class="w-6 h-6 rounded-full text-xs font-extrabold flex items-center justify-center shrink-0 ${rankCls}">${idx + 1}</span>
+                <div class="truncate">
+                  <div class="flex flex-wrap items-center gap-1.5">
+                    <span onclick="openCarModal('${c.car_id}')" class="text-sm font-extrabold text-white hover:text-blue-400 cursor-pointer truncate">
+                      ${c.brand} ${c.model} ${c.trim}
+                    </span>
+                    <span class="text-xs text-slate-400 font-normal">(${c.year})</span>
+                    <span class="text-[11px] font-semibold px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-400 border border-blue-500/20">${c.segment || ''}</span>
+                  </div>
+                  <div class="text-[11px] text-slate-400 mt-0.5">
+                    Niêm yết: <span class="line-through">${formatPrice(c.listed_price)}</span> ➔ Sau giảm: <b class="text-white">${formatPrice(c.net_price)}</b> • Lăn bánh (${REGION_LABELS[currentRegion]}): <b class="text-blue-400">${formatPrice(getOtrPrice(c))}</b>
+                  </div>
+                </div>
+              </div>
+              <div class="text-right shrink-0">
+                <div class="text-sm sm:text-base font-extrabold text-emerald-400 tabular-nums">-${c.discount_amount} tr</div>
+                <div class="text-[11px] text-emerald-300/80">Giảm ${c.discount_pct}%</div>
+              </div>
             </div>
-            <a href="${c.video_url}" target="_blank" rel="noopener" class="text-[11px] font-bold text-red-400 hover:underline shrink-0">
-              ▶️ ${c.timestamp_label}
-            </a>
-          </div>
-        </div>`;
+            <div class="flex items-center gap-2">
+              <div class="flex-1 h-2 bg-slate-900 rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full" style="width: ${widthPct}%"></div>
+              </div>
+              <a href="${c.video_url}" target="_blank" rel="noopener" class="text-[11px] font-bold text-red-400 hover:underline shrink-0">
+                ▶️ ${c.timestamp_label}
+              </a>
+            </div>
+          </div>`;
+        }
       }).join('');
     }
 
     function renderVideosList() {
       const videos = dbData.videos || [];
       const container = document.getElementById('videosListContainer');
-      container.innerHTML = videos.map(v => `
-        <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <div class="flex items-start gap-3 min-w-0">
-            <img src="${v.thumbnail}" alt="${v.title}" class="w-24 h-14 object-cover rounded-xl shrink-0 bg-slate-800" />
-            <div class="min-w-0">
-              <div class="flex items-center gap-2 text-[11px] text-slate-400">
-                <span>📅 ${v.upload_date}</span>
-                <span class="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 font-semibold">${v.extracted_count || 0} mẫu xe</span>
+      const isStripe = currentTheme === 'stripe';
+
+      container.innerHTML = videos.map(v => {
+        if (isStripe) {
+          return `
+          <div class="bg-[#f8fafd] border border-[#e5edf5] rounded p-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 hover:border-[#d4dee9] transition">
+            <div class="flex items-start gap-3 min-w-0">
+              <img src="${v.thumbnail}" alt="${v.title}" class="w-24 h-14 object-cover rounded shrink-0 bg-[#e5edf5]" />
+              <div class="min-w-0">
+                <div class="flex items-center gap-2 text-[11px] text-[#50617a]">
+                  <span class="font-mono">📅 ${v.upload_date}</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#e6f9f0] text-[#00b261] font-semibold">${v.extracted_count || 0} mẫu xe</span>
+                </div>
+                <a href="${v.url}" target="_blank" rel="noopener" class="text-sm font-bold text-[#061b31] hover:text-[#533afd] line-clamp-2 mt-0.5">
+                  ${v.title}
+                </a>
+                <p class="text-xs text-[#50617a] mt-0.5 line-clamp-2">${v.summary || ''}</p>
               </div>
-              <a href="${v.url}" target="_blank" rel="noopener" class="text-sm font-bold text-white hover:text-blue-400 line-clamp-2 mt-0.5">
-                ${v.title}
-              </a>
-              <p class="text-xs text-slate-400 mt-0.5 line-clamp-2">${v.summary || ''}</p>
             </div>
-          </div>
-          <div class="flex items-center gap-2 w-full sm:w-auto justify-end shrink-0">
-            <button onclick="filterByVideo('${v.video_id}', '${v.title.replace(/'/g, "\\'")}')"
-                    class="px-3 py-1.5 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 text-xs font-bold">
-              🔍 Xem ${v.extracted_count || 0} xe trong video
-            </button>
-            <a href="${v.url}" target="_blank" rel="noopener"
-               class="px-3 py-1.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold">
-              ▶️ Mở YouTube
-            </a>
-          </div>
-        </div>
-      `).join('');
+            <div class="flex items-center gap-2 w-full sm:w-auto justify-end shrink-0">
+              <button onclick="filterByVideo('${v.video_id}', '${v.title.replace(/'/g, "\\'")}')"
+                      class="px-3 py-1.5 rounded bg-[#e8e9ff] hover:bg-[#d6d9fc] text-[#533afd] border border-[#d6d9fc] text-xs font-semibold">
+                🔍 Xem ${v.extracted_count || 0} xe
+              </button>
+              <a href="${v.url}" target="_blank" rel="noopener"
+                 class="px-3 py-1.5 rounded bg-[#533afd] hover:bg-[#4032c8] text-white text-xs font-semibold">
+                ▶️ Mở YouTube
+              </a>
+            </div>
+          </div>`;
+        } else {
+          return `
+          <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div class="flex items-start gap-3 min-w-0">
+              <img src="${v.thumbnail}" alt="${v.title}" class="w-24 h-14 object-cover rounded-xl shrink-0 bg-slate-800" />
+              <div class="min-w-0">
+                <div class="flex items-center gap-2 text-[11px] text-slate-400">
+                  <span>📅 ${v.upload_date}</span>
+                  <span class="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 font-semibold">${v.extracted_count || 0} mẫu xe</span>
+                </div>
+                <a href="${v.url}" target="_blank" rel="noopener" class="text-sm font-bold text-white hover:text-blue-400 line-clamp-2 mt-0.5">
+                  ${v.title}
+                </a>
+                <p class="text-xs text-slate-400 mt-0.5 line-clamp-2">${v.summary || ''}</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 w-full sm:w-auto justify-end shrink-0">
+              <button onclick="filterByVideo('${v.video_id}', '${v.title.replace(/'/g, "\\'")}')"
+                      class="px-3 py-1.5 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 text-xs font-bold">
+                🔍 Xem ${v.extracted_count || 0} xe trong video
+              </button>
+              <a href="${v.url}" target="_blank" rel="noopener"
+                 class="px-3 py-1.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold">
+                ▶️ Mở YouTube
+              </a>
+            </div>
+          </div>`;
+        }
+      }).join('');
     }
 
-    // =====================================================================
-    // Charts (Segment Comparison & 3-Layer Cascading Historical Price Trend)
-    // =====================================================================
+    // =========================================================================
+    // CHARTS (STRIPE / CLASSIC ADAPTIVE)
+    // =========================================================================
     function initChartsSelectors() {
       const cars = dbData.cars || [];
       const segments = Array.from(new Set(cars.map(c => c.segment).filter(Boolean))).sort();
@@ -982,7 +1709,6 @@
         return `<option value="${b}">${b} (${count} bản)</option>`;
       }).join('');
 
-      // Default to Hyundai if available, otherwise first brand
       if (brands.includes('Hyundai')) {
         brandSel.value = 'Hyundai';
       }
@@ -994,7 +1720,7 @@
       const selectedBrand = document.getElementById('chartBrandSelect').value;
       const brandCars = cars.filter(c => c.brand === selectedBrand);
 
-      // Layer 2: Models belonging to selectedBrand
+      // Layer 2: Models
       const models = Array.from(new Set(brandCars.map(c => c.model).filter(Boolean))).sort();
       const modelSel = document.getElementById('chartModelSelect');
       modelSel.innerHTML = models.map(m => {
@@ -1011,7 +1737,7 @@
       const selectedModel = document.getElementById('chartModelSelect').value;
       const modelCars = cars.filter(c => c.brand === selectedBrand && c.model === selectedModel);
 
-      // Layer 3: Trims belonging to selectedBrand + selectedModel
+      // Layer 3: Trims
       const trimSel = document.getElementById('chartTrimSelect');
       trimSel.innerHTML = modelCars.map(c =>
         `<option value="${c.car_id}">${c.trim} (VIN ${c.year}) — ${formatPrice(c.net_price)}</option>`
@@ -1074,7 +1800,6 @@
       const wrapper = document.getElementById('segmentChartScrollWrapper');
       const innerEl = document.getElementById('segmentChartInner');
       if (innerEl) {
-        // Ensure each bar has ~82px horizontal room so labels & bars never squish or break UI
         const requiredWidth = cars.length * 82;
         innerEl.style.width = cars.length > 7 ? `${requiredWidth}px` : '100%';
       }
@@ -1085,6 +1810,14 @@
       const ctx = document.getElementById('segmentChartCanvas').getContext('2d');
       if (segmentChartInstance) segmentChartInstance.destroy();
 
+      const isStripe = currentTheme === 'stripe';
+      const barColor = isStripe ? '#533afd' : 'rgba(59, 130, 246, 0.85)';
+      const hoverColor = isStripe ? '#4032c8' : 'rgba(96, 165, 250, 0.95)';
+      const borderColor = isStripe ? '#635bff' : 'rgba(96, 165, 250, 1)';
+      const gridColor = isStripe ? '#e5edf5' : 'rgba(51, 65, 85, 0.4)';
+      const tickColor = isStripe ? '#50617a' : '#94a3b8';
+      const labelColor = isStripe ? '#061b31' : '#f8fafc';
+
       segmentChartInstance = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -1093,11 +1826,11 @@
             {
               label: `Giá lăn bánh (${regionLabel}) (Triệu VNĐ)`,
               data: cars.map(c => getOtrPrice(c)),
-              backgroundColor: 'rgba(59, 130, 246, 0.85)',
-              hoverBackgroundColor: 'rgba(96, 165, 250, 0.95)',
-              borderColor: 'rgba(96, 165, 250, 1)',
+              backgroundColor: barColor,
+              hoverBackgroundColor: hoverColor,
+              borderColor: borderColor,
               borderWidth: 1,
-              borderRadius: 6,
+              borderRadius: isStripe ? 4 : 6,
               maxBarThickness: 48,
             }
           ]
@@ -1109,7 +1842,7 @@
             padding: { top: 24 }
           },
           plugins: {
-            legend: { labels: { color: '#cbd5e1', font: { size: 11 } } },
+            legend: { labels: { color: tickColor, font: { size: 11, family: isStripe ? 'Be Vietnam Pro' : 'sans-serif' } } },
             tooltip: {
               callbacks: {
                 label: (context) => {
@@ -1126,11 +1859,11 @@
             }
           },
           scales: {
-            x: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { display: false } },
+            x: { ticks: { color: tickColor, font: { size: 10 } }, grid: { display: false } },
             y: {
               beginAtZero: true,
-              ticks: { color: '#94a3b8', font: { size: 11 } },
-              grid: { color: 'rgba(51,65,85,0.4)' }
+              ticks: { color: tickColor, font: { size: 11 } },
+              grid: { color: gridColor }
             }
           }
         },
@@ -1144,8 +1877,8 @@
             meta.data.forEach((bar, index) => {
               const val = dataset.data[index];
               if (val !== null && val !== undefined) {
-                chartCtx.fillStyle = '#f8fafc';
-                chartCtx.font = 'bold 11px Inter, sans-serif';
+                chartCtx.fillStyle = labelColor;
+                chartCtx.font = 'bold 11px var(--font-sans)';
                 chartCtx.textAlign = 'center';
                 chartCtx.textBaseline = 'bottom';
                 chartCtx.fillText(`${val}tr`, bar.x, bar.y - 6);
@@ -1165,27 +1898,52 @@
       const car = (dbData.cars || []).find(c => c.car_id === carId) || (dbData.cars || [])[0];
       if (!car) return;
 
-      // Render Quick Summary Strip for Selected Car
+      const isStripe = currentTheme === 'stripe';
       const summaryEl = document.getElementById('chartSelectedCarSummary');
       if (summaryEl) {
-        summaryEl.innerHTML = `
-          <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
-            <span class="font-extrabold text-white">${car.brand} ${car.model} ${car.trim} (${car.year})</span>
-            <span class="text-slate-400">Niêm yết: <s class="text-slate-300">${formatPrice(car.listed_price)}</s></span>
-            <span class="text-emerald-400 font-bold">Ưu đãi: -${car.discount_amount} tr</span>
-            <span class="text-white font-extrabold">Sau giảm: ${formatPrice(car.net_price)}</span>
-            <span class="text-blue-400 font-bold">Lăn bánh (${REGION_LABELS[currentRegion]}): ${formatPrice(getOtrPrice(car))}</span>
-          </div>
-          <a href="${car.video_url}" target="_blank" rel="noopener"
-             class="px-2.5 py-1 rounded-lg bg-red-600/20 hover:bg-red-600/30 text-red-300 border border-red-500/30 font-bold whitespace-nowrap">
-            ▶️ Xem tại ${car.timestamp_label}
-          </a>
-        `;
+        if (isStripe) {
+          summaryEl.className = 'bg-[#f8fafd] border border-[#e5edf5] rounded px-3 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs';
+          summaryEl.innerHTML = `
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span class="font-bold text-[#061b31]">${car.brand} ${car.model} ${car.trim} <span class="font-mono text-[#50617a]">(${car.year})</span></span>
+              <span class="text-[#50617a]">Niêm yết: <s class="text-[#7d8ba4] tabular-nums">${formatPrice(car.listed_price)}</s></span>
+              <span class="text-[#00b261] font-bold tabular-nums">Ưu đãi: -${car.discount_amount} tr</span>
+              <span class="text-[#061b31] font-extrabold tabular-nums">Sau giảm: ${formatPrice(car.net_price)}</span>
+              <span class="text-[#533afd] font-bold tabular-nums">Lăn bánh (${REGION_LABELS[currentRegion]}): ${formatPrice(getOtrPrice(car))}</span>
+            </div>
+            <a href="${car.video_url}" target="_blank" rel="noopener"
+               class="px-2.5 py-1 rounded bg-[#fff0f5] hover:bg-[#ffe0eb] text-[#ea2261] border border-[#fcd5e5] font-semibold whitespace-nowrap font-mono">
+              ▶️ Xem tại ${car.timestamp_label}
+            </a>
+          `;
+        } else {
+          summaryEl.className = 'bg-slate-950/90 border border-slate-800/90 rounded-xl px-3 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs';
+          summaryEl.innerHTML = `
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span class="font-extrabold text-white">${car.brand} ${car.model} ${car.trim} (${car.year})</span>
+              <span class="text-slate-400">Niêm yết: <s class="text-slate-300 tabular-nums">${formatPrice(car.listed_price)}</s></span>
+              <span class="text-emerald-400 font-bold tabular-nums">Ưu đãi: -${car.discount_amount} tr</span>
+              <span class="text-white font-extrabold tabular-nums">Sau giảm: ${formatPrice(car.net_price)}</span>
+              <span class="text-blue-400 font-bold tabular-nums">Lăn bánh (${REGION_LABELS[currentRegion]}): ${formatPrice(getOtrPrice(car))}</span>
+            </div>
+            <a href="${car.video_url}" target="_blank" rel="noopener"
+               class="px-2.5 py-1 rounded-lg bg-red-600/20 hover:bg-red-600/30 text-red-300 border border-red-500/30 font-bold whitespace-nowrap">
+              ▶️ Xem tại ${car.timestamp_label}
+            </a>
+          `;
+        }
       }
 
       const hist = car.history || [];
       const ctx = document.getElementById('trendChartCanvas').getContext('2d');
       if (trendChartInstance) trendChartInstance.destroy();
+
+      const lineColor1 = isStripe ? '#533afd' : '#3b82f6';
+      const bgFill1 = isStripe ? 'rgba(83, 58, 253, 0.1)' : 'rgba(59, 130, 246, 0.15)';
+      const lineColor2 = isStripe ? '#00b261' : '#10b981';
+      const bgFill2 = isStripe ? 'rgba(0, 178, 97, 0.08)' : 'rgba(16, 185, 129, 0.1)';
+      const tickColor = isStripe ? '#50617a' : '#94a3b8';
+      const gridColor = isStripe ? '#e5edf5' : 'rgba(51, 65, 85, 0.4)';
 
       trendChartInstance = new Chart(ctx, {
         type: 'line',
@@ -1195,8 +1953,8 @@
             {
               label: 'Giá sau giảm (Triệu)',
               data: hist.map(h => h.net_price),
-              borderColor: '#3b82f6',
-              backgroundColor: 'rgba(59, 130, 246, 0.15)',
+              borderColor: lineColor1,
+              backgroundColor: bgFill1,
               fill: true,
               tension: 0.3,
               pointRadius: 5,
@@ -1204,8 +1962,8 @@
             {
               label: 'Số tiền ưu đãi (Triệu)',
               data: hist.map(h => h.discount_amount),
-              borderColor: '#10b981',
-              backgroundColor: 'rgba(16, 185, 129, 0.1)',
+              borderColor: lineColor2,
+              backgroundColor: bgFill2,
               fill: false,
               tension: 0.3,
               pointRadius: 5,
@@ -1216,53 +1974,93 @@
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: { labels: { color: '#cbd5e1', font: { size: 11 } } }
+            legend: { labels: { color: tickColor, font: { size: 11 } } }
           },
           scales: {
-            x: { ticks: { color: '#94a3b8' }, grid: { display: false } },
-            y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(51,65,85,0.4)' } }
+            x: { ticks: { color: tickColor }, grid: { display: false } },
+            y: { ticks: { color: tickColor }, grid: { color: gridColor } }
           }
         }
       });
     }
 
-    // =====================================================================
-    // Car Detail Modal (History & Price Breakdown)
-    // =====================================================================
+    // =========================================================================
+    // CAR DETAIL MODAL (Fixed: Accurate Styling & Typography)
+    // =========================================================================
     function openCarModal(carId) {
       const car = (dbData.cars || []).find(c => c.car_id === carId);
       if (!car) return;
+      const isStripe = currentTheme === 'stripe';
 
       document.getElementById('modalCarSegment').textContent = `${car.brand} • ${car.segment || 'Ô tô'} • VIN ${car.year}`;
-      document.getElementById('modalCarTitle').textContent = `${car.brand} ${car.model} ${car.trim}`;
-      document.getElementById('modalCarDate').textContent = `Cập nhật gần nhất: ${car.latest_date} (tại phút ${car.timestamp_label})`;
+      document.getElementById('modalCarSegment').className = isStripe
+        ? 'text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#e8e9ff] text-[#533afd] border border-[#d6d9fc]'
+        : 'text-[11px] font-semibold px-2 py-0.5 rounded-full bg-blue-500/15 text-blue-400';
 
-      document.getElementById('modalListedPrice').textContent = `${car.listed_price} triệu`;
-      document.getElementById('modalDiscountAmount').textContent = `-${car.discount_amount} triệu (${car.discount_pct}%)`;
-      document.getElementById('modalNetPrice').textContent = `${car.net_price} triệu`;
-      document.getElementById('modalOtrAll').innerHTML =
-        `Tỉnh: <b>${car.otr_tinh}tr</b><br/>HCM: <b>${car.otr_hcm}tr</b> | HN: <b>${car.otr_hn}tr</b>`;
+      document.getElementById('modalCarTitle').textContent = `${car.brand} ${car.model} ${car.trim}`;
+      document.getElementById('modalCarTitle').className = isStripe
+        ? 'text-lg font-bold tracking-tight text-[#061b31] mt-1'
+        : 'text-lg font-bold tracking-tight text-white mt-1';
+
+      document.getElementById('modalCarDate').textContent = `Cập nhật gần nhất: ${car.latest_date} (tại phút ${car.timestamp_label})`;
+      document.getElementById('modalCarDate').className = isStripe ? 'text-xs text-[#50617a]' : 'text-xs text-slate-400';
+
+      const listedEl = document.getElementById('modalListedPrice');
+      listedEl.textContent = `${car.listed_price} triệu`;
+      listedEl.className = isStripe ? 'text-sm font-semibold text-[#7d8ba4] line-through mt-0.5 tabular-nums' : 'text-sm font-bold text-slate-200 mt-0.5 tabular-nums';
+
+      const discEl = document.getElementById('modalDiscountAmount');
+      discEl.textContent = `-${car.discount_amount} triệu (${car.discount_pct}%)`;
+      discEl.className = isStripe ? 'text-sm font-extrabold text-[#00b261] mt-0.5 tabular-nums' : 'text-sm font-extrabold text-emerald-400 mt-0.5 tabular-nums';
+
+      const netEl = document.getElementById('modalNetPrice');
+      netEl.textContent = `${car.net_price} triệu`;
+      netEl.className = isStripe ? 'text-base font-extrabold text-[#061b31] mt-0.5 tabular-nums' : 'text-base font-extrabold text-white mt-0.5 tabular-nums';
+
+      const otrEl = document.getElementById('modalOtrAll');
+      otrEl.innerHTML = `Tỉnh: <b>${car.otr_tinh}tr</b><br/>HCM: <b>${car.otr_hcm}tr</b> | HN: <b>${car.otr_hn}tr</b>`;
+      otrEl.className = isStripe ? 'text-[11px] font-semibold text-[#533afd] mt-0.5 leading-tight tabular-nums' : 'text-[11px] font-semibold text-blue-200 mt-0.5 leading-tight tabular-nums';
+
       document.getElementById('modalYoutubeBtn').href = car.video_url;
 
       const hist = [...(car.history || [])].reverse();
-      document.getElementById('modalHistoryList').innerHTML = hist.map(h => `
-        <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 flex items-center justify-between gap-2 text-xs">
-          <div>
-            <div class="font-bold text-white">📅 ${h.date}</div>
-            <div class="text-[11px] text-slate-400 truncate max-w-[230px] sm:max-w-xs">${h.video_title}</div>
-          </div>
-          <div class="text-right shrink-0">
-            <div class="font-extrabold text-white">${h.net_price} tr <span class="text-emerald-400 font-bold">(-${h.discount_amount}tr)</span></div>
-            <a href="${h.video_url}" target="_blank" rel="noopener" class="text-[11px] text-red-400 hover:underline">▶️ Xem tại ${h.timestamp_label}</a>
-          </div>
-        </div>
-      `).join('');
+      document.getElementById('modalHistoryList').innerHTML = hist.map(h => {
+        if (isStripe) {
+          return `
+          <div class="bg-white border border-[#e5edf5] rounded p-2.5 flex items-center justify-between gap-2 text-xs">
+            <div>
+              <div class="font-bold text-[#061b31]">📅 ${h.date}</div>
+              <div class="text-[11px] text-[#50617a] truncate max-w-[230px] sm:max-w-xs">${h.video_title}</div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="font-extrabold text-[#061b31] tabular-nums">${h.net_price} tr <span class="text-[#00b261] font-bold">(-${h.discount_amount}tr)</span></div>
+              <a href="${h.video_url}" target="_blank" rel="noopener" class="text-[11px] text-[#ea2261] hover:underline font-mono">▶️ Xem tại ${h.timestamp_label}</a>
+            </div>
+          </div>`;
+        } else {
+          return `
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 flex items-center justify-between gap-2 text-xs">
+            <div>
+              <div class="font-bold text-white">📅 ${h.date}</div>
+              <div class="text-[11px] text-slate-400 truncate max-w-[230px] sm:max-w-xs">${h.video_title}</div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="font-extrabold text-white tabular-nums">${h.net_price} tr <span class="text-emerald-400 font-bold">(-${h.discount_amount}tr)</span></div>
+              <a href="${h.video_url}" target="_blank" rel="noopener" class="text-[11px] text-red-400 hover:underline">▶️ Xem tại ${h.timestamp_label}</a>
+            </div>
+          </div>`;
+        }
+      }).join('');
 
       document.getElementById('carDetailModal').classList.remove('hidden');
 
       const ctx = document.getElementById('modalHistoryChartCanvas').getContext('2d');
       if (modalChartInstance) modalChartInstance.destroy();
       const chronHist = car.history || [];
+
+      const tickColor = isStripe ? '#50617a' : '#94a3b8';
+      const gridColor = isStripe ? '#e5edf5' : 'rgba(51, 65, 85, 0.4)';
+
       modalChartInstance = new Chart(ctx, {
         type: 'line',
         data: {
@@ -1271,15 +2069,15 @@
             {
               label: 'Giá sau giảm (Triệu)',
               data: chronHist.map(h => h.net_price),
-              borderColor: '#3b82f6',
-              backgroundColor: 'rgba(59,130,246,0.2)',
+              borderColor: isStripe ? '#533afd' : '#3b82f6',
+              backgroundColor: isStripe ? 'rgba(83, 58, 253, 0.12)' : 'rgba(59, 130, 246, 0.2)',
               fill: true,
               tension: 0.3,
             },
             {
               label: 'Ưu đãi (Triệu)',
               data: chronHist.map(h => h.discount_amount),
-              borderColor: '#10b981',
+              borderColor: isStripe ? '#00b261' : '#10b981',
               tension: 0.3,
             }
           ]
@@ -1287,10 +2085,10 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: { legend: { labels: { color: '#cbd5e1', font: { size: 10 } } } },
+          plugins: { legend: { labels: { color: tickColor, font: { size: 10 } } } },
           scales: {
-            x: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { display: false } },
-            y: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { color: 'rgba(51,65,85,0.4)' } }
+            x: { ticks: { color: tickColor, font: { size: 10 } }, grid: { display: false } },
+            y: { ticks: { color: tickColor, font: { size: 10 } }, grid: { color: gridColor } }
           }
         }
       });
