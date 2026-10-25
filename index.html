@@ -72,11 +72,53 @@
     /* Scrollbars */
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    .custom-scrollbar::-webkit-scrollbar { height: 7px; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
     .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 9999px; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(83, 58, 253, 0.4); border-radius: 9999px; }
     .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(83, 58, 253, 0.7); }
     .custom-scrollbar { scrollbar-width: thin; scrollbar-color: rgba(83, 58, 253, 0.4) transparent; }
+
+    /* Dual Range Slider Component */
+    .dual-range-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 20px;
+    }
+    .dual-range-slider::-webkit-slider-thumb {
+      pointer-events: auto;
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #00b261;
+      border: 2.5px solid #ffffff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+    .dual-range-slider::-webkit-slider-thumb:hover,
+    .dual-range-slider::-webkit-slider-thumb:active {
+      transform: scale(1.15);
+    }
+    .dual-range-slider::-moz-range-thumb {
+      pointer-events: auto;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #00b261;
+      border: 2.5px solid #ffffff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+      cursor: pointer;
+    }
+    html[data-theme="classic"] .dual-range-slider::-webkit-slider-thumb {
+      background: #10b981;
+      border-color: #0f172a;
+    }
+    html[data-theme="classic"] .dual-range-slider::-moz-range-thumb {
+      background: #10b981;
+      border-color: #0f172a;
+    }
 
     /* STRIPE THEME SPECIFIC STYLES */
     html[data-theme="stripe"] body {
@@ -383,30 +425,114 @@
     <!-- TAB 3: BIỂU ĐỒ XU HƯỚNG & SO SÁNH PHÂN KHÚC -->
     <section id="tab-charts" class="hidden space-y-4">
       
-      <!-- Chart 1: Price comparison in same segment -->
-      <div id="chartCard1" class="stripe-card p-4 space-y-3 transition">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      <!-- 2 COMPARISON CHARTS (SIDE-BY-SIDE ON LG+, STACKED ON MOBILE) -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        
+        <!-- Chart 1: So Sánh Giá Các Xe Cùng Phân Khúc (Dạng Dọc) -->
+        <div id="chartCard1" class="stripe-card p-4 space-y-3 transition flex flex-col justify-between">
           <div>
-            <h3 id="chart1Title" class="text-sm sm:text-base font-normal tracking-[-0.02em]">📊 So Sánh Giá Các Xe Cùng Phân Khúc</h3>
-            <p id="segmentChartSubtitle" class="text-xs">So sánh Giá lăn bánh (Tỉnh) (Triệu VNĐ) từ cao đến thấp giữa các phiên bản</p>
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-1.5">
+              <div>
+                <h3 id="chart1Title" class="text-sm sm:text-base font-normal tracking-[-0.02em]">📊 So Sánh Giá Các Xe Cùng Phân Khúc</h3>
+                <p id="segmentChartSubtitle" class="text-xs">So sánh Giá lăn bánh (Tỉnh) (Triệu VNĐ) từ cao đến thấp</p>
+              </div>
+              <select id="chartSegmentSelect" onchange="renderSegmentComparisonChart()"
+                      class="rounded px-3 py-1.5 text-xs transition focus:outline-none shrink-0 font-semibold">
+              </select>
+            </div>
           </div>
-          <select id="chartSegmentSelect" onchange="renderSegmentComparisonChart()"
-                  class="rounded px-3 py-1.5 text-xs transition focus:outline-none">
-          </select>
-        </div>
-        <div id="segmentChartScrollWrapper" onscroll="onSegmentChartScroll()" class="w-full overflow-x-auto custom-scrollbar pb-2">
-          <div id="segmentChartInner" class="h-72 sm:h-80 min-w-full relative">
-            <canvas id="segmentChartCanvas"></canvas>
+
+          <div id="segmentChartScrollWrapper" class="w-full overflow-y-auto custom-scrollbar h-[440px] lg:h-[510px] pr-1.5 flex-1 border border-transparent rounded">
+            <div id="segmentChartInner" class="w-full relative">
+              <canvas id="segmentChartCanvas"></canvas>
+            </div>
+          </div>
+
+          <div id="segmentChartSliderContainer" class="flex items-center justify-between gap-2 pt-2 px-1 border-t border-[#e5edf5] transition">
+            <span id="sliderHintText" class="text-[11px] whitespace-nowrap font-medium">↕️ Cuộn dọc để xem toàn bộ danh sách</span>
+            <span id="segmentChartCountBadge" class="text-[11px] font-semibold whitespace-nowrap"></span>
           </div>
         </div>
-        <!-- Interactive Horizontal Slide Bar (Fixed: Theme-adaptive colors) -->
-        <div id="segmentChartSliderContainer" class="hidden items-center gap-3 pt-1 px-1">
-          <span id="sliderHintText" class="text-[11px] whitespace-nowrap font-medium">↔️ Kéo sang phải:</span>
-          <input id="segmentChartSlider" type="range" min="0" max="100" value="0"
-                 oninput="onSegmentSliderInput(this.value)"
-                 class="w-full h-1.5 rounded-lg appearance-none cursor-pointer" />
-          <span id="segmentChartCountBadge" class="text-[11px] font-semibold whitespace-nowrap"></span>
+
+        <!-- Chart 2: So Sánh Giá Các Xe Theo Phân Khúc Giá Tiền (Dạng Dọc) -->
+        <div id="chartCardPriceRange" class="stripe-card p-4 space-y-3 transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-2">
+              <h3 id="priceRangeChartTitle" class="text-sm sm:text-base font-normal tracking-[-0.02em]">💰 So Sánh Giá Theo Phân Khúc Giá Tiền</h3>
+              <span id="priceRangeMatchBadge" class="text-[11px] font-semibold px-2 py-0.5 rounded-full whitespace-nowrap">0 xe</span>
+            </div>
+            <p id="priceRangeChartSubtitle" class="text-xs mt-0.5">Lọc xe theo tầm giá mong muốn • Đồng bộ Giá lăn bánh</p>
+          </div>
+
+          <!-- Quick Presets -->
+          <div id="pricePresetContainer" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-0.5 pb-1">
+            <button onclick="setPriceChartPreset('all')" id="btn-price-preset-all"
+                    class="price-preset-btn px-2.5 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition">Tất cả</button>
+            <button onclick="setPriceChartPreset('under500')" id="btn-price-preset-under500"
+                    class="price-preset-btn px-2.5 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition">&lt; 500tr</button>
+            <button onclick="setPriceChartPreset('500to700')" id="btn-price-preset-500to700"
+                    class="price-preset-btn px-2.5 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition">500 - 700tr</button>
+            <button onclick="setPriceChartPreset('700to1000')" id="btn-price-preset-700to1000"
+                    class="price-preset-btn px-2.5 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition">700tr - 1 tỷ</button>
+            <button onclick="setPriceChartPreset('over1000')" id="btn-price-preset-over1000"
+                    class="price-preset-btn px-2.5 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition">&gt; 1 tỷ</button>
+          </div>
+
+          <!-- Dynamic Range Slider & Number Inputs -->
+          <div id="priceRangeControlsBox" class="p-2.5 rounded space-y-2 transition">
+            <!-- 2 Number inputs -->
+            <div class="flex items-center justify-between gap-2 text-xs">
+              <div class="flex items-center gap-1.5">
+                <span id="lblPriceMin" class="text-[11px] font-semibold">Từ:</span>
+                <input id="priceFilterMinInput" type="number" step="10"
+                       oninput="onPriceInputDirectChange('min', this.value)"
+                       onchange="onPriceInputDirectCommit('min', this.value)"
+                       class="w-16 sm:w-20 px-2 py-1 text-center font-mono font-semibold rounded text-xs focus:outline-none" />
+                <span class="text-[11px] text-[#7d8ba4]">tr</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span id="lblPriceMax" class="text-[11px] font-semibold">Đến:</span>
+                <input id="priceFilterMaxInput" type="number" step="10"
+                       oninput="onPriceInputDirectChange('max', this.value)"
+                       onchange="onPriceInputDirectCommit('max', this.value)"
+                       class="w-16 sm:w-20 px-2 py-1 text-center font-mono font-semibold rounded text-xs focus:outline-none" />
+                <span class="text-[11px] text-[#7d8ba4]">tr</span>
+              </div>
+            </div>
+
+            <!-- Dual Range Slider -->
+            <div class="relative w-full h-5 flex items-center">
+              <div id="priceSliderTrackBg" class="h-1.5 w-full rounded-full relative">
+                <div id="priceSliderTrackHighlight" class="absolute h-1.5 rounded-full" style="left: 0%; right: 0%;"></div>
+              </div>
+              <input type="range" id="priceSliderMin" step="10"
+                     onpointerdown="this.style.zIndex='25'; const s2=document.getElementById('priceSliderMax'); if(s2) s2.style.zIndex='20';"
+                     oninput="onPriceSliderChange('min', this.value)"
+                     class="absolute inset-x-0 top-1/2 -translate-y-1/2 w-full appearance-none bg-transparent pointer-events-none dual-range-slider z-20" />
+              <input type="range" id="priceSliderMax" step="10"
+                     onpointerdown="this.style.zIndex='25'; const s1=document.getElementById('priceSliderMin'); if(s1) s1.style.zIndex='20';"
+                     oninput="onPriceSliderChange('max', this.value)"
+                     class="absolute inset-x-0 top-1/2 -translate-y-1/2 w-full appearance-none bg-transparent pointer-events-none dual-range-slider z-20" />
+            </div>
+          </div>
+
+          <!-- Chart Area -->
+          <div id="priceRangeChartScrollWrapper" class="w-full overflow-y-auto custom-scrollbar h-[340px] lg:h-[400px] pr-1.5 flex-1 border border-transparent rounded">
+            <div id="priceRangeChartInner" class="w-full relative">
+              <canvas id="priceRangeChartCanvas"></canvas>
+            </div>
+            <div id="priceRangeEmptyState" class="hidden py-12 text-center text-xs">
+              Không có mẫu xe nào trong tầm giá này. Hãy thử nới rộng khoảng giá!
+            </div>
+          </div>
+
+          <!-- Bottom hint -->
+          <div id="priceRangeChartFooter" class="flex items-center justify-between gap-2 pt-2 px-1 border-t border-[#e5edf5] transition">
+            <span id="priceRangeChartHint" class="text-[11px] whitespace-nowrap font-medium">↕️ Cuộn dọc để xem toàn bộ danh sách</span>
+            <span id="priceRangeStatusText" class="text-[11px] font-mono font-semibold"></span>
+          </div>
         </div>
+
       </div>
 
       <!-- Chart 2: Historical Price Trend per Car (3-Layer Cascading Filter) -->
@@ -590,8 +716,15 @@
     let currentDealMetric = 'amount'; // 'amount' | 'pct'
     let currentDealSegment = 'all';
     let segmentChartInstance = null;
+    let priceRangeChartInstance = null;
     let trendChartInstance = null;
     let modalChartInstance = null;
+    let currentPricePreset = 'all';
+    let dynamicBoundMin = 300;
+    let dynamicBoundMax = 1500;
+    let currentMinPrice = 300;
+    let currentMaxPrice = 1500;
+    let priceInputDebounceTimer = null;
 
     const REGION_LABELS = {
       tinh: 'Tỉnh',
@@ -667,6 +800,7 @@
       renderVideosList();
 
       if (segmentChartInstance) renderSegmentComparisonChart();
+      if (priceRangeChartInstance) renderPriceRangeComparisonChart();
       if (trendChartInstance) renderCarTrendChart();
     }
 
@@ -879,17 +1013,72 @@
       // Fixed: High-contrast legible amber text (#b45309) instead of neon lemon (#f9b900)
       if (tLbl) tLbl.className = isStripe ? 'block text-[11px] font-semibold text-[#b45309] mb-1' : 'block text-[11px] font-bold text-amber-400 mb-1';
 
-      // Slider theme sync
+      // Vertical Chart 1 hints theme sync
       const sliderHint = document.getElementById('sliderHintText');
       if (sliderHint) sliderHint.className = isStripe ? 'text-[11px] whitespace-nowrap font-medium text-[#50617a]' : 'text-[11px] whitespace-nowrap font-medium text-slate-400';
       const sliderBadge = document.getElementById('segmentChartCountBadge');
       if (sliderBadge) sliderBadge.className = isStripe ? 'text-[11px] font-semibold text-[#533afd] whitespace-nowrap' : 'text-[11px] font-bold text-blue-400 whitespace-nowrap';
-      const sliderInput = document.getElementById('segmentChartSlider');
-      if (sliderInput) {
-        sliderInput.className = isStripe
-          ? 'w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-[#e5edf5] accent-[#533afd]'
-          : 'w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-slate-800 accent-blue-500';
+
+      // Vertical Chart 2 (Price Range) theme sync
+      const prTitle = document.getElementById('priceRangeChartTitle');
+      if (prTitle) prTitle.className = isStripe ? 'text-sm sm:text-base font-normal tracking-[-0.02em] text-[#061b31]' : 'text-sm sm:text-base font-bold text-white';
+      const prSub = document.getElementById('priceRangeChartSubtitle');
+      if (prSub) prSub.className = isStripe ? 'text-xs text-[#50617a] mt-0.5' : 'text-xs text-slate-400 mt-0.5';
+      const prBadge = document.getElementById('priceRangeMatchBadge');
+      if (prBadge) {
+        prBadge.className = isStripe
+          ? 'text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#e6f9f0] text-[#00b261] border border-[#b3eed2] whitespace-nowrap'
+          : 'text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 whitespace-nowrap';
       }
+      const prBox = document.getElementById('priceRangeControlsBox');
+      if (prBox) {
+        prBox.className = isStripe
+          ? 'p-2.5 rounded bg-[#f8fafd] border border-[#e5edf5] space-y-2 transition'
+          : 'p-2.5 rounded-xl bg-slate-950/70 border border-slate-800/80 space-y-2 transition';
+      }
+      const lblMin = document.getElementById('lblPriceMin');
+      const lblMax = document.getElementById('lblPriceMax');
+      if (lblMin) lblMin.className = isStripe ? 'text-[11px] font-semibold text-[#50617a]' : 'text-[11px] font-bold text-slate-300';
+      if (lblMax) lblMax.className = isStripe ? 'text-[11px] font-semibold text-[#50617a]' : 'text-[11px] font-bold text-slate-300';
+
+      const minIn = document.getElementById('priceFilterMinInput');
+      const maxIn = document.getElementById('priceFilterMaxInput');
+      if (minIn) {
+        minIn.className = isStripe
+          ? 'w-16 sm:w-20 px-2 py-1 text-center font-mono font-semibold rounded text-xs bg-white border border-[#d4dee9] text-[#061b31] focus:outline-none focus:border-[#00b261]'
+          : 'w-16 sm:w-20 px-2 py-1 text-center font-mono font-semibold rounded-lg text-xs bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-emerald-500';
+      }
+      if (maxIn) {
+        maxIn.className = isStripe
+          ? 'w-16 sm:w-20 px-2 py-1 text-center font-mono font-semibold rounded text-xs bg-white border border-[#d4dee9] text-[#061b31] focus:outline-none focus:border-[#00b261]'
+          : 'w-16 sm:w-20 px-2 py-1 text-center font-mono font-semibold rounded-lg text-xs bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-emerald-500';
+      }
+      const prTrack = document.getElementById('priceSliderTrackBg');
+      if (prTrack) prTrack.className = isStripe ? 'h-1.5 w-full bg-[#e5edf5] rounded-full relative' : 'h-1.5 w-full bg-slate-800 rounded-full relative';
+      const prHl = document.getElementById('priceSliderTrackHighlight');
+      if (prHl) prHl.className = isStripe ? 'absolute h-1.5 bg-[#00b261] rounded-full' : 'absolute h-1.5 bg-emerald-500 rounded-full';
+
+      const prHint = document.getElementById('priceRangeChartHint');
+      if (prHint) prHint.className = isStripe ? 'text-[11px] whitespace-nowrap font-medium text-[#50617a]' : 'text-[11px] whitespace-nowrap font-medium text-slate-400';
+      const prStat = document.getElementById('priceRangeStatusText');
+      if (prStat) prStat.className = isStripe ? 'text-[11px] font-mono font-semibold text-[#00b261]' : 'text-[11px] font-mono font-bold text-emerald-400';
+      const prEmpty = document.getElementById('priceRangeEmptyState');
+      if (prEmpty) prEmpty.className = isStripe ? 'hidden py-12 text-center text-xs text-[#50617a]' : 'hidden py-12 text-center text-xs text-slate-400';
+
+      const c1Footer = document.getElementById('segmentChartSliderContainer');
+      if (c1Footer) {
+        c1Footer.className = isStripe
+          ? 'flex items-center justify-between gap-2 pt-2 px-1 border-t border-[#e5edf5] transition'
+          : 'flex items-center justify-between gap-2 pt-2 px-1 border-t border-slate-800/80 transition';
+      }
+      const prFooter = document.getElementById('priceRangeChartFooter');
+      if (prFooter) {
+        prFooter.className = isStripe
+          ? 'flex items-center justify-between gap-2 pt-2 px-1 border-t border-[#e5edf5] transition'
+          : 'flex items-center justify-between gap-2 pt-2 px-1 border-t border-slate-800/80 transition';
+      }
+
+      updatePriceControlsUI();
 
       // Videos Section
       const vTitle = document.getElementById('videosTitle');
@@ -1024,8 +1213,33 @@
         });
       }
 
+      initPriceBounds();
       setUiStyle(currentTheme);
       initChartsSelectors();
+    }
+
+    function initPriceBounds() {
+      const cars = dbData.cars || [];
+      if (cars.length === 0) return;
+      let minVal = Infinity;
+      let maxVal = -Infinity;
+      cars.forEach(c => {
+        ['tinh', 'hcm', 'hn'].forEach(r => {
+          const val = getOtrPrice(c, r);
+          if (val && !isNaN(val) && val > 0) {
+            if (val < minVal) minVal = val;
+            if (val > maxVal) maxVal = val;
+          }
+        });
+      });
+      if (minVal !== Infinity && maxVal !== -Infinity) {
+        dynamicBoundMin = Math.max(0, Math.floor((minVal - 20) / 50) * 50);
+        dynamicBoundMax = Math.max(1500, Math.ceil((maxVal + 50) / 50) * 50);
+      }
+      if (currentPricePreset === 'all') {
+        currentMinPrice = dynamicBoundMin;
+        currentMaxPrice = dynamicBoundMax;
+      }
     }
 
     function setRegion(region) {
@@ -1054,6 +1268,7 @@
       renderAll();
       renderTopDeals();
       if (segmentChartInstance) renderSegmentComparisonChart();
+      if (priceRangeChartInstance) renderPriceRangeComparisonChart();
       if (trendChartInstance) renderCarTrendChart();
     }
 
@@ -1115,6 +1330,7 @@
       });
       if (tabName === 'charts') {
         renderSegmentComparisonChart();
+        renderPriceRangeComparisonChart();
         renderCarTrendChart();
       }
       if (scroll) {
@@ -1713,6 +1929,7 @@
         brandSel.value = 'Hyundai';
       }
       onChartBrandChange(false);
+      updatePriceControlsUI();
     }
 
     function onChartBrandChange(shouldRender = true) {
@@ -1748,46 +1965,10 @@
       }
     }
 
-    function onSegmentChartScroll() {
-      const wrapper = document.getElementById('segmentChartScrollWrapper');
-      const slider = document.getElementById('segmentChartSlider');
-      if (!wrapper || !slider) return;
-      const maxScroll = Math.max(0, wrapper.scrollWidth - wrapper.clientWidth);
-      slider.max = maxScroll;
-      slider.value = wrapper.scrollLeft;
-    }
-
-    function onSegmentSliderInput(val) {
-      const wrapper = document.getElementById('segmentChartScrollWrapper');
-      if (!wrapper) return;
-      wrapper.scrollLeft = Number(val);
-    }
-
-    function updateSegmentSliderState(totalCars) {
-      const wrapper = document.getElementById('segmentChartScrollWrapper');
-      const container = document.getElementById('segmentChartSliderContainer');
-      const slider = document.getElementById('segmentChartSlider');
-      const badge = document.getElementById('segmentChartCountBadge');
-      if (!wrapper || !container || !slider) return;
-
-      requestAnimationFrame(() => {
-        const maxScroll = Math.max(0, wrapper.scrollWidth - wrapper.clientWidth);
-        if (badge) badge.textContent = `${totalCars} mẫu xe`;
-        if (maxScroll > 8) {
-          container.classList.remove('hidden');
-          container.classList.add('flex');
-          slider.max = maxScroll;
-          slider.value = wrapper.scrollLeft;
-        } else {
-          container.classList.add('hidden');
-          container.classList.remove('flex');
-        }
-      });
-    }
-
     function renderSegmentComparisonChart() {
       const regionLabel = REGION_LABELS[currentRegion] || 'Tỉnh';
-      const seg = document.getElementById('chartSegmentSelect').value;
+      const segSel = document.getElementById('chartSegmentSelect');
+      const seg = segSel ? segSel.value : '';
       const cars = (dbData.cars || [])
         .filter(c => !seg || c.segment === seg)
         .sort((a, b) => (getOtrPrice(b) || 0) - (getOtrPrice(a) || 0));
@@ -1796,15 +1977,17 @@
       if (sub) {
         sub.textContent = `So sánh Giá lăn bánh (${regionLabel}) (Triệu VNĐ) từ cao đến thấp • Hiển thị đủ ${cars.length} phiên bản`;
       }
+      const countBadge = document.getElementById('segmentChartCountBadge');
+      if (countBadge) {
+        countBadge.textContent = `${cars.length} mẫu xe`;
+      }
 
-      const wrapper = document.getElementById('segmentChartScrollWrapper');
       const innerEl = document.getElementById('segmentChartInner');
       if (innerEl) {
-        const requiredWidth = cars.length * 82;
-        innerEl.style.width = cars.length > 7 ? `${requiredWidth}px` : '100%';
-      }
-      if (wrapper) {
-        wrapper.scrollLeft = 0;
+        // Vertical layout: every car gets ~36px height
+        const requiredHeight = Math.max(340, cars.length * 36);
+        innerEl.style.height = `${requiredHeight}px`;
+        innerEl.style.width = '100%';
       }
 
       const ctx = document.getElementById('segmentChartCanvas').getContext('2d');
@@ -1831,23 +2014,25 @@
               borderColor: borderColor,
               borderWidth: 1,
               borderRadius: isStripe ? 4 : 6,
-              maxBarThickness: 48,
+              maxBarThickness: 20,
             }
           ]
         },
         options: {
+          indexAxis: 'y',
           responsive: true,
           maintainAspectRatio: false,
           layout: {
-            padding: { top: 24 }
+            padding: { right: 54, top: 4, bottom: 4, left: 4 }
           },
           plugins: {
-            legend: { labels: { color: tickColor, font: { size: 11, family: isStripe ? 'Be Vietnam Pro' : 'sans-serif' } } },
+            legend: { display: false },
             tooltip: {
               callbacks: {
                 label: (context) => {
                   const car = cars[context.dataIndex];
-                  const lines = [`Giá lăn bánh (${regionLabel}): ${context.parsed.y} Triệu`];
+                  const val = context.parsed.x;
+                  const lines = [`Giá lăn bánh (${regionLabel}): ${val} Triệu`];
                   if (car) {
                     if (car.net_price) lines.push(`Giá sau giảm: ${car.net_price} Triệu`);
                     if (car.listed_price) lines.push(`Giá niêm yết: ${car.listed_price} Triệu`);
@@ -1859,16 +2044,22 @@
             }
           },
           scales: {
-            x: { ticks: { color: tickColor, font: { size: 10 } }, grid: { display: false } },
-            y: {
+            x: {
               beginAtZero: true,
-              ticks: { color: tickColor, font: { size: 11 } },
+              ticks: { color: tickColor, font: { size: 10 } },
               grid: { color: gridColor }
+            },
+            y: {
+              ticks: {
+                color: tickColor,
+                font: { size: 11, family: isStripe ? 'Be Vietnam Pro' : 'sans-serif' }
+              },
+              grid: { display: false }
             }
           }
         },
         plugins: [{
-          id: 'topValueLabels',
+          id: 'topValueLabelsSegment',
           afterDatasetsDraw(chart) {
             const { ctx: chartCtx } = chart;
             chartCtx.save();
@@ -1879,17 +2070,341 @@
               if (val !== null && val !== undefined) {
                 chartCtx.fillStyle = labelColor;
                 chartCtx.font = 'bold 11px var(--font-sans)';
-                chartCtx.textAlign = 'center';
-                chartCtx.textBaseline = 'bottom';
-                chartCtx.fillText(`${val}tr`, bar.x, bar.y - 6);
+                chartCtx.textAlign = 'left';
+                chartCtx.textBaseline = 'middle';
+                chartCtx.fillText(`${val}tr`, bar.x + 6, bar.y);
               }
             });
             chartCtx.restore();
           }
         }]
       });
+    }
 
-      updateSegmentSliderState(cars.length);
+    // =========================================================================
+    // PRICE RANGE COMPARISON CHART & DYNAMIC FILTER
+    // =========================================================================
+    function setPriceChartPreset(presetKey) {
+      currentPricePreset = presetKey;
+      if (presetKey === 'all') {
+        currentMinPrice = dynamicBoundMin;
+        currentMaxPrice = dynamicBoundMax;
+      } else if (presetKey === 'under500') {
+        currentMinPrice = dynamicBoundMin;
+        currentMaxPrice = 500;
+      } else if (presetKey === '500to700') {
+        currentMinPrice = 500;
+        currentMaxPrice = 700;
+      } else if (presetKey === '700to1000') {
+        currentMinPrice = 700;
+        currentMaxPrice = 1000;
+      } else if (presetKey === 'over1000') {
+        currentMinPrice = 1000;
+        currentMaxPrice = dynamicBoundMax;
+      }
+      updatePriceControlsUI(true);
+      renderPriceRangeComparisonChart();
+    }
+
+    function onPriceSliderChange(which, val) {
+      val = Number(val);
+      const minSlider = document.getElementById('priceSliderMin');
+      const maxSlider = document.getElementById('priceSliderMax');
+
+      if (which === 'min') {
+        if (val > currentMaxPrice - 10) val = currentMaxPrice - 10;
+        currentMinPrice = val;
+        if (minSlider) minSlider.style.zIndex = '25';
+        if (maxSlider) maxSlider.style.zIndex = '20';
+      } else {
+        if (val < currentMinPrice + 10) val = currentMinPrice + 10;
+        currentMaxPrice = val;
+        if (maxSlider) maxSlider.style.zIndex = '25';
+        if (minSlider) minSlider.style.zIndex = '20';
+      }
+
+      // Prevent sticking if dragged close together near the high end
+      if (currentMinPrice >= currentMaxPrice - 40) {
+        if (minSlider) minSlider.style.zIndex = '26';
+      }
+
+      currentPricePreset = 'custom';
+      updatePriceControlsUI(true);
+      renderPriceRangeComparisonChart();
+    }
+
+    function onPriceInputDirectChange(which, val) {
+      if (priceInputDebounceTimer) clearTimeout(priceInputDebounceTimer);
+      priceInputDebounceTimer = setTimeout(() => {
+        val = Number(val);
+        if (isNaN(val) || val <= 0) return;
+        if (which === 'min') {
+          val = Math.max(dynamicBoundMin, Math.min(val, currentMaxPrice - 10));
+          currentMinPrice = val;
+        } else {
+          val = Math.min(dynamicBoundMax, Math.max(val, currentMinPrice + 10));
+          currentMaxPrice = val;
+        }
+        currentPricePreset = 'custom';
+        updatePriceControlsUI(false);
+        renderPriceRangeComparisonChart();
+      }, 200);
+    }
+
+    function onPriceInputDirectCommit(which, val) {
+      if (priceInputDebounceTimer) clearTimeout(priceInputDebounceTimer);
+      val = Number(val);
+      if (isNaN(val) || val <= 0) {
+        val = which === 'min' ? dynamicBoundMin : dynamicBoundMax;
+      }
+      if (which === 'min') {
+        val = Math.max(dynamicBoundMin, Math.min(val, currentMaxPrice - 10));
+        currentMinPrice = val;
+      } else {
+        val = Math.min(dynamicBoundMax, Math.max(val, currentMinPrice + 10));
+        currentMaxPrice = val;
+      }
+      currentPricePreset = 'custom';
+      updatePriceControlsUI(true);
+      renderPriceRangeComparisonChart();
+    }
+
+    function updatePriceControlsUI(updateInputs = true) {
+      const isStripe = currentTheme === 'stripe';
+      const minInput = document.getElementById('priceFilterMinInput');
+      const maxInput = document.getElementById('priceFilterMaxInput');
+      const minSlider = document.getElementById('priceSliderMin');
+      const maxSlider = document.getElementById('priceSliderMax');
+      const hl = document.getElementById('priceSliderTrackHighlight');
+
+      if (minSlider) {
+        minSlider.min = dynamicBoundMin;
+        minSlider.max = dynamicBoundMax;
+        minSlider.value = currentMinPrice;
+      }
+      if (maxSlider) {
+        maxSlider.min = dynamicBoundMin;
+        maxSlider.max = dynamicBoundMax;
+        maxSlider.value = currentMaxPrice;
+      }
+      if (updateInputs) {
+        if (minInput) {
+          minInput.min = dynamicBoundMin;
+          minInput.max = dynamicBoundMax;
+          minInput.value = currentMinPrice;
+        }
+        if (maxInput) {
+          maxInput.min = dynamicBoundMin;
+          maxInput.max = dynamicBoundMax;
+          maxInput.value = currentMaxPrice;
+        }
+      }
+
+      if (hl) {
+        const totalRange = Math.max(1, dynamicBoundMax - dynamicBoundMin);
+        const minPct = Math.max(0, Math.min(100, ((currentMinPrice - dynamicBoundMin) / totalRange) * 100));
+        const maxPct = Math.max(0, Math.min(100, 100 - (((currentMaxPrice - dynamicBoundMin) / totalRange) * 100)));
+        hl.style.left = `${minPct}%`;
+        hl.style.right = `${maxPct}%`;
+      }
+
+      ['all', 'under500', '500to700', '700to1000', 'over1000'].forEach(k => {
+        const btn = document.getElementById(`btn-price-preset-${k}`);
+        if (!btn) return;
+        const active = currentPricePreset === k;
+        if (isStripe) {
+          btn.className = active
+            ? 'price-preset-btn px-2.5 py-1 rounded-full text-xs font-bold transition bg-[#00b261] text-white shadow-sm'
+            : 'price-preset-btn px-2.5 py-1 rounded-full text-xs font-semibold transition bg-white text-[#50617a] border border-[#d4dee9] hover:border-[#00b261] hover:text-[#00b261]';
+        } else {
+          btn.className = active
+            ? 'price-preset-btn px-2.5 py-1 rounded-full text-xs font-bold transition bg-emerald-600 text-white shadow'
+            : 'price-preset-btn px-2.5 py-1 rounded-full text-xs font-bold transition bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-600';
+        }
+      });
+    }
+
+    function renderPriceRangeComparisonChart() {
+      const regionLabel = REGION_LABELS[currentRegion] || 'Tỉnh';
+      const sub = document.getElementById('priceRangeChartSubtitle');
+      if (sub) {
+        sub.textContent = `Lọc xe từ ${currentMinPrice}tr đến ${currentMaxPrice}tr • Giá lăn bánh (${regionLabel})`;
+      }
+
+      const cars = (dbData.cars || [])
+        .filter(c => {
+          const otr = getOtrPrice(c);
+          if (otr === null || otr === undefined || isNaN(otr)) return false;
+          if (currentPricePreset === 'under500') return otr < 500;
+          if (currentPricePreset === '500to700') return otr >= 500 && otr < 700;
+          if (currentPricePreset === '700to1000') return otr >= 700 && otr <= 1000;
+          if (currentPricePreset === 'over1000') return otr > 1000;
+          return otr >= currentMinPrice && otr <= currentMaxPrice;
+        })
+        .sort((a, b) => (getOtrPrice(b) || 0) - (getOtrPrice(a) || 0));
+
+      const matchBadge = document.getElementById('priceRangeMatchBadge');
+      if (matchBadge) {
+        matchBadge.textContent = `${cars.length} xe`;
+      }
+      const statusText = document.getElementById('priceRangeStatusText');
+      if (statusText) {
+        statusText.textContent = `${currentMinPrice}tr - ${currentMaxPrice}tr`;
+      }
+
+      const emptyEl = document.getElementById('priceRangeEmptyState');
+      const innerEl = document.getElementById('priceRangeChartInner');
+
+      if (cars.length === 0) {
+        if (emptyEl) emptyEl.classList.remove('hidden');
+        if (innerEl) innerEl.classList.add('hidden');
+        if (priceRangeChartInstance) {
+          priceRangeChartInstance.destroy();
+          priceRangeChartInstance = null;
+        }
+        return;
+      }
+
+      if (emptyEl) emptyEl.classList.add('hidden');
+      if (innerEl) {
+        innerEl.classList.remove('hidden');
+        const requiredHeight = Math.max(340, cars.length * 36);
+        innerEl.style.height = `${requiredHeight}px`;
+        innerEl.style.width = '100%';
+      }
+
+      const ctx = document.getElementById('priceRangeChartCanvas').getContext('2d');
+      if (priceRangeChartInstance) priceRangeChartInstance.destroy();
+
+      const isStripe = currentTheme === 'stripe';
+      const barColor = isStripe ? '#00b261' : 'rgba(16, 185, 129, 0.85)';
+      const hoverColor = isStripe ? '#059669' : 'rgba(52, 211, 153, 0.95)';
+      const borderColor = isStripe ? '#34d399' : 'rgba(52, 211, 153, 1)';
+      const gridColor = isStripe ? '#e5edf5' : 'rgba(51, 65, 85, 0.4)';
+      const tickColor = isStripe ? '#50617a' : '#94a3b8';
+      const labelColor = isStripe ? '#061b31' : '#f8fafc';
+
+      priceRangeChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: cars.map(c => `${c.brand} ${c.model} ${c.trim}`),
+          datasets: [
+            {
+              label: `Giá lăn bánh (${regionLabel}) (Triệu VNĐ)`,
+              data: cars.map(c => getOtrPrice(c)),
+              backgroundColor: barColor,
+              hoverBackgroundColor: hoverColor,
+              borderColor: borderColor,
+              borderWidth: 1,
+              borderRadius: isStripe ? 4 : 6,
+              maxBarThickness: 20,
+            }
+          ]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          layout: {
+            padding: { right: 54, top: 4, bottom: 4, left: 4 }
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: (context) => {
+                  const car = cars[context.dataIndex];
+                  const val = context.parsed.x;
+                  const lines = [`Giá lăn bánh (${regionLabel}): ${val} Triệu`];
+                  if (car) {
+                    if (car.segment) lines.push(`Phân khúc: ${car.segment}`);
+                    if (car.listed_price) lines.push(`Giá niêm yết: ${car.listed_price} Triệu`);
+                    if (car.net_price) lines.push(`Giá sau giảm: ${car.net_price} Triệu`);
+                    if (car.discount_amount) lines.push(`Ưu đãi giảm: -${car.discount_amount} Triệu`);
+                  }
+                  return lines;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              beginAtZero: true,
+              ticks: { color: tickColor, font: { size: 10 } },
+              grid: { color: gridColor }
+            },
+            y: {
+              ticks: {
+                color: tickColor,
+                font: { size: 11, family: isStripe ? 'Be Vietnam Pro' : 'sans-serif' }
+              },
+              grid: { display: false }
+            }
+          }
+        },
+        plugins: [{
+          id: 'topValueLabelsPriceRange',
+          afterDatasetsDraw(chart) {
+            const { ctx: chartCtx } = chart;
+            chartCtx.save();
+            const meta = chart.getDatasetMeta(0);
+            const dataset = chart.data.datasets[0];
+            meta.data.forEach((bar, index) => {
+              const val = dataset.data[index];
+              if (val !== null && val !== undefined) {
+                chartCtx.fillStyle = labelColor;
+                chartCtx.font = 'bold 11px var(--font-sans)';
+                chartCtx.textAlign = 'left';
+                chartCtx.textBaseline = 'middle';
+                chartCtx.fillText(`${val}tr`, bar.x + 6, bar.y);
+              }
+            });
+            chartCtx.restore();
+          }
+        }]
+      });
+    }
+                  return lines;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              beginAtZero: true,
+              ticks: { color: tickColor, font: { size: 10 } },
+              grid: { color: gridColor }
+            },
+            y: {
+              ticks: {
+                color: tickColor,
+                font: { size: 11, family: isStripe ? 'Be Vietnam Pro' : 'sans-serif' }
+              },
+              grid: { display: false }
+            }
+          }
+        },
+        plugins: [{
+          id: 'topValueLabelsPriceRange',
+          afterDatasetsDraw(chart) {
+            const { ctx: chartCtx } = chart;
+            chartCtx.save();
+            const meta = chart.getDatasetMeta(0);
+            const dataset = chart.data.datasets[0];
+            meta.data.forEach((bar, index) => {
+              const val = dataset.data[index];
+              if (val !== null && val !== undefined) {
+                chartCtx.fillStyle = labelColor;
+                chartCtx.font = 'bold 11px var(--font-sans)';
+                chartCtx.textAlign = 'left';
+                chartCtx.textBaseline = 'middle';
+                chartCtx.fillText(`${val}tr`, bar.x + 6, bar.y);
+              }
+            });
+            chartCtx.restore();
+          }
+        }]
+      });
     }
 
     function renderCarTrendChart() {
@@ -2108,10 +2623,9 @@
 
     window.addEventListener('DOMContentLoaded', initDashboard);
     window.addEventListener('resize', () => {
-      const segSel = document.getElementById('chartSegmentSelect');
-      const seg = segSel ? segSel.value : '';
-      const count = (dbData.cars || []).filter(c => !seg || c.segment === seg).length;
-      updateSegmentSliderState(count);
+      if (segmentChartInstance) segmentChartInstance.resize();
+      if (priceRangeChartInstance) priceRangeChartInstance.resize();
+      if (trendChartInstance) trendChartInstance.resize();
     });
   </script>
 </body>
