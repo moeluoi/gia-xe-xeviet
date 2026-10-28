@@ -4,8 +4,18 @@ window.CAR_PRICE_DATA = {
     "handle": "@xeviet.official",
     "url": "https://www.youtube.com/@xeviet.official"
   },
-  "last_updated": "2026-10-28 03:10:01",
+  "last_updated": "2026-10-28 09:12:51",
   "videos": [
+    {
+      "video_id": "IfIV3Dj9T2c",
+      "title": "Wuling Macaron Cuối Tháng 10, Giá Hơn 260 Triệu. Xe Điện Nhỏ Xinh Dành Cho Chị Em | Xe Việt",
+      "url": "https://www.youtube.com/watch?v=IfIV3Dj9T2c",
+      "upload_date": "2026-10-28",
+      "thumbnail": "https://i.ytimg.com/vi/IfIV3Dj9T2c/hqdefault.jpg",
+      "has_car_pricing": true,
+      "summary": "Video cập nhật giá bán và chi phí lăn bánh của xe điện Wuling Macaron với hai phiên bản pin 205km và 300km trong tháng 10 năm 2026.",
+      "extracted_count": 2
+    },
     {
       "video_id": "uy1PHbdqkaY",
       "title": "Mazda 2 Cuối Tháng 10, Giá Chỉ 380 Triệu. Chi Tiết Lăn Bánh & Thủ Tục Trả Góp | Xe Việt",
@@ -318,6 +328,88 @@ window.CAR_PRICE_DATA = {
     }
   ],
   "cars": [
+    {
+      "car_id": "wuling-macaron-205km-2026",
+      "brand": "Wuling",
+      "model": "Macaron",
+      "trim": "205km",
+      "year": 2026,
+      "segment": "CUV/SUV cỡ A",
+      "history": [
+        {
+          "date": "2026-10-28",
+          "video_id": "IfIV3Dj9T2c",
+          "video_title": "Wuling Macaron Cuối Tháng 10, Giá Hơn 260 Triệu. Xe Điện Nhỏ Xinh Dành Cho Chị Em | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=IfIV3Dj9T2c&t=236s",
+          "timestamp_seconds": 236,
+          "timestamp_label": "03:56",
+          "listed_price": 269.0,
+          "discount_amount": 0.0,
+          "discount_pct": 0.0,
+          "net_price": 269.0,
+          "otr_tinh": 271.0,
+          "otr_hcm": 285.0,
+          "otr_hn": 285.0
+        }
+      ],
+      "latest_date": "2026-10-28",
+      "listed_price": 269.0,
+      "discount_amount": 0.0,
+      "discount_pct": 0.0,
+      "net_price": 269.0,
+      "otr_tinh": 271.0,
+      "otr_hcm": 285.0,
+      "otr_hn": 285.0,
+      "net_price_change": 0.0,
+      "discount_change": 0.0,
+      "previous_net_price": null,
+      "video_id": "IfIV3Dj9T2c",
+      "video_title": "Wuling Macaron Cuối Tháng 10, Giá Hơn 260 Triệu. Xe Điện Nhỏ Xinh Dành Cho Chị Em | Xe Việt",
+      "video_url": "https://www.youtube.com/watch?v=IfIV3Dj9T2c&t=236s",
+      "timestamp_seconds": 236,
+      "timestamp_label": "03:56"
+    },
+    {
+      "car_id": "wuling-macaron-300km-2026",
+      "brand": "Wuling",
+      "model": "Macaron",
+      "trim": "300km",
+      "year": 2026,
+      "segment": "CUV/SUV cỡ A",
+      "history": [
+        {
+          "date": "2026-10-28",
+          "video_id": "IfIV3Dj9T2c",
+          "video_title": "Wuling Macaron Cuối Tháng 10, Giá Hơn 260 Triệu. Xe Điện Nhỏ Xinh Dành Cho Chị Em | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=IfIV3Dj9T2c&t=419s",
+          "timestamp_seconds": 419,
+          "timestamp_label": "06:59",
+          "listed_price": 329.0,
+          "discount_amount": 0.0,
+          "discount_pct": 0.0,
+          "net_price": 329.0,
+          "otr_tinh": 331.0,
+          "otr_hcm": 345.0,
+          "otr_hn": 345.0
+        }
+      ],
+      "latest_date": "2026-10-28",
+      "listed_price": 329.0,
+      "discount_amount": 0.0,
+      "discount_pct": 0.0,
+      "net_price": 329.0,
+      "otr_tinh": 331.0,
+      "otr_hcm": 345.0,
+      "otr_hn": 345.0,
+      "net_price_change": 0.0,
+      "discount_change": 0.0,
+      "previous_net_price": null,
+      "video_id": "IfIV3Dj9T2c",
+      "video_title": "Wuling Macaron Cuối Tháng 10, Giá Hơn 260 Triệu. Xe Điện Nhỏ Xinh Dành Cho Chị Em | Xe Việt",
+      "video_url": "https://www.youtube.com/watch?v=IfIV3Dj9T2c&t=419s",
+      "timestamp_seconds": 419,
+      "timestamp_label": "06:59"
+    },
     {
       "car_id": "mitsubishi-destinator-premium-2026",
       "brand": "Mitsubishi",
