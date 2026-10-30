@@ -4,8 +4,18 @@
     "handle": "@xeviet.official",
     "url": "https://www.youtube.com/@xeviet.official"
   },
-  "last_updated": "2026-10-30 03:26:50",
+  "last_updated": "2026-10-30 09:35:11",
   "videos": [
+    {
+      "video_id": "ZIvdQ1732XE",
+      "title": "Giá BYD Sealion 5 Tháng 11, Hơn 650 Triệu Kèm Ưu Đãi. Xe Ngon Nhưng Chốt Có Hợp Lý? | Xe Việt",
+      "url": "https://www.youtube.com/watch?v=ZIvdQ1732XE",
+      "upload_date": "2026-10-30",
+      "thumbnail": "https://i.ytimg.com/vi/ZIvdQ1732XE/hqdefault.jpg",
+      "has_car_pricing": true,
+      "summary": "Cập nhật bảng giá niêm yết, ưu đãi giảm 80 triệu đồng, giá lăn bánh và trả góp chi tiết cho hai phiên bản BYD Sealion 5 (Premium và Essential) trong tháng 11.",
+      "extracted_count": 2
+    },
     {
       "video_id": "k8B0EF6sHto",
       "title": "Giá Geely EX2 Cuối Tháng 10, Hơn 450 Triệu. Có Xe Giao Ngay. Chi Tiết Lăn Bánh & Trả Góp | Xe Việt",
@@ -378,6 +388,88 @@
     }
   ],
   "cars": [
+    {
+      "car_id": "byd-sealion-5-premium-2026",
+      "brand": "BYD",
+      "model": "Sealion 5",
+      "trim": "Premium",
+      "year": 2026,
+      "segment": "CUV/SUV cỡ C",
+      "history": [
+        {
+          "date": "2026-10-30",
+          "video_id": "ZIvdQ1732XE",
+          "video_title": "Giá BYD Sealion 5 Tháng 11, Hơn 650 Triệu Kèm Ưu Đãi. Xe Ngon Nhưng Chốt Có Hợp Lý? | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=ZIvdQ1732XE&t=553s",
+          "timestamp_seconds": 553,
+          "timestamp_label": "09:13",
+          "listed_price": 789.0,
+          "discount_amount": 80.0,
+          "discount_pct": 10.1,
+          "net_price": 709.0,
+          "otr_tinh": 790.0,
+          "otr_hcm": 804.0,
+          "otr_hn": 819.0
+        }
+      ],
+      "latest_date": "2026-10-30",
+      "listed_price": 789.0,
+      "discount_amount": 80.0,
+      "discount_pct": 10.1,
+      "net_price": 709.0,
+      "otr_tinh": 790.0,
+      "otr_hcm": 804.0,
+      "otr_hn": 819.0,
+      "net_price_change": 0.0,
+      "discount_change": 0.0,
+      "previous_net_price": null,
+      "video_id": "ZIvdQ1732XE",
+      "video_title": "Giá BYD Sealion 5 Tháng 11, Hơn 650 Triệu Kèm Ưu Đãi. Xe Ngon Nhưng Chốt Có Hợp Lý? | Xe Việt",
+      "video_url": "https://www.youtube.com/watch?v=ZIvdQ1732XE&t=553s",
+      "timestamp_seconds": 553,
+      "timestamp_label": "09:13"
+    },
+    {
+      "car_id": "byd-sealion-5-essential-2026",
+      "brand": "BYD",
+      "model": "Sealion 5",
+      "trim": "Essential",
+      "year": 2026,
+      "segment": "CUV/SUV cỡ C",
+      "history": [
+        {
+          "date": "2026-10-30",
+          "video_id": "ZIvdQ1732XE",
+          "video_title": "Giá BYD Sealion 5 Tháng 11, Hơn 650 Triệu Kèm Ưu Đãi. Xe Ngon Nhưng Chốt Có Hợp Lý? | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=ZIvdQ1732XE&t=846s",
+          "timestamp_seconds": 846,
+          "timestamp_label": "14:06",
+          "listed_price": 739.0,
+          "discount_amount": 80.0,
+          "discount_pct": 10.8,
+          "net_price": 659.0,
+          "otr_tinh": 735.0,
+          "otr_hcm": 749.0,
+          "otr_hn": 763.0
+        }
+      ],
+      "latest_date": "2026-10-30",
+      "listed_price": 739.0,
+      "discount_amount": 80.0,
+      "discount_pct": 10.8,
+      "net_price": 659.0,
+      "otr_tinh": 735.0,
+      "otr_hcm": 749.0,
+      "otr_hn": 763.0,
+      "net_price_change": 0.0,
+      "discount_change": 0.0,
+      "previous_net_price": null,
+      "video_id": "ZIvdQ1732XE",
+      "video_title": "Giá BYD Sealion 5 Tháng 11, Hơn 650 Triệu Kèm Ưu Đãi. Xe Ngon Nhưng Chốt Có Hợp Lý? | Xe Việt",
+      "video_url": "https://www.youtube.com/watch?v=ZIvdQ1732XE&t=846s",
+      "timestamp_seconds": 846,
+      "timestamp_label": "14:06"
+    },
     {
       "car_id": "vinfast-vf-6-plus-2026",
       "brand": "VinFast",
