@@ -4,8 +4,18 @@ window.CAR_PRICE_DATA = {
     "handle": "@xeviet.official",
     "url": "https://www.youtube.com/@xeviet.official"
   },
-  "last_updated": "2026-11-03 10:55:50",
+  "last_updated": "2026-11-04 04:09:22",
   "videos": [
+    {
+      "video_id": "yBBtU_HRHZI",
+      "title": "Xả Kho Yaris Cross Tháng 11, Giảm 90 Triệu. Chỉ 570 Triệu Là Mua Được Rồi! | Xe Việt",
+      "url": "https://www.youtube.com/watch?v=yBBtU_HRHZI",
+      "upload_date": "2026-11-03",
+      "thumbnail": "https://i.ytimg.com/vi/yBBtU_HRHZI/hqdefault.jpg",
+      "has_car_pricing": true,
+      "summary": "Video cập nhật chương trình xả kho và bảng giá chi tiết của Toyota Yaris Cross trong tháng 11/2026 với mức ưu đãi giảm tiền mặt lên đến 90 triệu đồng cho cả bản Xăng và bản Hybrid.",
+      "extracted_count": 2
+    },
     {
       "video_id": "fNtEEe00oRk",
       "title": "Honda City 2026 Tháng 11, Giá Còn 509 Triệu. Giảm 30 Triệu, Đáng Chọn Hơn Vios, Accent? | Xe Việt",
@@ -529,6 +539,88 @@ window.CAR_PRICE_DATA = {
       "video_url": "https://www.youtube.com/watch?v=HnfjRjBzNVU&t=412s",
       "timestamp_seconds": 412,
       "timestamp_label": "06:52"
+    },
+    {
+      "car_id": "toyota-yaris-cross-ban-hybrid-2026",
+      "brand": "Toyota",
+      "model": "Yaris Cross",
+      "trim": "Bản Hybrid",
+      "year": 2026,
+      "segment": "CUV/SUV cỡ B",
+      "history": [
+        {
+          "date": "2026-11-03",
+          "video_id": "yBBtU_HRHZI",
+          "video_title": "Xả Kho Yaris Cross Tháng 11, Giảm 90 Triệu. Chỉ 570 Triệu Là Mua Được Rồi! | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=yBBtU_HRHZI&t=715s",
+          "timestamp_seconds": 715,
+          "timestamp_label": "11:55",
+          "listed_price": 733.0,
+          "discount_amount": 70.0,
+          "discount_pct": 9.5,
+          "net_price": 663.0,
+          "otr_tinh": 753.0,
+          "otr_hcm": 732.0,
+          "otr_hn": 767.0
+        }
+      ],
+      "latest_date": "2026-11-03",
+      "listed_price": 733.0,
+      "discount_amount": 70.0,
+      "discount_pct": 9.5,
+      "net_price": 663.0,
+      "otr_tinh": 753.0,
+      "otr_hcm": 732.0,
+      "otr_hn": 767.0,
+      "net_price_change": 0.0,
+      "discount_change": 0.0,
+      "previous_net_price": null,
+      "video_id": "yBBtU_HRHZI",
+      "video_title": "Xả Kho Yaris Cross Tháng 11, Giảm 90 Triệu. Chỉ 570 Triệu Là Mua Được Rồi! | Xe Việt",
+      "video_url": "https://www.youtube.com/watch?v=yBBtU_HRHZI&t=715s",
+      "timestamp_seconds": 715,
+      "timestamp_label": "11:55"
+    },
+    {
+      "car_id": "toyota-yaris-cross-ban-xang-2026",
+      "brand": "Toyota",
+      "model": "Yaris Cross",
+      "trim": "Bản Xăng",
+      "year": 2026,
+      "segment": "CUV/SUV cỡ B",
+      "history": [
+        {
+          "date": "2026-11-03",
+          "video_id": "yBBtU_HRHZI",
+          "video_title": "Xả Kho Yaris Cross Tháng 11, Giảm 90 Triệu. Chỉ 570 Triệu Là Mua Được Rồi! | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=yBBtU_HRHZI&t=435s",
+          "timestamp_seconds": 435,
+          "timestamp_label": "07:15",
+          "listed_price": 650.0,
+          "discount_amount": 50.0,
+          "discount_pct": 7.7,
+          "net_price": 600.0,
+          "otr_tinh": 681.0,
+          "otr_hcm": 651.0,
+          "otr_hn": 694.0
+        }
+      ],
+      "latest_date": "2026-11-03",
+      "listed_price": 650.0,
+      "discount_amount": 50.0,
+      "discount_pct": 7.7,
+      "net_price": 600.0,
+      "otr_tinh": 681.0,
+      "otr_hcm": 651.0,
+      "otr_hn": 694.0,
+      "net_price_change": 0.0,
+      "discount_change": 0.0,
+      "previous_net_price": null,
+      "video_id": "yBBtU_HRHZI",
+      "video_title": "Xả Kho Yaris Cross Tháng 11, Giảm 90 Triệu. Chỉ 570 Triệu Là Mua Được Rồi! | Xe Việt",
+      "video_url": "https://www.youtube.com/watch?v=yBBtU_HRHZI&t=435s",
+      "timestamp_seconds": 435,
+      "timestamp_label": "07:15"
     },
     {
       "car_id": "honda-city-rs-2026",
