@@ -4,7 +4,7 @@ window.CAR_PRICE_DATA = {
     "handle": "@xeviet.official",
     "url": "https://www.youtube.com/@xeviet.official"
   },
-  "last_updated": "2026-11-14 10:10:59",
+  "last_updated": "2026-11-15 02:59:01",
   "videos": [
     {
       "video_id": "mdTgdfmSjOM",
@@ -14,6 +14,16 @@ window.CAR_PRICE_DATA = {
       "thumbnail": "https://i.ytimg.com/vi/mdTgdfmSjOM/hqdefault.jpg",
       "has_car_pricing": true,
       "summary": "Video cập nhật bảng giá chi tiết và các chương trình ưu đãi giảm giá tháng 11 cho mẫu xe điện 7 chỗ VinFast Limo Green tại thị trường Việt Nam.",
+      "extracted_count": 1
+    },
+    {
+      "video_id": "R7D3FSAJPv8",
+      "title": "Giá VinFast MPV 7 Tháng 11. Ưu Đãi Còn Hơn 640 Triệu, Đã Đến Lúc Xuống Tiền? | Xe Việt",
+      "url": "https://www.youtube.com/watch?v=R7D3FSAJPv8",
+      "upload_date": "2026-11-14",
+      "thumbnail": "https://i.ytimg.com/vi/R7D3FSAJPv8/hqdefault.jpg",
+      "has_car_pricing": true,
+      "summary": "Cập nhật giá bán, ưu đãi và chi phí lăn bánh của mẫu xe điện VinFast MPV 7 trong tháng 11/2026 với mức giá sau ưu đãi hơn 640 triệu đồng.",
       "extracted_count": 1
     },
     {
@@ -748,6 +758,47 @@ window.CAR_PRICE_DATA = {
     }
   ],
   "cars": [
+    {
+      "car_id": "vinfast-mpv-7-tieu-chuan-2026",
+      "brand": "VinFast",
+      "model": "MPV 7",
+      "trim": "Tiêu chuẩn",
+      "year": 2026,
+      "segment": "MPV 7 chỗ",
+      "history": [
+        {
+          "date": "2026-11-14",
+          "video_id": "R7D3FSAJPv8",
+          "video_title": "Giá VinFast MPV 7 Tháng 11. Ưu Đãi Còn Hơn 640 Triệu, Đã Đến Lúc Xuống Tiền? | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=R7D3FSAJPv8&t=500s",
+          "timestamp_seconds": 500,
+          "timestamp_label": "08:20",
+          "listed_price": 750.0,
+          "discount_amount": 103.0,
+          "discount_pct": 13.7,
+          "net_price": 647.0,
+          "otr_tinh": 649.0,
+          "otr_hcm": 649.0,
+          "otr_hn": 663.0
+        }
+      ],
+      "latest_date": "2026-11-14",
+      "listed_price": 750.0,
+      "discount_amount": 103.0,
+      "discount_pct": 13.7,
+      "net_price": 647.0,
+      "otr_tinh": 649.0,
+      "otr_hcm": 649.0,
+      "otr_hn": 663.0,
+      "net_price_change": 0.0,
+      "discount_change": 0.0,
+      "previous_net_price": null,
+      "video_id": "R7D3FSAJPv8",
+      "video_title": "Giá VinFast MPV 7 Tháng 11. Ưu Đãi Còn Hơn 640 Triệu, Đã Đến Lúc Xuống Tiền? | Xe Việt",
+      "video_url": "https://www.youtube.com/watch?v=R7D3FSAJPv8&t=500s",
+      "timestamp_seconds": 500,
+      "timestamp_label": "08:20"
+    },
     {
       "car_id": "vinfast-limo-green-tieu-chuan-2026",
       "brand": "VinFast",
