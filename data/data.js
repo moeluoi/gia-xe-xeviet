@@ -4,8 +4,18 @@ window.CAR_PRICE_DATA = {
     "handle": "@xeviet.official",
     "url": "https://www.youtube.com/@xeviet.official"
   },
-  "last_updated": "2026-11-14 04:29:31",
+  "last_updated": "2026-11-14 10:10:59",
   "videos": [
+    {
+      "video_id": "mdTgdfmSjOM",
+      "title": "VinFast Limo Green Tháng 11. Giá Chỉ Hơn 600 Triệu, Ưu Đãi Mới Có Đáng Chốt? | Xe Việt",
+      "url": "https://www.youtube.com/watch?v=mdTgdfmSjOM",
+      "upload_date": "2026-11-14",
+      "thumbnail": "https://i.ytimg.com/vi/mdTgdfmSjOM/hqdefault.jpg",
+      "has_car_pricing": true,
+      "summary": "Video cập nhật bảng giá chi tiết và các chương trình ưu đãi giảm giá tháng 11 cho mẫu xe điện 7 chỗ VinFast Limo Green tại thị trường Việt Nam.",
+      "extracted_count": 1
+    },
     {
       "video_id": "hqSyex-_yhQ",
       "title": "Xả Kho Xforce Tháng 11. Thấp Kỷ Lục  508 Triệu, Tặng Bảo Hiểm. Không Chốt Thì Mất Cơ Hội | Xe Việt",
@@ -738,6 +748,62 @@ window.CAR_PRICE_DATA = {
     }
   ],
   "cars": [
+    {
+      "car_id": "vinfast-limo-green-tieu-chuan-2026",
+      "brand": "VinFast",
+      "model": "Limo Green",
+      "trim": "Tiêu chuẩn",
+      "year": 2026,
+      "segment": "MPV",
+      "history": [
+        {
+          "date": "2026-10-15",
+          "video_id": "tkHhPBaUz6w",
+          "video_title": "VinFast Limo Green Tháng 10, Hơn 600 Triệu Là Mua Được. AE Chạy Dịch Vụ Quá Hợp Lý! | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=tkHhPBaUz6w&t=235s",
+          "timestamp_seconds": 235,
+          "timestamp_label": "03:55",
+          "listed_price": 699.0,
+          "discount_amount": 75.0,
+          "discount_pct": 10.7,
+          "net_price": 624.0,
+          "otr_tinh": 626.0,
+          "otr_hcm": 640.0,
+          "otr_hn": 640.0
+        },
+        {
+          "date": "2026-11-14",
+          "video_id": "mdTgdfmSjOM",
+          "video_title": "VinFast Limo Green Tháng 11. Giá Chỉ Hơn 600 Triệu, Ưu Đãi Mới Có Đáng Chốt? | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=mdTgdfmSjOM&t=314s",
+          "timestamp_seconds": 314,
+          "timestamp_label": "05:14",
+          "listed_price": 699.0,
+          "discount_amount": 75.0,
+          "discount_pct": 10.7,
+          "net_price": 624.0,
+          "otr_tinh": 626.0,
+          "otr_hcm": 626.0,
+          "otr_hn": 640.0
+        }
+      ],
+      "latest_date": "2026-11-14",
+      "listed_price": 699.0,
+      "discount_amount": 75.0,
+      "discount_pct": 10.7,
+      "net_price": 624.0,
+      "otr_tinh": 626.0,
+      "otr_hcm": 626.0,
+      "otr_hn": 640.0,
+      "net_price_change": 0.0,
+      "discount_change": 0.0,
+      "previous_net_price": 624.0,
+      "video_id": "mdTgdfmSjOM",
+      "video_title": "VinFast Limo Green Tháng 11. Giá Chỉ Hơn 600 Triệu, Ưu Đãi Mới Có Đáng Chốt? | Xe Việt",
+      "video_url": "https://www.youtube.com/watch?v=mdTgdfmSjOM&t=314s",
+      "timestamp_seconds": 314,
+      "timestamp_label": "05:14"
+    },
     {
       "car_id": "ford-territory-titanium-x-2026",
       "brand": "Ford",
@@ -7012,47 +7078,6 @@ window.CAR_PRICE_DATA = {
       "video_url": "https://www.youtube.com/watch?v=F9XOKJQOYjQ&t=215s",
       "timestamp_seconds": 215,
       "timestamp_label": "03:35"
-    },
-    {
-      "car_id": "vinfast-limo-green-tieu-chuan-2026",
-      "brand": "VinFast",
-      "model": "Limo Green",
-      "trim": "Tiêu chuẩn",
-      "year": 2026,
-      "segment": "MPV",
-      "history": [
-        {
-          "date": "2026-10-15",
-          "video_id": "tkHhPBaUz6w",
-          "video_title": "VinFast Limo Green Tháng 10, Hơn 600 Triệu Là Mua Được. AE Chạy Dịch Vụ Quá Hợp Lý! | Xe Việt",
-          "video_url": "https://www.youtube.com/watch?v=tkHhPBaUz6w&t=235s",
-          "timestamp_seconds": 235,
-          "timestamp_label": "03:55",
-          "listed_price": 699.0,
-          "discount_amount": 75.0,
-          "discount_pct": 10.7,
-          "net_price": 624.0,
-          "otr_tinh": 626.0,
-          "otr_hcm": 640.0,
-          "otr_hn": 640.0
-        }
-      ],
-      "latest_date": "2026-10-15",
-      "listed_price": 699.0,
-      "discount_amount": 75.0,
-      "discount_pct": 10.7,
-      "net_price": 624.0,
-      "otr_tinh": 626.0,
-      "otr_hcm": 640.0,
-      "otr_hn": 640.0,
-      "net_price_change": 0.0,
-      "discount_change": 0.0,
-      "previous_net_price": null,
-      "video_id": "tkHhPBaUz6w",
-      "video_title": "VinFast Limo Green Tháng 10, Hơn 600 Triệu Là Mua Được. AE Chạy Dịch Vụ Quá Hợp Lý! | Xe Việt",
-      "video_url": "https://www.youtube.com/watch?v=tkHhPBaUz6w&t=235s",
-      "timestamp_seconds": 235,
-      "timestamp_label": "03:55"
     },
     {
       "car_id": "toyota-yaris-cross-ban-hybrid-2024",
