@@ -4,7 +4,7 @@
     "handle": "@xeviet.official",
     "url": "https://www.youtube.com/@xeviet.official"
   },
-  "last_updated": "2026-11-19 11:10:09",
+  "last_updated": "2026-11-20 05:41:53",
   "videos": [
     {
       "video_id": "wxt5XzrtcF0",
@@ -15,6 +15,16 @@
       "has_car_pricing": true,
       "summary": "Video cập nhật chương trình xả kho và bảng giá chi tiết cho mẫu SUV điện đô thị VinFast VF 5 trong tháng 11 với mức giảm sâu cùng chi phí lăn bánh tại các khu vực.",
       "extracted_count": 1
+    },
+    {
+      "video_id": "_qxxcW9HRo0",
+      "title": "Hơn 600 Triệu Mua Honda BR-V 7 Chỗ. Tháng 11 Giảm 100 Triệu, Trả Góp 0% Lãi Suất ! | Xe Việt",
+      "url": "https://www.youtube.com/watch?v=_qxxcW9HRo0",
+      "upload_date": "2026-11-19",
+      "thumbnail": "https://i.ytimg.com/vi/_qxxcW9HRo0/hqdefault.jpg",
+      "has_car_pricing": true,
+      "summary": "Video cập nhật giá bán, chương trình ưu đãi giảm giá lên tới 100 triệu đồng và chi phí lăn bánh của dòng xe MPV 7 chỗ Honda BR-V trong tháng 11.",
+      "extracted_count": 2
     },
     {
       "video_id": "3BLcGypH0Rs",
@@ -1051,6 +1061,47 @@
       "timestamp_label": "03:36"
     },
     {
+      "car_id": "honda-br-v-ban-l-2026",
+      "brand": "Honda",
+      "model": "BR-V",
+      "trim": "Bản L",
+      "year": 2026,
+      "segment": "MPV 7 chỗ",
+      "history": [
+        {
+          "date": "2026-11-19",
+          "video_id": "_qxxcW9HRo0",
+          "video_title": "Hơn 600 Triệu Mua Honda BR-V 7 Chỗ. Tháng 11 Giảm 100 Triệu, Trả Góp 0% Lãi Suất ! | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=_qxxcW9HRo0&t=609s",
+          "timestamp_seconds": 609,
+          "timestamp_label": "10:09",
+          "listed_price": 705.0,
+          "discount_amount": 95.0,
+          "discount_pct": 13.5,
+          "net_price": 610.0,
+          "otr_tinh": 683.0,
+          "otr_hcm": 692.0,
+          "otr_hn": 711.0
+        }
+      ],
+      "latest_date": "2026-11-19",
+      "listed_price": 705.0,
+      "discount_amount": 95.0,
+      "discount_pct": 13.5,
+      "net_price": 610.0,
+      "otr_tinh": 683.0,
+      "otr_hcm": 692.0,
+      "otr_hn": 711.0,
+      "net_price_change": 0.0,
+      "discount_change": 0.0,
+      "previous_net_price": null,
+      "video_id": "_qxxcW9HRo0",
+      "video_title": "Hơn 600 Triệu Mua Honda BR-V 7 Chỗ. Tháng 11 Giảm 100 Triệu, Trả Góp 0% Lãi Suất ! | Xe Việt",
+      "video_url": "https://www.youtube.com/watch?v=_qxxcW9HRo0&t=609s",
+      "timestamp_seconds": 609,
+      "timestamp_label": "10:09"
+    },
+    {
       "car_id": "vinfast-vf-5-tieu-chuan-2026",
       "brand": "VinFast",
       "model": "VF 5",
@@ -1105,6 +1156,47 @@
       "video_url": "https://www.youtube.com/watch?v=wxt5XzrtcF0&t=222s",
       "timestamp_seconds": 222,
       "timestamp_label": "03:42"
+    },
+    {
+      "car_id": "honda-br-v-ban-g-2026",
+      "brand": "Honda",
+      "model": "BR-V",
+      "trim": "Bản G",
+      "year": 2026,
+      "segment": "MPV 7 chỗ",
+      "history": [
+        {
+          "date": "2026-11-19",
+          "video_id": "_qxxcW9HRo0",
+          "video_title": "Hơn 600 Triệu Mua Honda BR-V 7 Chỗ. Tháng 11 Giảm 100 Triệu, Trả Góp 0% Lãi Suất ! | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=_qxxcW9HRo0&t=349s",
+          "timestamp_seconds": 349,
+          "timestamp_label": "05:49",
+          "listed_price": 629.0,
+          "discount_amount": 60.0,
+          "discount_pct": 9.5,
+          "net_price": 569.0,
+          "otr_tinh": 637.0,
+          "otr_hcm": 651.0,
+          "otr_hn": 664.0
+        }
+      ],
+      "latest_date": "2026-11-19",
+      "listed_price": 629.0,
+      "discount_amount": 60.0,
+      "discount_pct": 9.5,
+      "net_price": 569.0,
+      "otr_tinh": 637.0,
+      "otr_hcm": 651.0,
+      "otr_hn": 664.0,
+      "net_price_change": 0.0,
+      "discount_change": 0.0,
+      "previous_net_price": null,
+      "video_id": "_qxxcW9HRo0",
+      "video_title": "Hơn 600 Triệu Mua Honda BR-V 7 Chỗ. Tháng 11 Giảm 100 Triệu, Trả Góp 0% Lãi Suất ! | Xe Việt",
+      "video_url": "https://www.youtube.com/watch?v=_qxxcW9HRo0&t=349s",
+      "timestamp_seconds": 349,
+      "timestamp_label": "05:49"
     },
     {
       "car_id": "vinfast-mpv-7-tieu-chuan-2026",
