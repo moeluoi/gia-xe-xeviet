@@ -4,7 +4,7 @@ window.CAR_PRICE_DATA = {
     "handle": "@xeviet.official",
     "url": "https://www.youtube.com/@xeviet.official"
   },
-  "last_updated": "2026-11-24 07:54:20",
+  "last_updated": "2026-11-24 14:39:35",
   "videos": [
     {
       "video_id": "RtLEGOyiIA8",
@@ -929,7 +929,7 @@ window.CAR_PRICE_DATA = {
   ],
   "cars": [
     {
-      "car_id": "mg-g50-del-2026",
+      "car_id": "mg-g50-del",
       "brand": "MG",
       "model": "G50",
       "trim": "DEL",
@@ -970,7 +970,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "09:14"
     },
     {
-      "car_id": "mg-g50-lux-2026",
+      "car_id": "mg-g50-lux",
       "brand": "MG",
       "model": "G50",
       "trim": "LUX",
@@ -1011,7 +1011,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "11:51"
     },
     {
-      "car_id": "mg-g50-so-san-2026",
+      "car_id": "mg-g50-so-san",
       "brand": "MG",
       "model": "G50",
       "trim": "Số Sàn",
@@ -1052,7 +1052,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:29"
     },
     {
-      "car_id": "hyundai-tucson-n-line-2026",
+      "car_id": "hyundai-tucson-n-line",
       "brand": "Hyundai",
       "model": "Tucson",
       "trim": "N Line",
@@ -1123,7 +1123,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "13:38"
     },
     {
-      "car_id": "hyundai-tucson-1-6-turbo-2026",
+      "car_id": "hyundai-tucson-1-6-turbo",
       "brand": "Hyundai",
       "model": "Tucson",
       "trim": "1.6 Turbo",
@@ -1194,7 +1194,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "11:57"
     },
     {
-      "car_id": "hyundai-tucson-2-0-xang-dac-biet-2026",
+      "car_id": "hyundai-tucson-2-0-xang-dac-biet",
       "brand": "Hyundai",
       "model": "Tucson",
       "trim": "2.0 Xăng Đặc biệt",
@@ -1265,7 +1265,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "08:55"
     },
     {
-      "car_id": "hyundai-creta-n-line-2026",
+      "car_id": "hyundai-creta-n-line",
       "brand": "Hyundai",
       "model": "Creta",
       "trim": "N Line",
@@ -1336,7 +1336,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "12:17"
     },
     {
-      "car_id": "hyundai-creta-dac-biet-2026",
+      "car_id": "hyundai-creta-dac-biet",
       "brand": "Hyundai",
       "model": "Creta",
       "trim": "Đặc biệt",
@@ -1407,7 +1407,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "08:24"
     },
     {
-      "car_id": "hyundai-tucson-2-0-xang-tieu-chuan-2026",
+      "car_id": "hyundai-tucson-2-0-xang-tieu-chuan",
       "brand": "Hyundai",
       "model": "Tucson",
       "trim": "2.0 Xăng Tiêu chuẩn",
@@ -1478,7 +1478,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:10"
     },
     {
-      "car_id": "hyundai-creta-cao-cap-2026",
+      "car_id": "hyundai-creta-cao-cap",
       "brand": "Hyundai",
       "model": "Creta",
       "trim": "Cao cấp",
@@ -1549,7 +1549,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "10:44"
     },
     {
-      "car_id": "hyundai-creta-tieu-chuan-2026",
+      "car_id": "hyundai-creta-tieu-chuan",
       "brand": "Hyundai",
       "model": "Creta",
       "trim": "Tiêu chuẩn",
@@ -1620,7 +1620,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:06"
     },
     {
-      "car_id": "mg-zs-lux-2026",
+      "car_id": "mg-zs-lux",
       "brand": "MG",
       "model": "ZS",
       "trim": "Lux",
@@ -1706,7 +1706,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "10:08"
     },
     {
-      "car_id": "mg-zs-tieu-chuan-2026",
+      "car_id": "mg-zs-tieu-chuan",
       "brand": "MG",
       "model": "ZS",
       "trim": "Tiêu chuẩn",
@@ -1792,7 +1792,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "07:16"
     },
     {
-      "car_id": "vinfast-vf-6-plus-2026",
+      "car_id": "vinfast-vf-6-plus",
       "brand": "VinFast",
       "model": "VF 6",
       "trim": "Plus",
@@ -1878,7 +1878,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "06:46"
     },
     {
-      "car_id": "vinfast-vf-6-eco-2026",
+      "car_id": "vinfast-vf-6-eco",
       "brand": "VinFast",
       "model": "VF 6",
       "trim": "Eco",
@@ -1964,7 +1964,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "03:36"
     },
     {
-      "car_id": "honda-br-v-l-2026",
+      "car_id": "honda-br-v-l",
       "brand": "Honda",
       "model": "BR-V",
       "trim": "L",
@@ -2035,7 +2035,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "10:09"
     },
     {
-      "car_id": "vinfast-vf-5-tieu-chuan-2026",
+      "car_id": "vinfast-vf-5-tieu-chuan",
       "brand": "VinFast",
       "model": "VF 5",
       "trim": "Tiêu chuẩn",
@@ -2091,7 +2091,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "03:42"
     },
     {
-      "car_id": "honda-br-v-g-2026",
+      "car_id": "honda-br-v-g",
       "brand": "Honda",
       "model": "BR-V",
       "trim": "G",
@@ -2162,7 +2162,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:49"
     },
     {
-      "car_id": "vinfast-mpv-7-tieu-chuan-2026",
+      "car_id": "vinfast-mpv-7-tieu-chuan",
       "brand": "VinFast",
       "model": "MPV 7",
       "trim": "Tiêu chuẩn",
@@ -2218,7 +2218,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:02"
     },
     {
-      "car_id": "honda-hr-v-l-2026",
+      "car_id": "honda-hr-v-l",
       "brand": "Honda",
       "model": "HR-V",
       "trim": "L",
@@ -2289,7 +2289,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "10:54"
     },
     {
-      "car_id": "honda-hr-v-g-2026",
+      "car_id": "honda-hr-v-g",
       "brand": "Honda",
       "model": "HR-V",
       "trim": "G",
@@ -2360,7 +2360,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "07:01"
     },
     {
-      "car_id": "honda-hr-v-rs-2026",
+      "car_id": "honda-hr-v-rs",
       "brand": "Honda",
       "model": "HR-V",
       "trim": "RS",
@@ -2416,7 +2416,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "15:21"
     },
     {
-      "car_id": "vinfast-vf-7-plus-1-cau-2026",
+      "car_id": "vinfast-vf-7-plus-1-cau",
       "brand": "VinFast",
       "model": "VF 7",
       "trim": "Plus 1 cầu",
@@ -2472,7 +2472,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "09:55"
     },
     {
-      "car_id": "vinfast-vf-7-eco-2026",
+      "car_id": "vinfast-vf-7-eco",
       "brand": "VinFast",
       "model": "VF 7",
       "trim": "Eco",
@@ -2528,7 +2528,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:31"
     },
     {
-      "car_id": "wuling-bingo-plus-333km-2026",
+      "car_id": "wuling-bingo-plus-333km",
       "brand": "Wuling",
       "model": "Bingo",
       "trim": "Plus 333km",
@@ -2584,7 +2584,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "08:40"
     },
     {
-      "car_id": "wuling-bingo-max-410km-2026",
+      "car_id": "wuling-bingo-max-410km",
       "brand": "Wuling",
       "model": "Bingo",
       "trim": "Max 410km",
@@ -2640,7 +2640,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "10:42"
     },
     {
-      "car_id": "wuling-bingo-base-333km-2026",
+      "car_id": "wuling-bingo-base-333km",
       "brand": "Wuling",
       "model": "Bingo",
       "trim": "Base 333km",
@@ -2696,7 +2696,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "06:52"
     },
     {
-      "car_id": "geely-ex2-max-2026",
+      "car_id": "geely-ex2-max",
       "brand": "Geely",
       "model": "EX2",
       "trim": "Max",
@@ -2782,7 +2782,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "08:56"
     },
     {
-      "car_id": "geely-ex2-pro-2026",
+      "car_id": "geely-ex2-pro",
       "brand": "Geely",
       "model": "EX2",
       "trim": "Pro",
@@ -2868,7 +2868,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:48"
     },
     {
-      "car_id": "mitsubishi-xpander-cross-2026",
+      "car_id": "mitsubishi-xpander-cross",
       "brand": "Mitsubishi",
       "model": "Xpander",
       "trim": "Cross",
@@ -2924,7 +2924,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "10:42"
     },
     {
-      "car_id": "mitsubishi-xpander-at-eco-2026",
+      "car_id": "mitsubishi-xpander-at-eco",
       "brand": "Mitsubishi",
       "model": "Xpander",
       "trim": "AT Eco",
@@ -2980,7 +2980,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "12:33"
     },
     {
-      "car_id": "mitsubishi-xpander-at-premium-2026",
+      "car_id": "mitsubishi-xpander-at-premium",
       "brand": "Mitsubishi",
       "model": "Xpander",
       "trim": "AT Premium",
@@ -3036,7 +3036,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "06:52"
     },
     {
-      "car_id": "honda-city-rs-2026",
+      "car_id": "honda-city-rs",
       "brand": "Honda",
       "model": "City",
       "trim": "RS",
@@ -3107,7 +3107,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "06:41"
     },
     {
-      "car_id": "honda-city-l-2026",
+      "car_id": "honda-city-l",
       "brand": "Honda",
       "model": "City",
       "trim": "L",
@@ -3163,7 +3163,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "09:10"
     },
     {
-      "car_id": "wuling-macaron-205km-2026",
+      "car_id": "wuling-macaron-205km",
       "brand": "Wuling",
       "model": "Macaron",
       "trim": "205km",
@@ -3219,7 +3219,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "03:46"
     },
     {
-      "car_id": "wuling-macaron-300km-2026",
+      "car_id": "wuling-macaron-300km",
       "brand": "Wuling",
       "model": "Macaron",
       "trim": "300km",
@@ -3275,7 +3275,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "06:50"
     },
     {
-      "car_id": "vinfast-limo-green-tieu-chuan-2026",
+      "car_id": "vinfast-limo-green-tieu-chuan",
       "brand": "VinFast",
       "model": "Limo Green",
       "trim": "Tiêu chuẩn",
@@ -3331,13 +3331,28 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:14"
     },
     {
-      "car_id": "ford-territory-titanium-x-2026",
+      "car_id": "ford-territory-titanium-x",
       "brand": "Ford",
       "model": "Territory",
       "trim": "Titanium X",
       "year": 2026,
       "segment": "CUV/SUV cỡ C",
       "history": [
+        {
+          "date": "2026-10-19",
+          "video_id": "JQX02veh-Vk",
+          "video_title": "Xả Kho Ford Territory Tháng 10, Giảm 105 Triệu. Còn 644 Triệu, Chọn Territory Hay CX-5? | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=JQX02veh-Vk&t=448s",
+          "timestamp_seconds": 448,
+          "timestamp_label": "07:28",
+          "listed_price": 875.0,
+          "discount_amount": 100.0,
+          "discount_pct": 11.4,
+          "net_price": 775.0,
+          "otr_tinh": 866.0,
+          "otr_hcm": 919.0,
+          "otr_hn": 898.0
+        },
         {
           "date": "2026-11-07",
           "video_id": "ubTleP2mPv4",
@@ -3387,13 +3402,28 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "13:27"
     },
     {
-      "car_id": "ford-territory-titanium-2026",
+      "car_id": "ford-territory-titanium",
       "brand": "Ford",
       "model": "Territory",
       "trim": "Titanium",
       "year": 2026,
       "segment": "CUV/SUV cỡ C",
       "history": [
+        {
+          "date": "2026-10-19",
+          "video_id": "JQX02veh-Vk",
+          "video_title": "Xả Kho Ford Territory Tháng 10, Giảm 105 Triệu. Còn 644 Triệu, Chọn Territory Hay CX-5? | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=JQX02veh-Vk&t=346s",
+          "timestamp_seconds": 346,
+          "timestamp_label": "05:46",
+          "listed_price": 819.0,
+          "discount_amount": 105.0,
+          "discount_pct": 12.8,
+          "net_price": 714.0,
+          "otr_tinh": 800.0,
+          "otr_hcm": 861.0,
+          "otr_hn": 830.0
+        },
         {
           "date": "2026-11-07",
           "video_id": "ubTleP2mPv4",
@@ -3443,7 +3473,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "08:58"
     },
     {
-      "car_id": "mitsubishi-xforce-ultimate-2026",
+      "car_id": "mitsubishi-xforce-ultimate",
       "brand": "Mitsubishi",
       "model": "Xforce",
       "trim": "Ultimate",
@@ -3514,13 +3544,28 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "12:06"
     },
     {
-      "car_id": "ford-territory-trend-2026",
+      "car_id": "ford-territory-trend",
       "brand": "Ford",
       "model": "Territory",
       "trim": "Trend",
       "year": 2026,
       "segment": "CUV/SUV cỡ C",
       "history": [
+        {
+          "date": "2026-10-19",
+          "video_id": "JQX02veh-Vk",
+          "video_title": "Xả Kho Ford Territory Tháng 10, Giảm 105 Triệu. Còn 644 Triệu, Chọn Territory Hay CX-5? | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=JQX02veh-Vk&t=206s",
+          "timestamp_seconds": 206,
+          "timestamp_label": "03:26",
+          "listed_price": 739.0,
+          "discount_amount": 95.0,
+          "discount_pct": 12.9,
+          "net_price": 644.0,
+          "otr_tinh": 722.0,
+          "otr_hcm": 757.0,
+          "otr_hn": 751.0
+        },
         {
           "date": "2026-11-07",
           "video_id": "ubTleP2mPv4",
@@ -3570,7 +3615,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "03:33"
     },
     {
-      "car_id": "ford-territory-platium-2026",
+      "car_id": "ford-territory-platium",
       "brand": "Ford",
       "model": "Territory",
       "trim": "Platium",
@@ -3626,7 +3671,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "15:52"
     },
     {
-      "car_id": "mitsubishi-xforce-luxury-2026",
+      "car_id": "mitsubishi-xforce-luxury",
       "brand": "Mitsubishi",
       "model": "Xforce",
       "trim": "Luxury",
@@ -3697,7 +3742,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "09:00"
     },
     {
-      "car_id": "mitsubishi-xforce-glx-2026",
+      "car_id": "mitsubishi-xforce-glx",
       "brand": "Mitsubishi",
       "model": "Xforce",
       "trim": "GLX",
@@ -3768,7 +3813,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:29"
     },
     {
-      "car_id": "honda-cr-v-l-2026",
+      "car_id": "honda-cr-v-l",
       "brand": "Honda",
       "model": "CR-V",
       "trim": "L",
@@ -3809,7 +3854,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "08:56"
     },
     {
-      "car_id": "honda-cr-v-hev-rs-2026",
+      "car_id": "honda-cr-v-hev-rs",
       "brand": "Honda",
       "model": "CR-V",
       "trim": "HEV RS",
@@ -3850,7 +3895,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "13:38"
     },
     {
-      "car_id": "honda-cr-v-hev-l-2026",
+      "car_id": "honda-cr-v-hev-l",
       "brand": "Honda",
       "model": "CR-V",
       "trim": "HEV L",
@@ -3891,7 +3936,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "16:42"
     },
     {
-      "car_id": "mitsubishi-attrage-premium-2026",
+      "car_id": "mitsubishi-attrage-premium",
       "brand": "Mitsubishi",
       "model": "Attrage",
       "trim": "Premium",
@@ -3932,7 +3977,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:33"
     },
     {
-      "car_id": "honda-cr-v-g-2026",
+      "car_id": "honda-cr-v-g",
       "brand": "Honda",
       "model": "CR-V",
       "trim": "G",
@@ -3973,7 +4018,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:53"
     },
     {
-      "car_id": "hyundai-accent-cao-cap-2026",
+      "car_id": "hyundai-accent-cao-cap",
       "brand": "Hyundai",
       "model": "Accent",
       "trim": "Cao cấp",
@@ -4029,7 +4074,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "13:17"
     },
     {
-      "car_id": "mitsubishi-attrage-mt-2026",
+      "car_id": "mitsubishi-attrage-mt",
       "brand": "Mitsubishi",
       "model": "Attrage",
       "trim": "MT",
@@ -4070,7 +4115,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "02:14"
     },
     {
-      "car_id": "hyundai-accent-dac-biet-2026",
+      "car_id": "hyundai-accent-dac-biet",
       "brand": "Hyundai",
       "model": "Accent",
       "trim": "Đặc biệt",
@@ -4126,7 +4171,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "09:18"
     },
     {
-      "car_id": "hyundai-accent-tieu-chuan-2026",
+      "car_id": "hyundai-accent-tieu-chuan",
       "brand": "Hyundai",
       "model": "Accent",
       "trim": "Tiêu chuẩn",
@@ -4182,7 +4227,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:46"
     },
     {
-      "car_id": "hyundai-venue-dac-biet-2026",
+      "car_id": "hyundai-venue-dac-biet",
       "brand": "Hyundai",
       "model": "Venue",
       "trim": "Đặc biệt",
@@ -4223,7 +4268,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:07"
     },
     {
-      "car_id": "geely-coolray-premium-2026",
+      "car_id": "geely-coolray-premium",
       "brand": "Geely",
       "model": "Coolray",
       "trim": "Premium",
@@ -4294,7 +4339,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "08:40"
     },
     {
-      "car_id": "geely-coolray-executive-2026",
+      "car_id": "geely-coolray-executive",
       "brand": "Geely",
       "model": "Coolray",
       "trim": "Executive",
@@ -4365,7 +4410,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "02:24"
     },
     {
-      "car_id": "hyundai-venue-tieu-chuan-2026",
+      "car_id": "hyundai-venue-tieu-chuan",
       "brand": "Hyundai",
       "model": "Venue",
       "trim": "Tiêu chuẩn",
@@ -4406,7 +4451,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "04:00"
     },
     {
-      "car_id": "geely-coolray-flagship-2026",
+      "car_id": "geely-coolray-flagship",
       "brand": "Geely",
       "model": "Coolray",
       "trim": "Flagship",
@@ -4477,7 +4522,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "12:02"
     },
     {
-      "car_id": "vinfast-vf-3-eco-2026",
+      "car_id": "vinfast-vf-3-eco",
       "brand": "VinFast",
       "model": "VF 3",
       "trim": "Eco",
@@ -4533,7 +4578,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:48"
     },
     {
-      "car_id": "vinfast-vf-3-plus-2026",
+      "car_id": "vinfast-vf-3-plus",
       "brand": "VinFast",
       "model": "VF 3",
       "trim": "Plus",
@@ -4589,7 +4634,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "09:04"
     },
     {
-      "car_id": "skoda-slavia-style-2026",
+      "car_id": "skoda-slavia-style",
       "brand": "Skoda",
       "model": "Slavia",
       "trim": "Style",
@@ -4645,7 +4690,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "10:03"
     },
     {
-      "car_id": "skoda-slavia-ambition-2026",
+      "car_id": "skoda-slavia-ambition",
       "brand": "Skoda",
       "model": "Slavia",
       "trim": "Ambition",
@@ -4701,7 +4746,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:34"
     },
     {
-      "car_id": "skoda-slavia-active-2026",
+      "car_id": "skoda-slavia-active",
       "brand": "Skoda",
       "model": "Slavia",
       "trim": "Active",
@@ -4757,7 +4802,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "12:36"
     },
     {
-      "car_id": "mazda-2-at-tieu-chuan-2026",
+      "car_id": "mazda-2-at-tieu-chuan",
       "brand": "Mazda",
       "model": "2",
       "trim": "AT Tiêu chuẩn",
@@ -4813,7 +4858,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "00:24"
     },
     {
-      "car_id": "mazda-2-luxury-2026",
+      "car_id": "mazda-2-luxury",
       "brand": "Mazda",
       "model": "2",
       "trim": "Luxury",
@@ -4869,7 +4914,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "12:35"
     },
     {
-      "car_id": "hyundai-grand-i10-hatchback-1-2-at-ban-du-2026",
+      "car_id": "hyundai-grand-i10-hatchback-1-2-at-ban-du",
       "brand": "Hyundai",
       "model": "Grand i10",
       "trim": "Hatchback 1.2 AT Bản đủ",
@@ -4910,7 +4955,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "04:06"
     },
     {
-      "car_id": "mazda-2-deluxe-2026",
+      "car_id": "mazda-2-deluxe",
       "brand": "Mazda",
       "model": "2",
       "trim": "Deluxe",
@@ -4966,7 +5011,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "10:10"
     },
     {
-      "car_id": "mazda-2-at-nang-cap-2026",
+      "car_id": "mazda-2-at-nang-cap",
       "brand": "Mazda",
       "model": "2",
       "trim": "AT (nâng cấp)",
@@ -5022,7 +5067,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "08:10"
     },
     {
-      "car_id": "skoda-kushaq-style-2026",
+      "car_id": "skoda-kushaq-style",
       "brand": "Skoda",
       "model": "Kushaq",
       "trim": "Style",
@@ -5078,7 +5123,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "08:10"
     },
     {
-      "car_id": "skoda-kushaq-ambition-2026",
+      "car_id": "skoda-kushaq-ambition",
       "brand": "Skoda",
       "model": "Kushaq",
       "trim": "Ambition",
@@ -5134,7 +5179,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "07:59"
     },
     {
-      "car_id": "toyota-vios-g-2026",
+      "car_id": "toyota-vios-g",
       "brand": "Toyota",
       "model": "Vios",
       "trim": "G",
@@ -5190,7 +5235,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "06:43"
     },
     {
-      "car_id": "toyota-vios-e-cvt-2026",
+      "car_id": "toyota-vios-e-cvt",
       "brand": "Toyota",
       "model": "Vios",
       "trim": "E CVT",
@@ -5246,7 +5291,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "02:31"
     },
     {
-      "car_id": "toyota-vios-mt-2026",
+      "car_id": "toyota-vios-mt",
       "brand": "Toyota",
       "model": "Vios",
       "trim": "MT",
@@ -5302,13 +5347,28 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "13:35"
     },
     {
-      "car_id": "kia-seltos-1-5-luxury-2026",
+      "car_id": "kia-seltos-luxury",
       "brand": "Kia",
       "model": "Seltos",
-      "trim": "1.5 Luxury",
+      "trim": "Luxury",
       "year": 2026,
       "segment": "CUV/SUV cỡ B",
       "history": [
+        {
+          "date": "2026-10-25",
+          "video_id": "X4OkNDrWjAA",
+          "video_title": "Kia Seltos Cuối Tháng 10, Giá Chỉ 508 Triệu. Rẻ Như Xe Hạng A, AE Chốt Được Chưa? | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=X4OkNDrWjAA&t=633s",
+          "timestamp_seconds": 633,
+          "timestamp_label": "10:33",
+          "listed_price": 609.0,
+          "discount_amount": 44.0,
+          "discount_pct": 7.2,
+          "net_price": 565.0,
+          "otr_tinh": 631.0,
+          "otr_hcm": 661.0,
+          "otr_hn": 658.0
+        },
         {
           "date": "2026-11-08",
           "video_id": "Mwnd1kfHgVQ",
@@ -5333,9 +5393,9 @@ window.CAR_PRICE_DATA = {
       "otr_tinh": 627.0,
       "otr_hcm": 661.0,
       "otr_hn": 654.0,
-      "net_price_change": 0.0,
-      "discount_change": 0.0,
-      "previous_net_price": null,
+      "net_price_change": -4.0,
+      "discount_change": 4.0,
+      "previous_net_price": 565.0,
       "video_id": "Mwnd1kfHgVQ",
       "video_title": "Xả Giá Kia Seltos Tháng 11, Chỉ Còn 504 Triệu. Giá Ngang Xe Gầm Cao Hạng A Rồi? | Xe Việt",
       "video_url": "https://www.youtube.com/watch?v=Mwnd1kfHgVQ&t=700s",
@@ -5343,7 +5403,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "11:40"
     },
     {
-      "car_id": "kia-seltos-1-5-at-2026",
+      "car_id": "kia-seltos-1-5-at",
       "brand": "Kia",
       "model": "Seltos",
       "trim": "1.5 AT",
@@ -5384,7 +5444,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "02:08"
     },
     {
-      "car_id": "kia-seltos-1-5-premium-2026",
+      "car_id": "kia-seltos-1-5-premium",
       "brand": "Kia",
       "model": "Seltos",
       "trim": "1.5 Premium",
@@ -5425,13 +5485,28 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "13:41"
     },
     {
-      "car_id": "hyundai-stargazer-cao-cap-2026",
+      "car_id": "hyundai-stargazer-cao-cap",
       "brand": "Hyundai",
       "model": "Stargazer",
       "trim": "Cao cấp",
       "year": 2026,
       "segment": "MPV",
       "history": [
+        {
+          "date": "2026-10-14",
+          "video_id": "1H6wbk471rk",
+          "video_title": "Hyundai Stargazer Tháng 10 Giảm Giá, Thêm Ưu Đãi. Chỉ 454 Triệu Mua Xe 7 Chỗ, Đáng Chốt? | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=1H6wbk471rk&t=359s",
+          "timestamp_seconds": 359,
+          "timestamp_label": "05:59",
+          "listed_price": 615.0,
+          "discount_amount": 41.0,
+          "discount_pct": 6.7,
+          "net_price": 574.0,
+          "otr_tinh": 639.0,
+          "otr_hcm": 649.0,
+          "otr_hn": 665.0
+        },
         {
           "date": "2026-11-08",
           "video_id": "FBSvWmrRVf4",
@@ -5456,9 +5531,9 @@ window.CAR_PRICE_DATA = {
       "otr_tinh": 635.0,
       "otr_hcm": 649.0,
       "otr_hn": 662.0,
-      "net_price_change": 0.0,
-      "discount_change": 0.0,
-      "previous_net_price": null,
+      "net_price_change": 1.0,
+      "discount_change": -1.0,
+      "previous_net_price": 574.0,
       "video_id": "FBSvWmrRVf4",
       "video_title": "Giá Hyundai Stargazer Tháng 11 Chỉ Hơn 450 Triệu. Xe 7 Chỗ Rẻ Hơn Xpander, Veloz? | Xe Việt",
       "video_url": "https://www.youtube.com/watch?v=FBSvWmrRVf4&t=715s",
@@ -5466,13 +5541,28 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "11:55"
     },
     {
-      "car_id": "kia-seltos-1-5-deluxe-2026",
+      "car_id": "kia-seltos-deluxe",
       "brand": "Kia",
       "model": "Seltos",
-      "trim": "1.5 Deluxe",
+      "trim": "Deluxe",
       "year": 2026,
       "segment": "CUV/SUV cỡ B",
       "history": [
+        {
+          "date": "2026-10-25",
+          "video_id": "X4OkNDrWjAA",
+          "video_title": "Kia Seltos Cuối Tháng 10, Giá Chỉ 508 Triệu. Rẻ Như Xe Hạng A, AE Chốt Được Chưa? | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=X4OkNDrWjAA&t=514s",
+          "timestamp_seconds": 514,
+          "timestamp_label": "08:34",
+          "listed_price": 569.0,
+          "discount_amount": 34.0,
+          "discount_pct": 6.0,
+          "net_price": 535.0,
+          "otr_tinh": 598.0,
+          "otr_hcm": 631.0,
+          "otr_hn": 624.0
+        },
         {
           "date": "2026-11-08",
           "video_id": "Mwnd1kfHgVQ",
@@ -5497,9 +5587,9 @@ window.CAR_PRICE_DATA = {
       "otr_tinh": 594.0,
       "otr_hcm": 631.0,
       "otr_hn": 620.0,
-      "net_price_change": 0.0,
-      "discount_change": 0.0,
-      "previous_net_price": null,
+      "net_price_change": -4.0,
+      "discount_change": 4.0,
+      "previous_net_price": 535.0,
       "video_id": "Mwnd1kfHgVQ",
       "video_title": "Xả Giá Kia Seltos Tháng 11, Chỉ Còn 504 Triệu. Giá Ngang Xe Gầm Cao Hạng A Rồi? | Xe Việt",
       "video_url": "https://www.youtube.com/watch?v=Mwnd1kfHgVQ&t=533s",
@@ -5507,13 +5597,28 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "08:53"
     },
     {
-      "car_id": "hyundai-stargazer-dac-biet-2026",
+      "car_id": "hyundai-stargazer-dac-biet",
       "brand": "Hyundai",
       "model": "Stargazer",
       "trim": "Đặc biệt",
       "year": 2026,
       "segment": "MPV",
       "history": [
+        {
+          "date": "2026-10-14",
+          "video_id": "1H6wbk471rk",
+          "video_title": "Hyundai Stargazer Tháng 10 Giảm Giá, Thêm Ưu Đãi. Chỉ 454 Triệu Mua Xe 7 Chỗ, Đáng Chốt? | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=1H6wbk471rk&t=254s",
+          "timestamp_seconds": 254,
+          "timestamp_label": "04:14",
+          "listed_price": 569.0,
+          "discount_amount": 49.0,
+          "discount_pct": 8.6,
+          "net_price": 520.0,
+          "otr_tinh": 591.0,
+          "otr_hcm": 591.0,
+          "otr_hn": 616.0
+        },
         {
           "date": "2026-11-08",
           "video_id": "FBSvWmrRVf4",
@@ -5538,9 +5643,9 @@ window.CAR_PRICE_DATA = {
       "otr_tinh": 589.0,
       "otr_hcm": 591.0,
       "otr_hn": 614.0,
-      "net_price_change": 0.0,
-      "discount_change": 0.0,
-      "previous_net_price": null,
+      "net_price_change": 12.0,
+      "discount_change": -12.0,
+      "previous_net_price": 520.0,
       "video_id": "FBSvWmrRVf4",
       "video_title": "Giá Hyundai Stargazer Tháng 11 Chỉ Hơn 450 Triệu. Xe 7 Chỗ Rẻ Hơn Xpander, Veloz? | Xe Việt",
       "video_url": "https://www.youtube.com/watch?v=FBSvWmrRVf4&t=525s",
@@ -5548,13 +5653,28 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "08:45"
     },
     {
-      "car_id": "hyundai-stargazer-tieu-chuan-2026",
+      "car_id": "hyundai-stargazer-tieu-chuan",
       "brand": "Hyundai",
       "model": "Stargazer",
       "trim": "Tiêu chuẩn",
       "year": 2026,
       "segment": "MPV",
       "history": [
+        {
+          "date": "2026-10-14",
+          "video_id": "1H6wbk471rk",
+          "video_title": "Hyundai Stargazer Tháng 10 Giảm Giá, Thêm Ưu Đãi. Chỉ 454 Triệu Mua Xe 7 Chỗ, Đáng Chốt? | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=1H6wbk471rk&t=74s",
+          "timestamp_seconds": 74,
+          "timestamp_label": "01:14",
+          "listed_price": 489.0,
+          "discount_amount": 35.0,
+          "discount_pct": 7.2,
+          "net_price": 454.0,
+          "otr_tinh": 508.0,
+          "otr_hcm": 518.0,
+          "otr_hn": 532.0
+        },
         {
           "date": "2026-11-08",
           "video_id": "FBSvWmrRVf4",
@@ -5579,9 +5699,9 @@ window.CAR_PRICE_DATA = {
       "otr_tinh": 505.0,
       "otr_hcm": 518.0,
       "otr_hn": 529.0,
-      "net_price_change": 0.0,
-      "discount_change": 0.0,
-      "previous_net_price": null,
+      "net_price_change": 1.0,
+      "discount_change": -1.0,
+      "previous_net_price": 454.0,
       "video_id": "FBSvWmrRVf4",
       "video_title": "Giá Hyundai Stargazer Tháng 11 Chỉ Hơn 450 Triệu. Xe 7 Chỗ Rẻ Hơn Xpander, Veloz? | Xe Việt",
       "video_url": "https://www.youtube.com/watch?v=FBSvWmrRVf4&t=315s",
@@ -5589,7 +5709,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:15"
     },
     {
-      "car_id": "kia-sonet-luxury-2026",
+      "car_id": "kia-sonet-luxury",
       "brand": "Kia",
       "model": "Sonet",
       "trim": "Luxury",
@@ -5645,7 +5765,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "12:10"
     },
     {
-      "car_id": "kia-sonet-deluxe-2026",
+      "car_id": "kia-sonet-deluxe",
       "brand": "Kia",
       "model": "Sonet",
       "trim": "Deluxe",
@@ -5701,7 +5821,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "06:35"
     },
     {
-      "car_id": "kia-sonet-at-2026",
+      "car_id": "kia-sonet-at",
       "brand": "Kia",
       "model": "Sonet",
       "trim": "AT",
@@ -5742,7 +5862,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "08:55"
     },
     {
-      "car_id": "mitsubishi-destinator-ultimate-2026",
+      "car_id": "mitsubishi-destinator-ultimate",
       "brand": "Mitsubishi",
       "model": "Destinator",
       "trim": "Ultimate",
@@ -5798,7 +5918,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "09:58"
     },
     {
-      "car_id": "mitsubishi-destinator-premium-2026",
+      "car_id": "mitsubishi-destinator-premium",
       "brand": "Mitsubishi",
       "model": "Destinator",
       "trim": "Premium",
@@ -5854,7 +5974,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:34"
     },
     {
-      "car_id": "toyota-corolla-cross-xang-1-8v-2026",
+      "car_id": "toyota-corolla-cross-xang-1-8v",
       "brand": "Toyota",
       "model": "Corolla Cross",
       "trim": "Xăng 1.8V",
@@ -5910,7 +6030,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:34"
     },
     {
-      "car_id": "toyota-corolla-cross-hybrid-1-8hev-2026",
+      "car_id": "toyota-corolla-cross-hybrid-1-8hev",
       "brand": "Toyota",
       "model": "Corolla Cross",
       "trim": "Hybrid 1.8HEV",
@@ -5966,7 +6086,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "09:04"
     },
     {
-      "car_id": "ford-everest-platinum-2-cau-2026",
+      "car_id": "ford-everest-platinum-2-cau",
       "brand": "Ford",
       "model": "Everest",
       "trim": "Platinum 2 cầu",
@@ -6007,7 +6127,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "08:43"
     },
     {
-      "car_id": "ford-everest-platinum-1-cau-2026",
+      "car_id": "ford-everest-platinum-1-cau",
       "brand": "Ford",
       "model": "Everest",
       "trim": "Platinum 1 cầu",
@@ -6048,7 +6168,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "07:00"
     },
     {
-      "car_id": "toyota-veloz-cross-top-2026",
+      "car_id": "toyota-veloz-cross-top",
       "brand": "Toyota",
       "model": "Veloz Cross",
       "trim": "Top",
@@ -6089,7 +6209,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "10:15"
     },
     {
-      "car_id": "ford-everest-active-1-cau-2026",
+      "car_id": "ford-everest-active-1-cau",
       "brand": "Ford",
       "model": "Everest",
       "trim": "Active 1 cầu",
@@ -6130,7 +6250,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "01:56"
     },
     {
-      "car_id": "ford-everest-sport-1-cau-2026",
+      "car_id": "ford-everest-sport-1-cau",
       "brand": "Ford",
       "model": "Everest",
       "trim": "Sport 1 cầu",
@@ -6171,7 +6291,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:18"
     },
     {
-      "car_id": "toyota-veloz-cross-tieu-chuan-2026",
+      "car_id": "toyota-veloz-cross-tieu-chuan",
       "brand": "Toyota",
       "model": "Veloz Cross",
       "trim": "Tiêu chuẩn",
@@ -6212,7 +6332,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:54"
     },
     {
-      "car_id": "toyota-innova-cross-hybrid-2-0hev-2026",
+      "car_id": "toyota-innova-cross-hybrid-2-0hev",
       "brand": "Toyota",
       "model": "Innova Cross",
       "trim": "Hybrid 2.0HEV",
@@ -6268,7 +6388,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "12:14"
     },
     {
-      "car_id": "toyota-innova-cross-xang-2-0v-2026",
+      "car_id": "toyota-innova-cross-xang-2-0v",
       "brand": "Toyota",
       "model": "Innova Cross",
       "trim": "Xăng 2.0V",
@@ -6324,7 +6444,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "06:11"
     },
     {
-      "car_id": "toyota-innova-cross-xang-2-0g-2026",
+      "car_id": "toyota-innova-cross-xang-2-0g",
       "brand": "Toyota",
       "model": "Innova Cross",
       "trim": "Xăng 2.0G",
@@ -6380,7 +6500,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "14:03"
     },
     {
-      "car_id": "mg-hs-lux-2026",
+      "car_id": "mg-hs-lux",
       "brand": "MG",
       "model": "HS",
       "trim": "LUX",
@@ -6436,7 +6556,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "12:02"
     },
     {
-      "car_id": "mg-hs-del-2026",
+      "car_id": "mg-hs-del",
       "brand": "MG",
       "model": "HS",
       "trim": "DEL",
@@ -6492,7 +6612,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "07:02"
     },
     {
-      "car_id": "honda-hr-v-e-hev-rs-2026",
+      "car_id": "honda-hr-v-e-hev-rs",
       "brand": "Honda",
       "model": "HR-V",
       "trim": "E:HEV RS",
@@ -6533,13 +6653,28 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "13:52"
     },
     {
-      "car_id": "toyota-yaris-cross-hybrid-2026",
+      "car_id": "toyota-yaris-cross-hybrid",
       "brand": "Toyota",
       "model": "Yaris Cross",
       "trim": "Hybrid",
       "year": 2026,
       "segment": "CUV/SUV cỡ B",
       "history": [
+        {
+          "date": "2026-10-15",
+          "video_id": "NVtCuufkd3s",
+          "video_title": "Toyota Yaris Cross Tháng 10 Giảm 75 Triệu, Còn Hơn 580 Triệu. Xứng Đáng Top 1 Phân Khúc? | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=NVtCuufkd3s&t=389s",
+          "timestamp_seconds": 389,
+          "timestamp_label": "06:29",
+          "listed_price": 728.0,
+          "discount_amount": 75.0,
+          "discount_pct": 10.3,
+          "net_price": 653.0,
+          "otr_tinh": 729.0,
+          "otr_hcm": 742.0,
+          "otr_hn": 757.0
+        },
         {
           "date": "2026-11-03",
           "video_id": "yBBtU_HRHZI",
@@ -6564,9 +6699,9 @@ window.CAR_PRICE_DATA = {
       "otr_tinh": 753.0,
       "otr_hcm": 732.0,
       "otr_hn": 767.0,
-      "net_price_change": 0.0,
-      "discount_change": 0.0,
-      "previous_net_price": null,
+      "net_price_change": 10.0,
+      "discount_change": -5.0,
+      "previous_net_price": 653.0,
       "video_id": "yBBtU_HRHZI",
       "video_title": "Xả Kho Yaris Cross Tháng 11, Giảm 90 Triệu. Chỉ 570 Triệu Là Mua Được Rồi! | Xe Việt",
       "video_url": "https://www.youtube.com/watch?v=yBBtU_HRHZI&t=715s",
@@ -6574,13 +6709,28 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "11:55"
     },
     {
-      "car_id": "toyota-yaris-cross-xang-2026",
+      "car_id": "toyota-yaris-cross-xang",
       "brand": "Toyota",
       "model": "Yaris Cross",
       "trim": "Xăng",
       "year": 2026,
       "segment": "CUV/SUV cỡ B",
       "history": [
+        {
+          "date": "2026-10-15",
+          "video_id": "NVtCuufkd3s",
+          "video_title": "Toyota Yaris Cross Tháng 10 Giảm 75 Triệu, Còn Hơn 580 Triệu. Xứng Đáng Top 1 Phân Khúc? | Xe Việt",
+          "video_url": "https://www.youtube.com/watch?v=NVtCuufkd3s&t=242s",
+          "timestamp_seconds": 242,
+          "timestamp_label": "04:02",
+          "listed_price": 650.0,
+          "discount_amount": 63.0,
+          "discount_pct": 9.7,
+          "net_price": 587.0,
+          "otr_tinh": 667.0,
+          "otr_hcm": 668.0,
+          "otr_hn": 694.0
+        },
         {
           "date": "2026-11-03",
           "video_id": "yBBtU_HRHZI",
@@ -6605,9 +6755,9 @@ window.CAR_PRICE_DATA = {
       "otr_tinh": 681.0,
       "otr_hcm": 651.0,
       "otr_hn": 694.0,
-      "net_price_change": 0.0,
-      "discount_change": 0.0,
-      "previous_net_price": null,
+      "net_price_change": 13.0,
+      "discount_change": -13.0,
+      "previous_net_price": 587.0,
       "video_id": "yBBtU_HRHZI",
       "video_title": "Xả Kho Yaris Cross Tháng 11, Giảm 90 Triệu. Chỉ 570 Triệu Là Mua Được Rồi! | Xe Việt",
       "video_url": "https://www.youtube.com/watch?v=yBBtU_HRHZI&t=435s",
@@ -6615,7 +6765,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "07:15"
     },
     {
-      "car_id": "honda-city-tieu-chuan-2026",
+      "car_id": "honda-city-tieu-chuan",
       "brand": "Honda",
       "model": "City",
       "trim": "Tiêu chuẩn",
@@ -6656,7 +6806,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "10:15"
     },
     {
-      "car_id": "mazda-cx-5-premium-exclusive-2026",
+      "car_id": "mazda-cx-5-premium-exclusive",
       "brand": "Mazda",
       "model": "CX-5",
       "trim": "Premium Exclusive",
@@ -6712,7 +6862,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "16:57"
     },
     {
-      "car_id": "mazda-cx-5-premium-active-2026",
+      "car_id": "mazda-cx-5-premium-active",
       "brand": "Mazda",
       "model": "CX-5",
       "trim": "Premium Active",
@@ -6768,7 +6918,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "14:58"
     },
     {
-      "car_id": "mazda-cx-5-premium-sport-2026",
+      "car_id": "mazda-cx-5-premium-sport",
       "brand": "Mazda",
       "model": "CX-5",
       "trim": "Premium Sport",
@@ -6824,7 +6974,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "16:43"
     },
     {
-      "car_id": "byd-sealion-5-premium-2026",
+      "car_id": "byd-sealion-5-premium",
       "brand": "BYD",
       "model": "Sealion 5",
       "trim": "Premium",
@@ -6865,7 +7015,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "09:13"
     },
     {
-      "car_id": "byd-sealion-5-essential-2026",
+      "car_id": "byd-sealion-5-essential",
       "brand": "BYD",
       "model": "Sealion 5",
       "trim": "Essential",
@@ -6906,7 +7056,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "14:06"
     },
     {
-      "car_id": "mazda-cx-5-luxury-2026",
+      "car_id": "mazda-cx-5-luxury",
       "brand": "Mazda",
       "model": "CX-5",
       "trim": "Luxury",
@@ -6962,7 +7112,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "11:54"
     },
     {
-      "car_id": "mazda-cx-5-deluxe-2026",
+      "car_id": "mazda-cx-5-deluxe",
       "brand": "Mazda",
       "model": "CX-5",
       "trim": "Deluxe",
@@ -7018,7 +7168,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "06:35"
     },
     {
-      "car_id": "mazda-cx-5-deluxe-e-2026",
+      "car_id": "mazda-cx-5-deluxe-e",
       "brand": "Mazda",
       "model": "CX-5",
       "trim": "Deluxe E",
@@ -7074,48 +7224,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "08:44"
     },
     {
-      "car_id": "kia-seltos-luxury-2024",
-      "brand": "Kia",
-      "model": "Seltos",
-      "trim": "Luxury",
-      "year": 2024,
-      "segment": "CUV/SUV cỡ B",
-      "history": [
-        {
-          "date": "2026-10-25",
-          "video_id": "X4OkNDrWjAA",
-          "video_title": "Kia Seltos Cuối Tháng 10, Giá Chỉ 508 Triệu. Rẻ Như Xe Hạng A, AE Chốt Được Chưa? | Xe Việt",
-          "video_url": "https://www.youtube.com/watch?v=X4OkNDrWjAA&t=633s",
-          "timestamp_seconds": 633,
-          "timestamp_label": "10:33",
-          "listed_price": 609.0,
-          "discount_amount": 44.0,
-          "discount_pct": 7.2,
-          "net_price": 565.0,
-          "otr_tinh": 631.0,
-          "otr_hcm": 661.0,
-          "otr_hn": 658.0
-        }
-      ],
-      "latest_date": "2026-10-25",
-      "listed_price": 609.0,
-      "discount_amount": 44.0,
-      "discount_pct": 7.2,
-      "net_price": 565.0,
-      "otr_tinh": 631.0,
-      "otr_hcm": 661.0,
-      "otr_hn": 658.0,
-      "net_price_change": 0.0,
-      "discount_change": 0.0,
-      "previous_net_price": null,
-      "video_id": "X4OkNDrWjAA",
-      "video_title": "Kia Seltos Cuối Tháng 10, Giá Chỉ 508 Triệu. Rẻ Như Xe Hạng A, AE Chốt Được Chưa? | Xe Việt",
-      "video_url": "https://www.youtube.com/watch?v=X4OkNDrWjAA&t=633s",
-      "timestamp_seconds": 633,
-      "timestamp_label": "10:33"
-    },
-    {
-      "car_id": "kia-seltos-at-tieu-chuan-2024",
+      "car_id": "kia-seltos-at-tieu-chuan",
       "brand": "Kia",
       "model": "Seltos",
       "trim": "AT Tiêu chuẩn",
@@ -7156,48 +7265,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:39"
     },
     {
-      "car_id": "kia-seltos-deluxe-2024",
-      "brand": "Kia",
-      "model": "Seltos",
-      "trim": "Deluxe",
-      "year": 2024,
-      "segment": "CUV/SUV cỡ B",
-      "history": [
-        {
-          "date": "2026-10-25",
-          "video_id": "X4OkNDrWjAA",
-          "video_title": "Kia Seltos Cuối Tháng 10, Giá Chỉ 508 Triệu. Rẻ Như Xe Hạng A, AE Chốt Được Chưa? | Xe Việt",
-          "video_url": "https://www.youtube.com/watch?v=X4OkNDrWjAA&t=514s",
-          "timestamp_seconds": 514,
-          "timestamp_label": "08:34",
-          "listed_price": 569.0,
-          "discount_amount": 34.0,
-          "discount_pct": 6.0,
-          "net_price": 535.0,
-          "otr_tinh": 598.0,
-          "otr_hcm": 631.0,
-          "otr_hn": 624.0
-        }
-      ],
-      "latest_date": "2026-10-25",
-      "listed_price": 569.0,
-      "discount_amount": 34.0,
-      "discount_pct": 6.0,
-      "net_price": 535.0,
-      "otr_tinh": 598.0,
-      "otr_hcm": 631.0,
-      "otr_hn": 624.0,
-      "net_price_change": 0.0,
-      "discount_change": 0.0,
-      "previous_net_price": null,
-      "video_id": "X4OkNDrWjAA",
-      "video_title": "Kia Seltos Cuối Tháng 10, Giá Chỉ 508 Triệu. Rẻ Như Xe Hạng A, AE Chốt Được Chưa? | Xe Việt",
-      "video_url": "https://www.youtube.com/watch?v=X4OkNDrWjAA&t=514s",
-      "timestamp_seconds": 514,
-      "timestamp_label": "08:34"
-    },
-    {
-      "car_id": "kia-sonet-at-tieu-chuan-2026",
+      "car_id": "kia-sonet-at-tieu-chuan",
       "brand": "Kia",
       "model": "Sonet",
       "trim": "AT Tiêu chuẩn",
@@ -7238,7 +7306,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "08:45"
     },
     {
-      "car_id": "mg-gt-premium-2026",
+      "car_id": "mg-gt-premium",
       "brand": "MG",
       "model": "GT",
       "trim": "Premium",
@@ -7279,7 +7347,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:20"
     },
     {
-      "car_id": "mg-gt-luxury-2026",
+      "car_id": "mg-gt-luxury",
       "brand": "MG",
       "model": "GT",
       "trim": "Luxury",
@@ -7320,130 +7388,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "08:57"
     },
     {
-      "car_id": "ford-territory-titanium-2024",
-      "brand": "Ford",
-      "model": "Territory",
-      "trim": "Titanium",
-      "year": 2024,
-      "segment": "CUV/SUV cỡ C",
-      "history": [
-        {
-          "date": "2026-10-19",
-          "video_id": "JQX02veh-Vk",
-          "video_title": "Xả Kho Ford Territory Tháng 10, Giảm 105 Triệu. Còn 644 Triệu, Chọn Territory Hay CX-5? | Xe Việt",
-          "video_url": "https://www.youtube.com/watch?v=JQX02veh-Vk&t=346s",
-          "timestamp_seconds": 346,
-          "timestamp_label": "05:46",
-          "listed_price": 819.0,
-          "discount_amount": 105.0,
-          "discount_pct": 12.8,
-          "net_price": 714.0,
-          "otr_tinh": 800.0,
-          "otr_hcm": 861.0,
-          "otr_hn": 830.0
-        }
-      ],
-      "latest_date": "2026-10-19",
-      "listed_price": 819.0,
-      "discount_amount": 105.0,
-      "discount_pct": 12.8,
-      "net_price": 714.0,
-      "otr_tinh": 800.0,
-      "otr_hcm": 861.0,
-      "otr_hn": 830.0,
-      "net_price_change": 0.0,
-      "discount_change": 0.0,
-      "previous_net_price": null,
-      "video_id": "JQX02veh-Vk",
-      "video_title": "Xả Kho Ford Territory Tháng 10, Giảm 105 Triệu. Còn 644 Triệu, Chọn Territory Hay CX-5? | Xe Việt",
-      "video_url": "https://www.youtube.com/watch?v=JQX02veh-Vk&t=346s",
-      "timestamp_seconds": 346,
-      "timestamp_label": "05:46"
-    },
-    {
-      "car_id": "ford-territory-titanium-x-2024",
-      "brand": "Ford",
-      "model": "Territory",
-      "trim": "Titanium X",
-      "year": 2024,
-      "segment": "CUV/SUV cỡ C",
-      "history": [
-        {
-          "date": "2026-10-19",
-          "video_id": "JQX02veh-Vk",
-          "video_title": "Xả Kho Ford Territory Tháng 10, Giảm 105 Triệu. Còn 644 Triệu, Chọn Territory Hay CX-5? | Xe Việt",
-          "video_url": "https://www.youtube.com/watch?v=JQX02veh-Vk&t=448s",
-          "timestamp_seconds": 448,
-          "timestamp_label": "07:28",
-          "listed_price": 875.0,
-          "discount_amount": 100.0,
-          "discount_pct": 11.4,
-          "net_price": 775.0,
-          "otr_tinh": 866.0,
-          "otr_hcm": 919.0,
-          "otr_hn": 898.0
-        }
-      ],
-      "latest_date": "2026-10-19",
-      "listed_price": 875.0,
-      "discount_amount": 100.0,
-      "discount_pct": 11.4,
-      "net_price": 775.0,
-      "otr_tinh": 866.0,
-      "otr_hcm": 919.0,
-      "otr_hn": 898.0,
-      "net_price_change": 0.0,
-      "discount_change": 0.0,
-      "previous_net_price": null,
-      "video_id": "JQX02veh-Vk",
-      "video_title": "Xả Kho Ford Territory Tháng 10, Giảm 105 Triệu. Còn 644 Triệu, Chọn Territory Hay CX-5? | Xe Việt",
-      "video_url": "https://www.youtube.com/watch?v=JQX02veh-Vk&t=448s",
-      "timestamp_seconds": 448,
-      "timestamp_label": "07:28"
-    },
-    {
-      "car_id": "ford-territory-trend-2024",
-      "brand": "Ford",
-      "model": "Territory",
-      "trim": "Trend",
-      "year": 2024,
-      "segment": "CUV/SUV cỡ C",
-      "history": [
-        {
-          "date": "2026-10-19",
-          "video_id": "JQX02veh-Vk",
-          "video_title": "Xả Kho Ford Territory Tháng 10, Giảm 105 Triệu. Còn 644 Triệu, Chọn Territory Hay CX-5? | Xe Việt",
-          "video_url": "https://www.youtube.com/watch?v=JQX02veh-Vk&t=206s",
-          "timestamp_seconds": 206,
-          "timestamp_label": "03:26",
-          "listed_price": 739.0,
-          "discount_amount": 95.0,
-          "discount_pct": 12.9,
-          "net_price": 644.0,
-          "otr_tinh": 722.0,
-          "otr_hcm": 757.0,
-          "otr_hn": 751.0
-        }
-      ],
-      "latest_date": "2026-10-19",
-      "listed_price": 739.0,
-      "discount_amount": 95.0,
-      "discount_pct": 12.9,
-      "net_price": 644.0,
-      "otr_tinh": 722.0,
-      "otr_hcm": 757.0,
-      "otr_hn": 751.0,
-      "net_price_change": 0.0,
-      "discount_change": 0.0,
-      "previous_net_price": null,
-      "video_id": "JQX02veh-Vk",
-      "video_title": "Xả Kho Ford Territory Tháng 10, Giảm 105 Triệu. Còn 644 Triệu, Chọn Territory Hay CX-5? | Xe Việt",
-      "video_url": "https://www.youtube.com/watch?v=JQX02veh-Vk&t=206s",
-      "timestamp_seconds": 206,
-      "timestamp_label": "03:26"
-    },
-    {
-      "car_id": "vinfast-mpv-7-tieu-chuan-gia-dinh-2026",
+      "car_id": "vinfast-mpv-7-tieu-chuan-gia-dinh",
       "brand": "VinFast",
       "model": "MPV 7",
       "trim": "Tiêu chuẩn (Gia đình)",
@@ -7499,7 +7444,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "03:35"
     },
     {
-      "car_id": "mg-zs-1-5-hybrid-2026",
+      "car_id": "mg-zs-1-5-hybrid",
       "brand": "MG",
       "model": "ZS",
       "trim": "1.5 Hybrid+",
@@ -7540,89 +7485,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "03:35"
     },
     {
-      "car_id": "toyota-yaris-cross-hybrid-2024",
-      "brand": "Toyota",
-      "model": "Yaris Cross",
-      "trim": "Hybrid",
-      "year": 2024,
-      "segment": "CUV/SUV cỡ B",
-      "history": [
-        {
-          "date": "2026-10-15",
-          "video_id": "NVtCuufkd3s",
-          "video_title": "Toyota Yaris Cross Tháng 10 Giảm 75 Triệu, Còn Hơn 580 Triệu. Xứng Đáng Top 1 Phân Khúc? | Xe Việt",
-          "video_url": "https://www.youtube.com/watch?v=NVtCuufkd3s&t=389s",
-          "timestamp_seconds": 389,
-          "timestamp_label": "06:29",
-          "listed_price": 728.0,
-          "discount_amount": 75.0,
-          "discount_pct": 10.3,
-          "net_price": 653.0,
-          "otr_tinh": 729.0,
-          "otr_hcm": 742.0,
-          "otr_hn": 757.0
-        }
-      ],
-      "latest_date": "2026-10-15",
-      "listed_price": 728.0,
-      "discount_amount": 75.0,
-      "discount_pct": 10.3,
-      "net_price": 653.0,
-      "otr_tinh": 729.0,
-      "otr_hcm": 742.0,
-      "otr_hn": 757.0,
-      "net_price_change": 0.0,
-      "discount_change": 0.0,
-      "previous_net_price": null,
-      "video_id": "NVtCuufkd3s",
-      "video_title": "Toyota Yaris Cross Tháng 10 Giảm 75 Triệu, Còn Hơn 580 Triệu. Xứng Đáng Top 1 Phân Khúc? | Xe Việt",
-      "video_url": "https://www.youtube.com/watch?v=NVtCuufkd3s&t=389s",
-      "timestamp_seconds": 389,
-      "timestamp_label": "06:29"
-    },
-    {
-      "car_id": "toyota-yaris-cross-xang-2024",
-      "brand": "Toyota",
-      "model": "Yaris Cross",
-      "trim": "Xăng",
-      "year": 2024,
-      "segment": "CUV/SUV cỡ B",
-      "history": [
-        {
-          "date": "2026-10-15",
-          "video_id": "NVtCuufkd3s",
-          "video_title": "Toyota Yaris Cross Tháng 10 Giảm 75 Triệu, Còn Hơn 580 Triệu. Xứng Đáng Top 1 Phân Khúc? | Xe Việt",
-          "video_url": "https://www.youtube.com/watch?v=NVtCuufkd3s&t=242s",
-          "timestamp_seconds": 242,
-          "timestamp_label": "04:02",
-          "listed_price": 650.0,
-          "discount_amount": 63.0,
-          "discount_pct": 9.7,
-          "net_price": 587.0,
-          "otr_tinh": 667.0,
-          "otr_hcm": 668.0,
-          "otr_hn": 694.0
-        }
-      ],
-      "latest_date": "2026-10-15",
-      "listed_price": 650.0,
-      "discount_amount": 63.0,
-      "discount_pct": 9.7,
-      "net_price": 587.0,
-      "otr_tinh": 667.0,
-      "otr_hcm": 668.0,
-      "otr_hn": 694.0,
-      "net_price_change": 0.0,
-      "discount_change": 0.0,
-      "previous_net_price": null,
-      "video_id": "NVtCuufkd3s",
-      "video_title": "Toyota Yaris Cross Tháng 10 Giảm 75 Triệu, Còn Hơn 580 Triệu. Xứng Đáng Top 1 Phân Khúc? | Xe Việt",
-      "video_url": "https://www.youtube.com/watch?v=NVtCuufkd3s&t=242s",
-      "timestamp_seconds": 242,
-      "timestamp_label": "04:02"
-    },
-    {
-      "car_id": "mitsubishi-triton-gls-1-cau-2025",
+      "car_id": "mitsubishi-triton-gls-1-cau",
       "brand": "Mitsubishi",
       "model": "Triton",
       "trim": "GLS 1 cầu",
@@ -7663,7 +7526,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "03:21"
     },
     {
-      "car_id": "mitsubishi-triton-athlete-2026",
+      "car_id": "mitsubishi-triton-athlete",
       "brand": "Mitsubishi",
       "model": "Triton",
       "trim": "Athlete",
@@ -7704,7 +7567,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "05:24"
     },
     {
-      "car_id": "mitsubishi-triton-gls-2-cau-2026",
+      "car_id": "mitsubishi-triton-gls-2-cau",
       "brand": "Mitsubishi",
       "model": "Triton",
       "trim": "GLS 2 cầu",
@@ -7745,7 +7608,7 @@ window.CAR_PRICE_DATA = {
       "timestamp_label": "04:30"
     },
     {
-      "car_id": "mitsubishi-triton-glx-1-cau-2026",
+      "car_id": "mitsubishi-triton-glx-1-cau",
       "brand": "Mitsubishi",
       "model": "Triton",
       "trim": "GLX 1 cầu",
@@ -7784,129 +7647,6 @@ window.CAR_PRICE_DATA = {
       "video_url": "https://www.youtube.com/watch?v=o-Dx2PgM1kU&t=133s",
       "timestamp_seconds": 133,
       "timestamp_label": "02:13"
-    },
-    {
-      "car_id": "hyundai-stargazer-dac-biet-2024",
-      "brand": "Hyundai",
-      "model": "Stargazer",
-      "trim": "Đặc biệt",
-      "year": 2024,
-      "segment": "MPV",
-      "history": [
-        {
-          "date": "2026-10-14",
-          "video_id": "1H6wbk471rk",
-          "video_title": "Hyundai Stargazer Tháng 10 Giảm Giá, Thêm Ưu Đãi. Chỉ 454 Triệu Mua Xe 7 Chỗ, Đáng Chốt? | Xe Việt",
-          "video_url": "https://www.youtube.com/watch?v=1H6wbk471rk&t=254s",
-          "timestamp_seconds": 254,
-          "timestamp_label": "04:14",
-          "listed_price": 569.0,
-          "discount_amount": 49.0,
-          "discount_pct": 8.6,
-          "net_price": 520.0,
-          "otr_tinh": 591.0,
-          "otr_hcm": 591.0,
-          "otr_hn": 616.0
-        }
-      ],
-      "latest_date": "2026-10-14",
-      "listed_price": 569.0,
-      "discount_amount": 49.0,
-      "discount_pct": 8.6,
-      "net_price": 520.0,
-      "otr_tinh": 591.0,
-      "otr_hcm": 591.0,
-      "otr_hn": 616.0,
-      "net_price_change": 0.0,
-      "discount_change": 0.0,
-      "previous_net_price": null,
-      "video_id": "1H6wbk471rk",
-      "video_title": "Hyundai Stargazer Tháng 10 Giảm Giá, Thêm Ưu Đãi. Chỉ 454 Triệu Mua Xe 7 Chỗ, Đáng Chốt? | Xe Việt",
-      "video_url": "https://www.youtube.com/watch?v=1H6wbk471rk&t=254s",
-      "timestamp_seconds": 254,
-      "timestamp_label": "04:14"
-    },
-    {
-      "car_id": "hyundai-stargazer-cao-cap-2024",
-      "brand": "Hyundai",
-      "model": "Stargazer",
-      "trim": "Cao cấp",
-      "year": 2024,
-      "segment": "MPV",
-      "history": [
-        {
-          "date": "2026-10-14",
-          "video_id": "1H6wbk471rk",
-          "video_title": "Hyundai Stargazer Tháng 10 Giảm Giá, Thêm Ưu Đãi. Chỉ 454 Triệu Mua Xe 7 Chỗ, Đáng Chốt? | Xe Việt",
-          "video_url": "https://www.youtube.com/watch?v=1H6wbk471rk&t=359s",
-          "timestamp_seconds": 359,
-          "timestamp_label": "05:59",
-          "listed_price": 615.0,
-          "discount_amount": 41.0,
-          "discount_pct": 6.7,
-          "net_price": 574.0,
-          "otr_tinh": 639.0,
-          "otr_hcm": 649.0,
-          "otr_hn": 665.0
-        }
-      ],
-      "latest_date": "2026-10-14",
-      "listed_price": 615.0,
-      "discount_amount": 41.0,
-      "discount_pct": 6.7,
-      "net_price": 574.0,
-      "otr_tinh": 639.0,
-      "otr_hcm": 649.0,
-      "otr_hn": 665.0,
-      "net_price_change": 0.0,
-      "discount_change": 0.0,
-      "previous_net_price": null,
-      "video_id": "1H6wbk471rk",
-      "video_title": "Hyundai Stargazer Tháng 10 Giảm Giá, Thêm Ưu Đãi. Chỉ 454 Triệu Mua Xe 7 Chỗ, Đáng Chốt? | Xe Việt",
-      "video_url": "https://www.youtube.com/watch?v=1H6wbk471rk&t=359s",
-      "timestamp_seconds": 359,
-      "timestamp_label": "05:59"
-    },
-    {
-      "car_id": "hyundai-stargazer-tieu-chuan-2024",
-      "brand": "Hyundai",
-      "model": "Stargazer",
-      "trim": "Tiêu chuẩn",
-      "year": 2024,
-      "segment": "MPV",
-      "history": [
-        {
-          "date": "2026-10-14",
-          "video_id": "1H6wbk471rk",
-          "video_title": "Hyundai Stargazer Tháng 10 Giảm Giá, Thêm Ưu Đãi. Chỉ 454 Triệu Mua Xe 7 Chỗ, Đáng Chốt? | Xe Việt",
-          "video_url": "https://www.youtube.com/watch?v=1H6wbk471rk&t=74s",
-          "timestamp_seconds": 74,
-          "timestamp_label": "01:14",
-          "listed_price": 489.0,
-          "discount_amount": 35.0,
-          "discount_pct": 7.2,
-          "net_price": 454.0,
-          "otr_tinh": 508.0,
-          "otr_hcm": 518.0,
-          "otr_hn": 532.0
-        }
-      ],
-      "latest_date": "2026-10-14",
-      "listed_price": 489.0,
-      "discount_amount": 35.0,
-      "discount_pct": 7.2,
-      "net_price": 454.0,
-      "otr_tinh": 508.0,
-      "otr_hcm": 518.0,
-      "otr_hn": 532.0,
-      "net_price_change": 0.0,
-      "discount_change": 0.0,
-      "previous_net_price": null,
-      "video_id": "1H6wbk471rk",
-      "video_title": "Hyundai Stargazer Tháng 10 Giảm Giá, Thêm Ưu Đãi. Chỉ 454 Triệu Mua Xe 7 Chỗ, Đáng Chốt? | Xe Việt",
-      "video_url": "https://www.youtube.com/watch?v=1H6wbk471rk&t=74s",
-      "timestamp_seconds": 74,
-      "timestamp_label": "01:14"
     }
   ]
 };
