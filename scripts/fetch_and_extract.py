@@ -6,6 +6,7 @@ import time
 import smtplib
 import argparse
 import tempfile
+from difflib import SequenceMatcher
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import datetime, timezone, timedelta
@@ -53,10 +54,10 @@ BROWSER_HEADERS = {
 # =====================================================================
 class ExtractedCarItem(BaseModel):
     brand: str = Field(description="Tên hãng xe chuẩn hóa (VD: Mazda, Toyota, Hyundai, Ford, Honda, Kia, Mitsubishi, Suzuki, VinFast, Nissan, MG, Geely, Wuling, Peugeot, Subaru, Isuzu, Volkswagen...)")
-    model: str = Field(description="Tên dòng xe ngắn gọn chuẩn hóa (VD: CX-5, Tucson, Creta, Territory, Bingo, Vios, Accent, Xpander, CR-V, City, Ranger, Seltos, Carnival...)")
-    trim: str = Field(description="Tên phiên bản cụ thể (VD: 2.0 Xăng Tiêu chuẩn, 2.0 Xăng Đặc biệt, 1.6 Turbo, 2.0 Dầu Đặc biệt, 1.5G CVT, Trend, Titanium, Titanium X...). Nếu không nói rõ phiên bản thì ghi 'Tiêu chuẩn'")
+    model: str = Field(description="Tên dòng xe ngắn gọn chuẩn hóa, không lặp lại tên hãng (VD: CX-5, Tucson, Creta, Territory, Coolray, Bingo, Vios, Accent, Xpander, CR-V, VF 6, City, Ranger, Seltos, Carnival...)")
+    trim: str = Field(description="Tên phiên bản ngắn gọn, KHÔNG ghi chữ 'Bản ' ở đầu, KHÔNG ghi lặp dung tích động cơ nếu tên phiên bản đã đủ phân biệt (VD: Premium, Flagship, Executive, Titanium, Titanium X, Trend, Eco, Plus, Đặc biệt, Cao cấp, Hybrid, 1.6 Turbo, 2.0 Xăng Tiêu chuẩn...). Nếu không nói rõ phiên bản thì ghi 'Tiêu chuẩn'")
     year: int = Field(description="Năm sản xuất / VIN (VD: 2024, 2025, 2026). Nếu không nêu rõ, lấy năm hiện tại của video.")
-    segment: str = Field(description="Phân khúc xe (VD: Sedan hạng A, Sedan hạng B, Sedan hạng C, CUV/SUV cỡ A, CUV/SUV cỡ B, CUV/SUV cỡ C, SUV cỡ D, MPV 7 chỗ, Bán tải...)")
+    segment: str = Field(description="Phân khúc xe chuẩn hóa. CHỈ dùng các tên chuẩn sau: 'Sedan hạng A', 'Sedan hạng B', 'Sedan hạng C', 'Sedan hạng D', 'CUV/SUV cỡ A', 'CUV/SUV cỡ B', 'CUV/SUV cỡ C', 'SUV cỡ D', 'MPV', 'Bán tải'. TUYỆT ĐỐI KHÔNG ghi thêm '(Điện)', 'B+', hay '7 chỗ' (VD: CUV cỡ A điện vẫn ghi 'CUV/SUV cỡ A', CUV cỡ B+ vẫn ghi 'CUV/SUV cỡ B', MPV 7 chỗ vẫn ghi 'MPV').")
     listed_price: float = Field(description="Giá niêm yết tính bằng đơn vị TRIỆU VNĐ (VD: 749, 599, 1029). Nếu không nêu rõ, tính từ Giá sau giảm + Số tiền ưu đãi.")
     discount_amount: float = Field(description="Số tiền ưu đãi / giảm giá tiền mặt hoặc hỗ trợ lệ phí trước bạ quy đổi ra tiền mặt, tính bằng đơn vị TRIỆU VNĐ (VD: 40, 55, 80, 0). TUYỆT ĐỐI chỉ lấy con số tiền giảm, KHÔNG ghi chú quà tặng phụ kiện.")
     net_price: float = Field(description="Giá sau giảm (Giá thực tế = Giá niêm yết - Số tiền ưu đãi), tính bằng đơn vị TRIỆU VNĐ (VD: 709, 544).")
@@ -76,8 +77,8 @@ class VideoExtractionResult(BaseModel):
 # =====================================================================
 # Helper Functions
 # =====================================================================
-def slugify(text: str) -> str:
-    text = text.lower().strip()
+def strip_accents(text: str) -> str:
+    text = str(text or "").lower().strip()
     text = re.sub(r"[àáạảãâầấậẩẫăằắặẳẵ]", "a", text)
     text = re.sub(r"[èéẹẻẽêềếệểễ]", "e", text)
     text = re.sub(r"[ìíịỉĩ]", "i", text)
@@ -85,12 +86,304 @@ def slugify(text: str) -> str:
     text = re.sub(r"[ùúụủũưừứựửữ]", "u", text)
     text = re.sub(r"[ỳýỵỷỹ]", "y", text)
     text = re.sub(r"đ", "d", text)
+    return text
+
+
+def slugify(text: str) -> str:
+    text = strip_accents(text)
     text = re.sub(r"[^a-z0-9]+", "-", text)
     return text.strip("-")
 
 
 def make_car_id(brand: str, model: str, trim: str, year: int) -> str:
     return slugify(f"{brand}-{model}-{trim}-{year}")
+
+
+_BRAND_CANONICAL = {
+    "vinfast": "VinFast",
+    "mg": "MG",
+    "byd": "BYD",
+    "bmw": "BMW",
+    "mini": "MINI",
+    "gwm": "GWM",
+    "kia": "Kia",
+    "geely": "Geely",
+    "hyundai": "Hyundai",
+    "toyota": "Toyota",
+    "ford": "Ford",
+    "mazda": "Mazda",
+    "honda": "Honda",
+    "mitsubishi": "Mitsubishi",
+    "suzuki": "Suzuki",
+    "nissan": "Nissan",
+    "wuling": "Wuling",
+    "peugeot": "Peugeot",
+    "subaru": "Subaru",
+    "isuzu": "Isuzu",
+    "volkswagen": "Volkswagen",
+    "skoda": "Skoda",
+    "omoda": "Omoda",
+    "jaecoo": "Jaecoo",
+    "lynk & co": "Lynk & Co",
+}
+
+_DISTINCT_TIERS = [
+    "titanium x", "n line", "gt line", "tieu chuan", "dac biet", "cao cap",
+    "standard", "base", "eco", "plus", "pro", "max", "trend", "titanium",
+    "deluxe", "luxury", "premium", "flagship", "executive", "signature",
+    "athlete", "active", "sport", "glx", "gls", "rs",
+]
+
+
+def clean_car_fields(brand: str, model: str, trim: str) -> tuple:
+    """Normalize brand, model, and trim into clean, concise display strings."""
+    b = re.sub(r"\s+", " ", str(brand or "").strip())
+    b_key = strip_accents(b)
+    if b_key in _BRAND_CANONICAL:
+        b = _BRAND_CANONICAL[b_key]
+
+    m = re.sub(r"\s+", " ", str(model or "").strip())
+    if b and m.lower().startswith(b.lower() + " "):
+        m = m[len(b):].strip()
+
+    t = re.sub(r"\s+", " ", str(trim or "").strip())
+    for prefix in (f"{b} {m}", m, b):
+        if prefix and t.lower().startswith(prefix.lower() + " "):
+            t = t[len(prefix):].strip()
+
+    # Strip leading Vietnamese filler words like "Bản " or "Phiên bản "
+    t = re.sub(r"^(?:phiên\s+bản|bản)\s+", "", t, flags=re.IGNORECASE).strip()
+    if t and t[0].islower():
+        t = t[0].upper() + t[1:]
+    if not t:
+        t = "Tiêu chuẩn"
+
+    return b, m, t
+
+
+def canonical_model_key(model: str) -> str:
+    """Collapse spaces/hyphens in model names so 'VF 6' == 'VF6' and 'CX-5' == 'CX5'."""
+    return re.sub(r"[^a-z0-9]+", "", strip_accents(model))
+
+
+def canonical_trim_core(trim: str) -> str:
+    """Extract core trim tokens by stripping filler words and engine displacement prefixes (e.g. '1.5T Premium' -> 'premium')."""
+    s = strip_accents(trim)
+    s = re.sub(r"\b(?:phien\s+ban|ban|dong\s+co|may)\b", " ", s)
+    # Remove engine displacement tokens like 1.5, 1.5t, 1.5l, 2.0, 2.0l
+    s_no_disp = re.sub(r"\b[1-5]\.\d\s*[tl]?\b", " ", s)
+    s_no_disp = re.sub(r"[^a-z0-9+]+", " ", s_no_disp).strip()
+    if s_no_disp:
+        return s_no_disp
+    return re.sub(r"[^a-z0-9+]+", " ", s).strip()
+
+
+def _extract_token_set(text: str, patterns: dict) -> set:
+    found = set()
+    for label, pat in patterns.items():
+        if re.search(pat, text):
+            found.add(label)
+    return found
+
+
+def has_conflicting_specs(trim_a: str, trim_b: str) -> bool:
+    """Guardrail: return True if two trims explicitly specify mutually exclusive specs."""
+    a = re.sub(r"[^a-z0-9+]+", " ", strip_accents(trim_a)).strip()
+    b = re.sub(r"[^a-z0-9+]+", " ", strip_accents(trim_b)).strip()
+
+    spec_groups = [
+        {
+            "2wd": r"\b(?:1\s*cau|4x2|2wd|fwd|rwd)\b",
+            "4wd": r"\b(?:2\s*cau|4x4|4wd|awd)\b",
+        },
+        {
+            "xang": r"\b(?:xang|gasoline|petrol)\b",
+            "dau": r"\b(?:dau|diesel)\b",
+            "hybrid": r"\b(?:hybrid|hev|phev|ehev)\b",
+            "dien": r"\b(?:dien|ev|electric)\b",
+        },
+        {
+            "mt": r"\b(?:mt|so\s*san)\b",
+            "at": r"\b(?:at|cvt|dct|so\s*tu\s*dong)\b",
+        },
+    ]
+    for group in spec_groups:
+        sa = _extract_token_set(a, group)
+        sb = _extract_token_set(b, group)
+        if sa and sb and sa != sb:
+            return True
+
+    # Check EV range (e.g. 333km vs 410km) and seating (e.g. 5 cho vs 7 cho)
+    for pat in (r"\b(\d{3})\s*km\b", r"\b(\d)\s*cho\b"):
+        ma = set(re.findall(pat, a))
+        mb = set(re.findall(pat, b))
+        if ma and mb and ma != mb:
+            return True
+
+    # Check distinct trim tiers (match longer phrases first so 'titanium x' doesn't also match 'titanium')
+    def _tiers(s: str) -> set:
+        rem = s
+        found = set()
+        for tier in _DISTINCT_TIERS:
+            pat = r"\b" + re.escape(tier).replace(r"\ ", r"\s+") + r"\b"
+            if re.search(pat, rem):
+                found.add(tier)
+                rem = re.sub(pat, " ", rem)
+        return found
+
+    ta, tb = _tiers(a), _tiers(b)
+    if ta and tb and ta != tb:
+        return True
+
+    return False
+
+
+def are_same_car_variant(car_a: dict, car_b: dict) -> bool:
+    """
+    Determine whether two car entries refer to the same vehicle variant:
+    1. Same brand, same canonical model, and same VIN year.
+    2. Same listed_price (> 0).
+    3. No conflicting drivetrain/fuel/transmission/tier specs.
+    4. Full name similarity >= 90% OR core trim similarity >= 90%.
+    """
+    if strip_accents(car_a.get("brand", "")) != strip_accents(car_b.get("brand", "")):
+        return False
+    if canonical_model_key(car_a.get("model", "")) != canonical_model_key(car_b.get("model", "")):
+        return False
+    if int(car_a.get("year") or 0) != int(car_b.get("year") or 0):
+        return False
+
+    lp_a = round(float(car_a.get("listed_price") or 0), 1)
+    lp_b = round(float(car_b.get("listed_price") or 0), 1)
+    if lp_a <= 0 or lp_b <= 0 or abs(lp_a - lp_b) >= 0.01:
+        return False
+
+    trim_a = str(car_a.get("trim") or "")
+    trim_b = str(car_b.get("trim") or "")
+    if has_conflicting_specs(trim_a, trim_b):
+        return False
+
+    full_a = re.sub(r"\s+", " ", strip_accents(f"{car_a.get('brand', '')} {car_a.get('model', '')} {trim_a}")).strip()
+    full_b = re.sub(r"\s+", " ", strip_accents(f"{car_b.get('brand', '')} {car_b.get('model', '')} {trim_b}")).strip()
+    if SequenceMatcher(None, full_a, full_b).ratio() >= 0.90:
+        return True
+
+    core_a = canonical_trim_core(trim_a)
+    core_b = canonical_trim_core(trim_b)
+    if core_a and core_b and SequenceMatcher(None, core_a, core_b).ratio() >= 0.90:
+        return True
+
+    return False
+
+
+def choose_preferred_trim(trim_a: str, trim_b: str) -> str:
+    """Keep the shorter, cleaner display trim name (user preference)."""
+    a = re.sub(r"\s+", " ", str(trim_a or "").strip()) or "Tiêu chuẩn"
+    b = re.sub(r"\s+", " ", str(trim_b or "").strip()) or "Tiêu chuẩn"
+    if len(a) != len(b):
+        return a if len(a) < len(b) else b
+    # Tie-breaker: fewer digits/symbols, then keep first
+    score_a = len(re.findall(r"[^a-zA-ZÀ-ỹ\s]", a))
+    score_b = len(re.findall(r"[^a-zA-ZÀ-ỹ\s]", b))
+    return a if score_a <= score_b else b
+
+
+def recompute_car_stats(car_entry: dict) -> dict:
+    """Deduplicate history by video_id, sort chronologically, and refresh top-level latest fields."""
+    by_vid = {}
+    for h in car_entry.get("history", []):
+        vid = h.get("video_id", "")
+        if vid not in by_vid or (h.get("date", ""), h.get("timestamp_seconds", 0)) >= (
+            by_vid[vid].get("date", ""),
+            by_vid[vid].get("timestamp_seconds", 0),
+        ):
+            by_vid[vid] = h
+
+    hist = sorted(by_vid.values(), key=lambda h: (h.get("date", ""), h.get("video_id", "")))
+    car_entry["history"] = hist
+    if not hist:
+        return car_entry
+
+    latest = hist[-1]
+    prev = hist[-2] if len(hist) >= 2 else None
+    net_change = round(latest["net_price"] - prev["net_price"], 1) if prev else 0.0
+    discount_change = round(latest["discount_amount"] - prev["discount_amount"], 1) if prev else 0.0
+
+    car_entry.update({
+        "latest_date": latest["date"],
+        "listed_price": latest["listed_price"],
+        "discount_amount": latest["discount_amount"],
+        "discount_pct": latest["discount_pct"],
+        "net_price": latest["net_price"],
+        "otr_tinh": latest["otr_tinh"],
+        "otr_hcm": latest["otr_hcm"],
+        "otr_hn": latest["otr_hn"],
+        "net_price_change": net_change,
+        "discount_change": discount_change,
+        "previous_net_price": prev["net_price"] if prev else None,
+        "video_id": latest["video_id"],
+        "video_title": latest["video_title"],
+        "video_url": latest["video_url"],
+        "timestamp_seconds": latest["timestamp_seconds"],
+        "timestamp_label": latest["timestamp_label"],
+    })
+    return car_entry
+
+
+def deduplicate_cars_in_db(db: dict) -> bool:
+    """Clean car display names and merge duplicate variants across the entire database."""
+    cars = db.get("cars", [])
+    if not cars:
+        return False
+
+    changed = False
+    merged_list = []
+
+    for c in cars:
+        old_brand, old_model, old_trim = c.get("brand", ""), c.get("model", ""), c.get("trim", "")
+        brand, model, trim = clean_car_fields(old_brand, old_model, old_trim)
+        year = int(c.get("year") or datetime.now(VN_TZ).year)
+        new_id = make_car_id(brand, model, trim, year)
+        new_seg = normalize_segment(c.get("segment", "Khác"))
+
+        if (brand, model, trim, new_id, new_seg) != (old_brand, old_model, old_trim, c.get("car_id"), c.get("segment")):
+            c["brand"] = brand
+            c["model"] = model
+            c["trim"] = trim
+            c["year"] = year
+            c["car_id"] = new_id
+            c["segment"] = new_seg
+            changed = True
+
+        # Try to merge into an already-accepted car entry
+        matched_target = None
+        for target in merged_list:
+            if target["car_id"] == c["car_id"] or are_same_car_variant(target, c):
+                matched_target = target
+                break
+
+        if matched_target is not None:
+            preferred_trim = choose_preferred_trim(matched_target["trim"], c["trim"])
+            if preferred_trim != matched_target["trim"] or c["trim"] != matched_target["trim"]:
+                print(
+                    f"🔗 Đã gom phiên bản trùng: {brand} {model} '{matched_target['trim']}' + '{c['trim']}' "
+                    f"-> '{preferred_trim}' (VIN {year}, Niêm yết {c.get('listed_price'):g}tr)"
+                )
+            matched_target["trim"] = preferred_trim
+            matched_target["car_id"] = make_car_id(matched_target["brand"], matched_target["model"], preferred_trim, year)
+            matched_target["history"] = matched_target.get("history", []) + c.get("history", [])
+            recompute_car_stats(matched_target)
+            changed = True
+        else:
+            merged_list.append(c)
+
+    if changed:
+        db["cars"] = sorted(
+            merged_list,
+            key=lambda item: (item.get("latest_date", ""), item.get("discount_amount", 0)),
+            reverse=True,
+        )
+    return changed
 
 
 def format_timestamp(seconds: int) -> str:
@@ -100,6 +393,30 @@ def format_timestamp(seconds: int) -> str:
     if h > 0:
         return f"{h:02d}:{m:02d}:{s:02d}"
     return f"{m:02d}:{s:02d}"
+
+
+def normalize_segment(seg: str) -> str:
+    """Standardize car segments (merge CUV/SUV cỡ A (Điện) -> CUV/SUV cỡ A, B+ -> B, MPV 7 chỗ -> MPV)."""
+    if not seg:
+        return "Khác"
+    s = str(seg).strip()
+    # Remove parenthetical suffixes like (Điện), (Hybrid), (Xăng), (7 chỗ)
+    s = re.sub(r"\s*\([^)]*\)", "", s).strip()
+    # Remove '+' or '-' suffixes like CUV/SUV cỡ B+ -> CUV/SUV cỡ B
+    s = re.sub(r"([ABCDE])[+-](?=\s|$)", r"\1", s, flags=re.IGNORECASE).strip()
+    upper = s.upper()
+    if upper.startswith("MPV"):
+        return "MPV"
+    if "BÁN TẢI" in upper or "PICKUP" in upper:
+        return "Bán tải"
+    m_cuv = re.search(r"(?:CUV|SUV)(?:/SUV|/CUV)?\s*(?:cỡ|hạng)\s*([ABCDE])", s, flags=re.IGNORECASE)
+    if m_cuv:
+        size = m_cuv.group(1).upper()
+        return f"SUV cỡ {size}" if size in ("D", "E") else f"CUV/SUV cỡ {size}"
+    m_sedan = re.search(r"Sedan\s*(?:hạng|cỡ)\s*([ABCDE])", s, flags=re.IGNORECASE)
+    if m_sedan:
+        return f"Sedan hạng {m_sedan.group(1).upper()}"
+    return s
 
 
 def normalize_prices(item: dict) -> dict:
@@ -144,6 +461,7 @@ def normalize_prices(item: dict) -> dict:
 
     discount_pct = round((discount / listed) * 100, 1) if listed > 0 else 0.0
 
+    item["segment"] = normalize_segment(item.get("segment", "Khác"))
     item["listed_price"] = listed
     item["discount_amount"] = discount
     item["discount_pct"] = discount_pct
@@ -410,6 +728,12 @@ QUY TẮC BẮT BUỘC:
 
 3. Mốc thời gian (`timestamp_seconds` và `timestamp_label`):
    - Xác định đúng số giây (`timestamp_seconds`) và mốc phút:giây (`MM:SS`) trong video khi chiếc xe hoặc bảng giá của chiếc xe đó xuất hiện để người dùng bấm vào kiểm chứng ngay.
+
+4. Quy tắc đặt tên phiên bản (`trim`) ngắn gọn và thống nhất:
+   - Giữ tên `trim` ngắn gọn, dễ đọc; KHÔNG thêm chữ "Bản " hay "Phiên bản " ở đầu (VD: ghi `Hybrid` thay vì `Bản Hybrid`, ghi `Xăng` thay vì `Bản xăng`).
+   - KHÔNG lặp lại tên hãng hoặc tên dòng xe trong `trim`.
+   - KHÔNG gắn dung tích động cơ (như `1.5`, `1.5T`, `1.5L`) vào đầu `trim` nếu tên phiên bản đó đã tự phân biệt rõ ràng trong dòng xe (VD: ghi `Premium`, `Flagship`, `Executive`, `Đặc biệt`, `Cao cấp` thay vì `1.5T Premium`, `1.5 Đặc biệt`). Chỉ giữ thông số động cơ/nhiên liệu/dẫn động khi cần để phân biệt các phiên bản khác nhau (VD: `2.0 Xăng Đặc biệt` vs `2.0 Dầu Đặc biệt`, `1.6 Turbo`, `GLS 1 cầu` vs `GLS 2 cầu`).
+   - Nếu trong danh sách "CÁC PHIÊN BẢN ĐÃ CÓ SẴN TRONG HỆ THỐNG" bên dưới đã có cùng mẫu xe + cùng năm VIN + cùng giá niêm yết, HÃY DÙNG CHÍNH XÁC tên `brand`, `model`, `trim` đó để dữ liệu gom chung thành 1 dòng lịch sử duy nhất!
 """
 
 
@@ -418,7 +742,7 @@ def _is_rate_limit_or_transient(err_str: str) -> bool:
     return any(k in upper for k in ["429", "RESOURCE_EXHAUSTED", "QUOTA", "503", "UNAVAILABLE", "DEADLINE_EXCEEDED", "TIMEOUT"])
 
 
-def extract_car_prices_with_gemini(video_details: dict, api_key: str) -> Optional[dict]:
+def extract_car_prices_with_gemini(video_details: dict, api_key: str, existing_cars: Optional[List[dict]] = None) -> Optional[dict]:
     from google import genai
     from google.genai import types
 
@@ -439,6 +763,20 @@ def extract_car_prices_with_gemini(video_details: dict, api_key: str) -> Optiona
         f"- {c['label']} ({c['start_time']}s): {c['title']}"
         for c in video_details.get("chapters", [])
     )
+    existing_catalog_str = ""
+    if existing_cars:
+        catalog_lines = [
+            f"- {c.get('brand')} | {c.get('model')} | {c.get('trim')} | VIN {c.get('year')} | Niêm yết {c.get('listed_price'):g}tr"
+            for c in sorted(
+                existing_cars,
+                key=lambda x: (str(x.get("brand", "")), str(x.get("model", "")), int(x.get("year") or 0), str(x.get("trim", ""))),
+            )[:120]
+        ]
+        existing_catalog_str = (
+            "\n\nCÁC PHIÊN BẢN ĐÃ CÓ SẴN TRONG HỆ THỐNG (ưu tiên tái sử dụng đúng tên nếu cùng xe, cùng VIN và cùng giá niêm yết):\n"
+            + "\n".join(catalog_lines)
+        )
+
     context_text = (
         f"THÔNG TIN VIDEO YOUTUBE:\n"
         f"- Tiêu đề: {video_details['title']}\n"
@@ -446,7 +784,8 @@ def extract_car_prices_with_gemini(video_details: dict, api_key: str) -> Optiona
         f"- Link: {video_details['url']}\n"
         f"- Mô tả:\n{video_details['description'][:3500]}\n\n"
         f"- Chapters (Mốc thời gian):\n{chapters_str or 'Không có'}\n\n"
-        f"- Phụ đề lời thoại kèm mốc thời gian:\n{video_details['transcript_text'][:45000]}\n"
+        f"- Phụ đề lời thoại kèm mốc thời gian:\n{video_details['transcript_text'][:45000]}"
+        f"{existing_catalog_str}\n"
     )
 
     has_sufficient_text = len(video_details.get("transcript_text", "").strip()) > 200 or len(video_details.get("description", "").strip()) > 300
@@ -563,6 +902,9 @@ def self_heal_database(db: dict, processed_ids: set) -> bool:
 
         valid_videos.append(v)
 
+    if deduplicate_cars_in_db(db):
+        changed = True
+
     if changed:
         db["videos"] = valid_videos
     return changed
@@ -605,9 +947,11 @@ def merge_extractions_into_db(db: dict, video_details: dict, extraction: dict) -
 
     for raw_car in extraction.get("cars", []):
         car = normalize_prices(dict(raw_car))
-        brand = car.get("brand", "").strip()
-        model = car.get("model", "").strip()
-        trim = car.get("trim", "Tiêu chuẩn").strip()
+        brand, model, trim = clean_car_fields(
+            car.get("brand", ""),
+            car.get("model", ""),
+            car.get("trim", "Tiêu chuẩn"),
+        )
         year = int(car.get("year") or datetime.now(VN_TZ).year)
         car_id = make_car_id(brand, model, trim, year)
 
@@ -631,7 +975,22 @@ def merge_extractions_into_db(db: dict, video_details: dict, extraction: dict) -
             "otr_hn": car["otr_hn"],
         }
 
-        if car_id not in cars_by_id:
+        incoming_probe = {
+            "brand": brand,
+            "model": model,
+            "trim": trim,
+            "year": year,
+            "listed_price": car["listed_price"],
+        }
+
+        matched_id = car_id if car_id in cars_by_id else None
+        if matched_id is None:
+            for existing_id, existing_entry in cars_by_id.items():
+                if are_same_car_variant(existing_entry, incoming_probe):
+                    matched_id = existing_id
+                    break
+
+        if matched_id is None:
             car_entry = {
                 "car_id": car_id,
                 "brand": brand,
@@ -641,39 +1000,27 @@ def merge_extractions_into_db(db: dict, video_details: dict, extraction: dict) -
                 "segment": car.get("segment", "Khác"),
                 "history": [snapshot],
             }
+            recompute_car_stats(car_entry)
             cars_by_id[car_id] = car_entry
         else:
-            car_entry = cars_by_id[car_id]
+            car_entry = cars_by_id.pop(matched_id)
+            preferred_trim = choose_preferred_trim(car_entry.get("trim", ""), trim)
+            if preferred_trim != car_entry.get("trim", "") or trim != car_entry.get("trim", ""):
+                print(
+                    f"🔗 Gom phiên bản mới trùng khớp: {brand} {model} '{car_entry.get('trim')}' + '{trim}' "
+                    f"-> '{preferred_trim}' (VIN {year}, Niêm yết {car['listed_price']:g}tr)"
+                )
+            car_entry["brand"] = brand
+            car_entry["model"] = model
+            car_entry["trim"] = preferred_trim
+            car_entry["car_id"] = make_car_id(brand, model, preferred_trim, year)
+            car_entry["segment"] = normalize_segment(car.get("segment") or car_entry.get("segment", "Khác"))
             history = [h for h in car_entry.get("history", []) if h.get("video_id") != video_id]
             history.append(snapshot)
-            history.sort(key=lambda h: (h.get("date", ""), h.get("video_id", "")))
             car_entry["history"] = history
+            recompute_car_stats(car_entry)
+            cars_by_id[car_entry["car_id"]] = car_entry
 
-        hist = car_entry["history"]
-        latest = hist[-1]
-        prev = hist[-2] if len(hist) >= 2 else None
-
-        net_change = round(latest["net_price"] - prev["net_price"], 1) if prev else 0.0
-        discount_change = round(latest["discount_amount"] - prev["discount_amount"], 1) if prev else 0.0
-
-        car_entry.update({
-            "latest_date": latest["date"],
-            "listed_price": latest["listed_price"],
-            "discount_amount": latest["discount_amount"],
-            "discount_pct": latest["discount_pct"],
-            "net_price": latest["net_price"],
-            "otr_tinh": latest["otr_tinh"],
-            "otr_hcm": latest["otr_hcm"],
-            "otr_hn": latest["otr_hn"],
-            "net_price_change": net_change,
-            "discount_change": discount_change,
-            "previous_net_price": prev["net_price"] if prev else None,
-            "video_id": latest["video_id"],
-            "video_title": latest["video_title"],
-            "video_url": latest["video_url"],
-            "timestamp_seconds": latest["timestamp_seconds"],
-            "timestamp_label": latest["timestamp_label"],
-        })
         updated_items.append(car_entry)
 
     db["cars"] = sorted(
@@ -681,6 +1028,7 @@ def merge_extractions_into_db(db: dict, video_details: dict, extraction: dict) -
         key=lambda c: (c.get("latest_date", ""), c.get("discount_amount", 0)),
         reverse=True,
     )
+    deduplicate_cars_in_db(db)
     return updated_items
 
 
@@ -806,7 +1154,7 @@ def main():
         print(f"\n------------------------------------------------------------")
         print(f"🎬 [{idx + 1}/{len(videos_to_process)}] Đang xử lý video [{vid_id}]: {vid.get('title', '')}")
         details = fetch_video_details_and_transcript(vid)
-        extraction = extract_car_prices_with_gemini(details, api_key)
+        extraction = extract_car_prices_with_gemini(details, api_key, existing_cars=db.get("cars", []))
         if extraction is None:
             print(f"⚠️ Tạm hoãn video [{vid_id}] để lần chạy kế tiếp quét lại (không đánh dấu đã xử lý).")
             continue
