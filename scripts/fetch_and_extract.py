@@ -95,8 +95,8 @@ def slugify(text: str) -> str:
     return text.strip("-")
 
 
-def make_car_id(brand: str, model: str, trim: str, year: int) -> str:
-    return slugify(f"{brand}-{model}-{trim}-{year}")
+def make_car_id(brand: str, model: str, trim: str, year: Optional[int] = None) -> str:
+    return slugify(f"{brand}-{model}-{trim}")
 
 
 _BRAND_CANONICAL = {
@@ -241,7 +241,7 @@ def has_conflicting_specs(trim_a: str, trim_b: str) -> bool:
 def are_same_car_variant(car_a: dict, car_b: dict) -> bool:
     """
     Determine whether two car entries refer to the same vehicle variant:
-    1. Same brand, same canonical model, and same VIN year.
+    1. Same brand and same canonical model (merging across VIN years).
     2. Same listed_price (> 0).
     3. No conflicting drivetrain/fuel/transmission/tier specs.
     4. Full name similarity >= 90% OR core trim similarity >= 90%.
@@ -249,8 +249,6 @@ def are_same_car_variant(car_a: dict, car_b: dict) -> bool:
     if strip_accents(car_a.get("brand", "")) != strip_accents(car_b.get("brand", "")):
         return False
     if canonical_model_key(car_a.get("model", "")) != canonical_model_key(car_b.get("model", "")):
-        return False
-    if int(car_a.get("year") or 0) != int(car_b.get("year") or 0):
         return False
 
     lp_a = round(float(car_a.get("listed_price") or 0), 1)
@@ -343,7 +341,7 @@ def deduplicate_cars_in_db(db: dict) -> bool:
         old_brand, old_model, old_trim = c.get("brand", ""), c.get("model", ""), c.get("trim", "")
         brand, model, trim = clean_car_fields(old_brand, old_model, old_trim)
         year = int(c.get("year") or datetime.now(VN_TZ).year)
-        new_id = make_car_id(brand, model, trim, year)
+        new_id = make_car_id(brand, model, trim)
         new_seg = normalize_segment(c.get("segment", "Khác"))
 
         if (brand, model, trim, new_id, new_seg) != (old_brand, old_model, old_trim, c.get("car_id"), c.get("segment")):
@@ -363,14 +361,18 @@ def deduplicate_cars_in_db(db: dict) -> bool:
                 break
 
         if matched_target is not None:
+            old_target_year = int(matched_target.get("year") or 0)
+            merged_year = max(old_target_year, year)
             preferred_trim = choose_preferred_trim(matched_target["trim"], c["trim"])
-            if preferred_trim != matched_target["trim"] or c["trim"] != matched_target["trim"]:
+            if preferred_trim != matched_target["trim"] or c["trim"] != matched_target["trim"] or old_target_year != year:
+                vin_info = f"VIN {old_target_year}+{year}->{merged_year}" if old_target_year != year else f"VIN {merged_year}"
                 print(
                     f"🔗 Đã gom phiên bản trùng: {brand} {model} '{matched_target['trim']}' + '{c['trim']}' "
-                    f"-> '{preferred_trim}' (VIN {year}, Niêm yết {c.get('listed_price'):g}tr)"
+                    f"-> '{preferred_trim}' ({vin_info}, Niêm yết {c.get('listed_price'):g}tr)"
                 )
             matched_target["trim"] = preferred_trim
-            matched_target["car_id"] = make_car_id(matched_target["brand"], matched_target["model"], preferred_trim, year)
+            matched_target["year"] = merged_year
+            matched_target["car_id"] = make_car_id(matched_target["brand"], matched_target["model"], preferred_trim)
             matched_target["history"] = matched_target.get("history", []) + c.get("history", [])
             recompute_car_stats(matched_target)
             changed = True
@@ -733,7 +735,7 @@ QUY TẮC BẮT BUỘC:
    - Giữ tên `trim` ngắn gọn, dễ đọc; KHÔNG thêm chữ "Bản " hay "Phiên bản " ở đầu (VD: ghi `Hybrid` thay vì `Bản Hybrid`, ghi `Xăng` thay vì `Bản xăng`).
    - KHÔNG lặp lại tên hãng hoặc tên dòng xe trong `trim`.
    - KHÔNG gắn dung tích động cơ (như `1.5`, `1.5T`, `1.5L`) vào đầu `trim` nếu tên phiên bản đó đã tự phân biệt rõ ràng trong dòng xe (VD: ghi `Premium`, `Flagship`, `Executive`, `Đặc biệt`, `Cao cấp` thay vì `1.5T Premium`, `1.5 Đặc biệt`). Chỉ giữ thông số động cơ/nhiên liệu/dẫn động khi cần để phân biệt các phiên bản khác nhau (VD: `2.0 Xăng Đặc biệt` vs `2.0 Dầu Đặc biệt`, `1.6 Turbo`, `GLS 1 cầu` vs `GLS 2 cầu`).
-   - Nếu trong danh sách "CÁC PHIÊN BẢN ĐÃ CÓ SẴN TRONG HỆ THỐNG" bên dưới đã có cùng mẫu xe + cùng năm VIN + cùng giá niêm yết, HÃY DÙNG CHÍNH XÁC tên `brand`, `model`, `trim` đó để dữ liệu gom chung thành 1 dòng lịch sử duy nhất!
+   - Nếu trong danh sách "CÁC PHIÊN BẢN ĐÃ CÓ SẴN TRONG HỆ THỐNG" bên dưới đã có cùng mẫu xe + cùng giá niêm yết (kể cả khác năm VIN), HÃY DÙNG CHÍNH XÁC tên `brand`, `model`, `trim` đó để dữ liệu gom chung thành 1 dòng lịch sử duy nhất!
 """
 
 
@@ -773,7 +775,7 @@ def extract_car_prices_with_gemini(video_details: dict, api_key: str, existing_c
             )[:120]
         ]
         existing_catalog_str = (
-            "\n\nCÁC PHIÊN BẢN ĐÃ CÓ SẴN TRONG HỆ THỐNG (ưu tiên tái sử dụng đúng tên nếu cùng xe, cùng VIN và cùng giá niêm yết):\n"
+            "\n\nCÁC PHIÊN BẢN ĐÃ CÓ SẴN TRONG HỆ THỐNG (ưu tiên tái sử dụng đúng tên nếu cùng xe và cùng giá niêm yết, kể cả khác năm VIN):\n"
             + "\n".join(catalog_lines)
         )
 
@@ -953,7 +955,7 @@ def merge_extractions_into_db(db: dict, video_details: dict, extraction: dict) -
             car.get("trim", "Tiêu chuẩn"),
         )
         year = int(car.get("year") or datetime.now(VN_TZ).year)
-        car_id = make_car_id(brand, model, trim, year)
+        car_id = make_car_id(brand, model, trim)
 
         ts_sec = max(0, int(car.get("timestamp_seconds") or 0))
         ts_label = car.get("timestamp_label") or format_timestamp(ts_sec)
@@ -961,6 +963,7 @@ def merge_extractions_into_db(db: dict, video_details: dict, extraction: dict) -
 
         snapshot = {
             "date": upload_date,
+            "year": year,
             "video_id": video_id,
             "video_title": video_details["title"],
             "video_url": video_link_at_ts,
@@ -1004,16 +1007,20 @@ def merge_extractions_into_db(db: dict, video_details: dict, extraction: dict) -
             cars_by_id[car_id] = car_entry
         else:
             car_entry = cars_by_id.pop(matched_id)
+            old_entry_year = int(car_entry.get("year") or 0)
+            merged_year = max(old_entry_year, year)
             preferred_trim = choose_preferred_trim(car_entry.get("trim", ""), trim)
-            if preferred_trim != car_entry.get("trim", "") or trim != car_entry.get("trim", ""):
+            if preferred_trim != car_entry.get("trim", "") or trim != car_entry.get("trim", "") or old_entry_year != year:
+                vin_info = f"VIN {old_entry_year}+{year}->{merged_year}" if old_entry_year != year else f"VIN {merged_year}"
                 print(
                     f"🔗 Gom phiên bản mới trùng khớp: {brand} {model} '{car_entry.get('trim')}' + '{trim}' "
-                    f"-> '{preferred_trim}' (VIN {year}, Niêm yết {car['listed_price']:g}tr)"
+                    f"-> '{preferred_trim}' ({vin_info}, Niêm yết {car['listed_price']:g}tr)"
                 )
             car_entry["brand"] = brand
             car_entry["model"] = model
             car_entry["trim"] = preferred_trim
-            car_entry["car_id"] = make_car_id(brand, model, preferred_trim, year)
+            car_entry["year"] = merged_year
+            car_entry["car_id"] = make_car_id(brand, model, preferred_trim)
             car_entry["segment"] = normalize_segment(car.get("segment") or car_entry.get("segment", "Khác"))
             history = [h for h in car_entry.get("history", []) if h.get("video_id") != video_id]
             history.append(snapshot)
